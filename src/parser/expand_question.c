@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 23:07:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 23:14:47 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:29:56 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	expand_question(char **str, int start, int i)
 {
 	char	*s;
 	char	*big;
-
 
 	i = 2;
 	s = *str;

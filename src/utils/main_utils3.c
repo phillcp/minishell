@@ -6,13 +6,14 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 13:02:45 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:14:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utilities.h"
 #include "minishell.h"
+#include "readline.h"
 
 void	create_hdoc_and_pid_arrays(void)
 {
@@ -40,5 +41,8 @@ void	exit_loop(void)
 		ft_free(g_global.hdoc_files[i]);
 	ft_free(g_global.hdoc_files);
 	ft_free(g_global.pid_lst);
+	ft_free(g_global.head);
+	ft_free(g_global.temp_path);
+	rl_clear_history();
 	exit(0);
 }
