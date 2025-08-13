@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:12:29 by fporto           ###   ########.fr       */
+/*   Updated: 2025/06/23 15:32:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	no_cmd_flagged(t_cmd *cmd)
 				g_global.stop = -4;
 			else
 				g_global.stop = 6;
-		g_global.and_flag--;
+			g_global.and_flag--;
 		}
 		if (g_global.stop > 0 && g_global.or_flag > 0)
 			g_global.stop = 6;

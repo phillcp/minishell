@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:53:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:07:31 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/13 16:08:06 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ static void	echo_flag(char **argv, int i, int j, int k)
 		j = k;
 		while (i > j)
 		{
-			if (ft_strcmp(argv[j], "$?"))
-				printf("%d", g_global.exit_status);
-			else
-				printf("%s", argv[j]);
+			printf("%s", argv[j]);
 			if (i > 1 + j++)
 				printf(" ");
 		}

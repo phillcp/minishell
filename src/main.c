@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 23:20:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:24:36 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	tree_loop(t_tree *t, int i)
 	t_cmd	*cmd;
 	t_tree	*t_temp;
 
-	cmd = NULL;
 	dup_init_and_close('i');
 	while (++i < t->lcount)
 	{
@@ -94,11 +93,8 @@ void	tree_loop(t_tree *t, int i)
 	}
 	status = dup_init_and_close('c');
 	(g_global.pid > 0) && (waitpid(g_global.pid, &status, 0));
-	if (WIFEXITED(status) && !g_global.boola)
-	{
-		g_global.exit_status = WEXITSTATUS(status);
-		g_global.boola = 1;
-	}
+	(WIFEXITED(status) && !g_global.boola) && 
+		(g_global.exit_status = WEXITSTATUS(status)) && (g_global.boola = 1);
 }
 
 static void	input_loop(char *input)
