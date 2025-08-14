@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 13:24:26 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:41:42 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 
 static void	end_flag_condition(void)
 {
-	if (g_global.and_flag > 0 && (g_global.es_flag || g_global.exit_status))
+	if (g_global.and_flag > 0 && (g_global.es_f || g_global.exit_status))
 	{
 		if (g_global.exit_status)
 			g_global.stop = 3;
 	}
-	else if (g_global.or_flag > 0 && \
-		(!g_global.es_flag || !g_global.exit_status))
+	else if (g_global.or_flag > 0 && (!g_global.es_f || !g_global.exit_status))
 	{
 		if (g_global.exit_status)
 			g_global.stop = 4;
@@ -41,7 +40,7 @@ static void	and_or_flag(t_cmd *cmd)
 	{
 		if (g_global.exit_status != 0)
 		{
-			g_global.es_flag = g_global.exit_status;
+			g_global.es_f = g_global.exit_status;
 			g_global.and_flag++;
 			g_global.stop = 1;
 		}
@@ -54,7 +53,7 @@ static void	and_or_flag(t_cmd *cmd)
 	{
 		if (!g_global.exit_status)
 		{
-			g_global.es_flag = g_global.exit_status;
+			g_global.es_f = g_global.exit_status;
 			g_global.or_flag++;
 			g_global.stop = 2;
 		}

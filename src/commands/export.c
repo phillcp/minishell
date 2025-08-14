@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:09:41 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:19:11 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	ft_export(char **argv)
 	arg = argv[1];
 	content[0] = get_name(arg, '=');
 	if (!content[0])
-		return (env_sorted());
+	{
+		export_wrong(arg);
+		g_global.exit_status = 1;
+		return (-1);
+	}
 	if (!find_char(arg, '='))
 		return (0);
 	content[1] = ft_substr(arg, find_char(arg, '=') + 1, ft_strlen(arg));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_mng.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 12:00:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:13:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	input_loop(t_list *input, int input_file)
 			close(input_file);
 		pth = ft_substr((char *)input->content, 1,
 				ft_strlen((char *)input->content));
+		check_mask(&pth);
 		input_file = open(pth, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (input_file == -1)
 		{

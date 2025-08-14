@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/13 16:24:36 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:38:35 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	struct_init(char **env)
 	g_global.exit_status = 0;
 	g_global.and_flag = 0;
 	g_global.or_flag = 0;
-	g_global.es_flag = 0;
+	g_global.es_f = 0;
 	g_global.stop = 0;
 	g_global.fd_in = 0;
 	g_global.fd_out = 1;
@@ -92,8 +92,10 @@ void	tree_loop(t_tree *t, int i)
 			break ;
 	}
 	status = dup_init_and_close('c');
+	if (g_global.exit_status == 1)
+		status = 1;
 	(g_global.pid > 0) && (waitpid(g_global.pid, &status, 0));
-	(WIFEXITED(status) && !g_global.boola) && 
+	(WIFEXITED(status) && !g_global.boola) &&
 		(g_global.exit_status = WEXITSTATUS(status)) && (g_global.boola = 1);
 }
 

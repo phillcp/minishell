@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 12:53:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:20:39 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,20 @@ char	*get_name(char *str, char c)
 {
 	char	*name;
 	int		x;
+	int		i;
 
 	x = -1;
-	if (!str)
+	i = 0;
+	if (!str || !str[0] || str[0] == '=')
+		return (NULL);
+	while (str[++x] && str[x] != c)
+	{
+		if (ft_isalpha(str[x]))
+			i = 1;
+		if (!ft_isalnum(str[x]))
+			return (NULL);
+	}
+	if (!i)
 		return (NULL);
 	name = malloc(sizeof(char *) * (ft_strlen(str) + 1));
 	while (str[++x] && str[x] != c)

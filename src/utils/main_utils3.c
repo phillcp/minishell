@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/06/23 15:32:26 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:39:12 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,33 @@
 #include "utilities.h"
 #include "minishell.h"
 #include "readline.h"
+
+void	check_mask(char **pth)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 1;
+	while ((pth[0][++i] & 0x7F))
+	{
+		if (ft_isascii(pth[0][i]))
+			j = 0;
+	}
+	if (j)
+		unmask_str(*pth);
+}
+
+void	export_wrong(char *str)
+{
+	int	x;
+
+	write(2, "export: '", 9);
+	x = -1;
+	while (str[++x] != 0)
+		write(2, &str[x], 1);
+	write(2, "': not a valid identifier\n", 26);
+}
 
 void	create_hdoc_and_pid_arrays(void)
 {

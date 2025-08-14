@@ -6,11 +6,12 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:45 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/13 15:17:20 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:50:08 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "utilities.h"
 #include "minishell.h"
 
 int	error_output(char type, int i, char *str)
@@ -25,7 +26,7 @@ int	error_output(char type, int i, char *str)
 	else if (type == 'd')
 	{
 		printf("minishell: cd: %s: No such file or directory\n", \
-			g_global.argv[i]);
+g_global.argv[i]);
 		g_global.exit_status = 1;
 	}
 	else if (type == 's')
@@ -51,6 +52,7 @@ static int	output_loop(t_list *output, int output_file)
 			close(output_file);
 		path = ft_substr((char *)output->content, 1,
 				ft_strlen((char *)output->content));
+		check_mask(&path);
 		output_file = open(path, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR
 				| S_IWUSR | S_IRGRP | S_IROTH);
 		output = output->next;

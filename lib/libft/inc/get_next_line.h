@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:28:07 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/28 03:28:24 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:43:20 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@
 
 int		get_next_line(int fd, char **line);
 int		save_lines(char **lineread, char *buffer, char **line, \
-	ssize_t nreadbytes);
+ssize_t nreadbytes);
 
 #endif

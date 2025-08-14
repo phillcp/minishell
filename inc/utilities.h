@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 17:12:30 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:13:07 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ int			cmd_identifier(char **argv);
 
 char		*temp_path(char *filename, char *home);
 void		check_heredoc(t_tree *t);
+void		export_wrong(char *str);
+void		check_mask(char **pth);
 
 #endif

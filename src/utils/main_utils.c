@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 17:08:51 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:38:36 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ void	re_init(void)
 	g_global.stop = 0;
 	g_global.and_flag = 0;
 	g_global.or_flag = 0;
-	g_global.es_flag = 0;
+	g_global.es_f = 0;
 }

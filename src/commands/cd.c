@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:07:24 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:38:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ int	ft_cd(char **argv)
 	int			ret;
 
 	head = g_global.env;
+	if (argv[2] != NULL)
+	{
+		write(2, "cd: too many arguments\n", 23);
+		g_global.exit_status = 1;
+		return (-1);
+	}
 	ret = change_directory(head, argv[1]);
 	if (ret < 0)
 		error_output('d', 1, NULL);

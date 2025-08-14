@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 23:20:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:38:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_global
 	int			pid_counter;
 	int			and_flag;
 	int			or_flag;
-	int			es_flag;
+	int			es_f;
 	int			pid;
 	int			*pid_lst;
 	int			stop;
