@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/18 15:15:25 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:29:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ static void	file_output_instruction(t_cmd *cmd)
 static int	file_input_instruction(t_cmd *cmd)
 {
 	if (cmd->in.in)
-	{
-		printf("input: %s\n", (char *)cmd->in.input->content);
 		g_global.fd_in = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
-		printf("input: %d\n", g_global.fd_in);
-	}
 	if (g_global.fd_in < 0)
 	{
 		dup2(g_global.tmp_in, 0);
@@ -55,7 +51,6 @@ static int	file_input_instruction(t_cmd *cmd)
 
 void	check_pipe(t_cmd *cmd)
 {
-	printf("flags: %c\n", cmd->cmd_flags & 0x40);
 	if ((cmd->cmd_flags & 0x40) && !cmd->in.out)
 	{
 		pipe(g_global.fd);
@@ -64,7 +59,9 @@ void	check_pipe(t_cmd *cmd)
 	}
 	if (!(cmd->cmd_flags & 0x40) && !cmd->in.out)
 		g_global.fd_out = dup(g_global.tmp_out);
+	printf("cmd5: %s\n", cmd->cmd[0]);
 	dup2(g_global.fd_out, 1);
+	printf("cmd6: %s\n", cmd->cmd[0]);
 	close(g_global.fd_out);
 }
 
@@ -77,14 +74,21 @@ void	check_pipe(t_cmd *cmd)
 */
 int	execute_cmd(t_cmd *cmd)
 {
+	int i;
+
+	i = 0;
+	printf("cmd3: %s\n", cmd->cmd[0]);
 	file_output_instruction(cmd);
 	if (!file_input_instruction(cmd))
 		return (-1);
+	printf("cmd4: %s\n", cmd->cmd[0]);
 	check_pipe(cmd);
 	g_global.pid = fork();
 	g_global.pid_lst[++g_global.pid_counter] = g_global.pid;
 	if (g_global.pid == 0)
 	{
+		while (cmd->cmd[i])
+			printf("cmd7: %s\n", cmd->cmd[i++]);
 		cmd_selector(cmd->cmd);
 		exit(0);
 	}
