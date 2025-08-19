@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_mng.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:45 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:50:08 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:27:32 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,16 @@ int	error_output(char type, int i, char *str)
 		printf("minishell: command not found: %s\n", g_global.argv[i]);
 		g_global.exit_status = 127;
 	}
-	else if (type == 'd')
-	{
-		printf("minishell: cd: %s: No such file or directory\n", \
-g_global.argv[i]);
-		g_global.exit_status = 1;
-	}
 	else if (type == 's')
 	{
 		printf("minishell: special char not defined: %s\n", g_global.argv[i]);
 		g_global.exit_status = 33;
 	}
-	else if (type == 'i')
+	else if (type == 'i' || type == 'd')
 	{
-		printf("minishell: %s: No such file or directory\n", str);
+		write (2, "minishell: ", 11);
+		ft_putstr_fd(str, 2);
+		write (2, ": No such file or directory\n", 28);
 		g_global.exit_status = 1;
 	}
 	return (g_global.exit_status);

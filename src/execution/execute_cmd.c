@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:05:10 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:15:25 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ static void	file_output_instruction(t_cmd *cmd)
 static int	file_input_instruction(t_cmd *cmd)
 {
 	if (cmd->in.in)
+	{
+		printf("input: %s\n", (char *)cmd->in.input->content);
 		g_global.fd_in = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
+		printf("input: %d\n", g_global.fd_in);
+	}
 	if (g_global.fd_in < 0)
 	{
 		dup2(g_global.tmp_in, 0);
@@ -51,6 +55,7 @@ static int	file_input_instruction(t_cmd *cmd)
 
 void	check_pipe(t_cmd *cmd)
 {
+	printf("flags: %c\n", cmd->cmd_flags & 0x40);
 	if ((cmd->cmd_flags & 0x40) && !cmd->in.out)
 	{
 		pipe(g_global.fd);

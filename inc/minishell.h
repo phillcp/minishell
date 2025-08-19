@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:38:34 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/18 12:45:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_global
 	int			exit;
 	int			nbr_arg;
 	int			exit_status;
+	int			exit_ccode;
 	int			first_cmd;
 	int			fd[2];
 	int			tmp_in;

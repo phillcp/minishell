@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:39:12 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/18 13:19:42 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	exit_loop(void)
 {
 	int	i;
 
+	if (!g_global.exit_ccode)
+		g_global.exit_ccode = g_global.exit_status;
 	free_dl_list(g_global.env);
 	i = -1;
 	while (++i < FD_MAX)
@@ -71,5 +73,5 @@ void	exit_loop(void)
 	ft_free(g_global.head);
 	ft_free(g_global.temp_path);
 	rl_clear_history();
-	exit(0);
+	exit(g_global.exit_ccode);
 }

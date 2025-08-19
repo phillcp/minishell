@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:38:35 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:43:14 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	struct_init(char **env)
 	g_global.env = get_env(env);
 	g_global.exit = 0;
 	g_global.exit_status = 0;
+	g_global.exit_ccode = 0;
 	g_global.and_flag = 0;
 	g_global.or_flag = 0;
 	g_global.es_f = 0;
