@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/19 12:29:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:39:58 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ static int	file_input_instruction(t_cmd *cmd)
 
 void	check_pipe(t_cmd *cmd)
 {
+	int i;
+
+	i = 0;
+	while (cmd->cmd[i])
+			printf("cmd7: %s\n", cmd->cmd[i++]);
 	if ((cmd->cmd_flags & 0x40) && !cmd->in.out)
 	{
 		pipe(g_global.fd);
@@ -74,9 +79,6 @@ void	check_pipe(t_cmd *cmd)
 */
 int	execute_cmd(t_cmd *cmd)
 {
-	int i;
-
-	i = 0;
 	printf("cmd3: %s\n", cmd->cmd[0]);
 	file_output_instruction(cmd);
 	if (!file_input_instruction(cmd))
@@ -87,8 +89,6 @@ int	execute_cmd(t_cmd *cmd)
 	g_global.pid_lst[++g_global.pid_counter] = g_global.pid;
 	if (g_global.pid == 0)
 	{
-		while (cmd->cmd[i])
-			printf("cmd7: %s\n", cmd->cmd[i++]);
 		cmd_selector(cmd->cmd);
 		exit(0);
 	}
