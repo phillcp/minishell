@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 19:43:46 by fporto            #+#    #+#             */
-/*   Updated: 2021/10/21 04:00:25 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/21 14:54:18 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s2)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(len + 1);
+	str = ft_calloc(len + 1, 1);
 	if (!str)
 		return (NULL);
 	i = -1;

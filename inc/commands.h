@@ -6,15 +6,17 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:51:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/18 12:40:45 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:58:09 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
+# include "parser.h"
+
 //CD cmd functions
-int		ft_cd(char **argv);
+int		ft_cd(t_big *v, char **argv);
 
 //Echo cmd functions
 void	ft_echo(char **argv);
@@ -23,14 +25,14 @@ void	ft_echo(char **argv);
 void	ft_env(t_dl_list *env);
 
 //Export cmd functions
-int		ft_export(char **argv);
+int		ft_export(t_big *v, char **argv);
 
 //Execve cmd functions
-int		ft_execve(char **argv, int i);
+int		ft_execve(t_big *v, char **argv, int i);
 
 //PWD and Exit cmd functions
 int		ft_pwd(void);
-void	ft_exit(char **argv);
+int		ft_exit(t_big *v, char **argv);
 
 //Signal functions
 void	get_signal(int signal);

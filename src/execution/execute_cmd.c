@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 10:35:00 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:37:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@
 #include "minishell.h"
 #include "utilities.h"
 
-void	file_output_instruction(t_cmd *cmd)
+void	file_output_instruction(t_big *v, t_cmd *cmd)
 {
 	if (!cmd->in.out)
 		return ;
-	g_global.fd_out = file_output(cmd->in.output, cmd->in.append, cmd->in.out);
-	if (g_global.fd_out < 0)
+	v->fd_out = file_output(cmd->in.output, cmd->in.append, cmd->in.out);
+	if (v->fd_out < 0)
 	{
 		write(2, "minishell: output redirection failed\n", 13);
-		g_global.exit_status = 1;
+		v->exit_status = 1;
 		return ;
 	}
-	if (g_global.fd_out != 1)
+	if (v->fd_out != 1)
 	{
-		dup2(g_global.fd_out, 1);
-		close(g_global.fd_out);
+		dup2(v->fd_out, 1);
+		close(v->fd_out);
 	}
 }
 
@@ -39,36 +39,37 @@ void	file_output_instruction(t_cmd *cmd)
 *   Check for all input files and if one doesn't exist, returns 0, which
 *    prevents the command from running and exiting the command loop.
 */
-static int	file_input_instruction(t_cmd *cmd)
-{
-	if (cmd->in.in)
-		g_global.fd_in = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
-	if (g_global.fd_in < 0)
-	{
-		dup2(g_global.tmp_in, 0);
-		dup2(g_global.tmp_out, 1);
-		close(g_global.tmp_in);
-		close(g_global.tmp_out);
-		return (0);
-	}
-	if (dup2(g_global.fd_in, 0) > 0)
-		close(g_global.fd_in);
-	return (1);
-}
 
-void	check_pipe(t_cmd *cmd)
-{
-	if ((cmd->cmd_flags & 0x40) && !cmd->in.out)
-	{
-		pipe(g_global.fd);
-		g_global.fd_in = g_global.fd[0];
-		g_global.fd_out = g_global.fd[1];
-	}
-	if (!(cmd->cmd_flags & 0x40) && !cmd->in.out)
-		g_global.fd_out = dup(g_global.tmp_out);
-	dup2(g_global.fd_out, 1);
-	close(g_global.fd_out);
-}
+// static int	file_input_instruction(t_cmd *cmd)
+// {
+// 	if (cmd->in.in)
+// 		g_global.fd_in = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
+// 	if (g_global.fd_in < 0)
+// 	{
+// 		dup2(g_global.tmp_in, 0);
+// 		dup2(g_global.tmp_out, 1);
+// 		close(g_global.tmp_in);
+// 		close(g_global.tmp_out);
+// 		return (0);
+// 	}
+// 	if (dup2(g_global.fd_in, 0) > 0)
+// 		close(g_global.fd_in);
+// 	return (1);
+// }
+
+// void	check_pipe(t_cmd *cmd)
+// {
+// 	if ((cmd->cmd_flags & 0x40) && !cmd->in.out)
+// 	{
+// 		pipe(g_global.fd);
+// 		g_global.fd_in = g_global.fd[0];
+// 		g_global.fd_out = g_global.fd[1];
+// 	}
+// 	if (!(cmd->cmd_flags & 0x40) && !cmd->in.out)
+// 		g_global.fd_out = dup(g_global.tmp_out);
+// 	dup2(g_global.fd_out, 1);
+// 	close(g_global.fd_out);
+// }
 
 /*
 *   Checks all outputs and inputs, pipe usage, sets up the FD and create forks.
@@ -77,20 +78,21 @@ void	check_pipe(t_cmd *cmd)
 *    successful execute.
 *    Will kill all ghost processes.
 */
-int	execute_cmd(t_cmd *cmd)
-{
-	int i;
 
-	i = 0;
-	file_output_instruction(cmd);
-	file_input_instruction(cmd);
-	check_pipe(cmd);
-	g_global.pid = fork();
-	g_global.pid_lst[g_global.pid_counter++] = g_global.pid;
-	if (g_global.pid == 0)
-	{
-		cmd_selector(cmd->cmd);
-		exit(0);
-	}
-	return (g_global.exit_status);
-}
+// int	execute_cmd(t_cmd *cmd)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	file_output_instruction(cmd);
+// 	file_input_instruction(cmd);
+// 	check_pipe(cmd);
+// 	g_global.pid = fork();
+// 	g_global.pid_lst[g_global.pid_counter++] = g_global.pid;
+// 	if (g_global.pid == 0)
+// 	{
+// 		cmd_selector(cmd->cmd);
+// 		exit(0);
+// 	}
+// 	return (g_global.exit_status);
+// }

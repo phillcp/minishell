@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 11:55:09 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:58:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,45 @@
 # define QUOTES_OPEN 2
 # define MAX_FD 256
 
-int			error_output(char type, char *str);
+int			error_output(t_big *v, char type, char *str);
 
-int			env_sorted(void);
+// int		env_sorted(void);
 
-int			check_env_names(char *name, char *content);
+int			check_env_names(t_big *v, char *name, char *content);
 void		print_env_content(t_dl_list *lst, char *name, char free_name);
 char		*return_env_content(t_dl_list *lst, char *name);
 char		*get_name(char *str, char c);
-t_dl_list	*get_env(char **env);
+t_dl_list	*get_env(t_big *v, char **env);
 
 void		free_list_nodes(t_dl_list *lst);
-void		free_argv(void);
+// void		free_argv(void);
 void		free_dl_list(t_dl_list *lst);
-void		delete_temp(char *path);
+void		delete_temp(t_big *v, char *path);
 void		free_table(char **table);
 
 void		signal_handler(int signal);
-void		clean_processes(void);
-void		re_init(void);
-void		check_and_or_flag(t_cmd *cmd, t_tree *t, int i);
-void		tree_loop(t_tree *t, int i);
-void		create_hdoc_and_pid_arrays(void);
-void		exit_loop(void);
-int			dup_init_and_close(char type);
+void		clean_processes(t_big *v);
+void		re_init(t_big *v);
+// void		check_and_or_flag(t_cmd *cmd, t_tree *t, int i);
+// void		tree_loop(t_tree *t, int i);
+void		create_hdoc_and_pid_arrays(t_big *v);
+void		exit_loop(t_big *v);
+void		save_std_fds(int *in, int *out);
+void		restore_std_fds(int in, int out);
+// int		dup_init_and_close(char type);
 
-void		exit_fork(void);
-
-int			file_input(t_list *input, t_list *heredoc, t_list *in);
+int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
+void		file_input_instruction(t_big *v, t_cmd *cmd);
 int			file_output(t_list *output, t_list *append, t_list *final_output);
-void		file_output_instruction(t_cmd *cmd);
+void		file_output_instruction(t_big *v, t_cmd *cmd);
 
-int			screening_one(char **argv);
-void		cmd_selector(char **argv);
+int			screening_one(t_big *v, char **argv);
+void		cmd_selector(t_big *v, char **argv);
+int			builtin(t_big *v, t_cmd *cmd);
 int			cmd_identifier(char **argv);
 
 char		*temp_path(char *filename, char *home);
-void		check_heredoc(t_tree *t);
+void		check_heredoc(t_big *v, t_tree *t);
 void		export_wrong(char *str);
 void		check_mask(char **pth);
 

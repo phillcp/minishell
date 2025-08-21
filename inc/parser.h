@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 23:21:46 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:09:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSER_H
 
 # include "libft.h"
+
+typedef struct s_big	t_big;
 
 # define S 1
 # define D 2
@@ -74,13 +76,13 @@ typedef struct s_cmd
 	t_input	in;
 }				t_cmd;
 
-t_commands	*parse(const char *str);
+t_commands	*parse(t_big *v, const char *str);
 char		*proc_q(char *str, t_commands *cmd);
 int			split_cmd(t_tree *t, char *c, int i);
 int			parse_op(t_tree *t);
-int			expand(t_tree *t);
+int			expand(t_big *v, t_tree *t);
 int			word_split(t_tree *t);
-int			expand_question(char **str, int start, int i);
+int			expand_question(t_big *v, char **str, int start, int i);
 int			unmask(t_tree *t);
 void		free_command(t_commands *cmd);
 int			unmask_str(char *str);

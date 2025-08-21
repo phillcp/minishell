@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:53:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:23:21 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:15:50 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	echo_flag(char **argv, int i, int j, int k)
 	}
 }
 
-void	ft_echo(char **argv)
+void	 ft_echo(char **argv)
 {
 	int	i;
 	int	j;

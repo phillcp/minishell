@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 11:12:39 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:48:21 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_cd
 	char		*backup;
 }				t_cd;
 
-typedef struct s_global
+typedef struct s_big
 {
 	char		**argv;
 	char		*str;
@@ -39,7 +39,7 @@ typedef struct s_global
 	int			nbr_arg;
 	int			exit_status;
 	int			exit_ccode;
-	int			first_cmd;
+	int			last_pipe;
 	int			fd[2];
 	int			tmp_in;
 	int			tmp_out;
@@ -64,8 +64,6 @@ typedef struct s_global
 	t_commands	*cmd;
 	t_dl_list	*env;
 	t_dl_list	*head;
-}				t_global;
-
-extern t_global	g_global;
+}				t_big;
 
 #endif

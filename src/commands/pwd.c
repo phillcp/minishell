@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:55:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 11:04:40 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:27:03 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_pwd(void)
 	if (!getcwd(pwd, PATH_MAX))
 		return (-1);
 	printf("%s\n", pwd);
-	exit(0);
 	return (1);
 }
 
@@ -53,7 +52,7 @@ int	ft_atoil(const char *s, int *j)
 	return (result * neg);
 }
 
-int	check_exit(char *argv)
+int	check_exit(t_big *v, char *argv)
 {
 	int	i;
 	int	j;
@@ -69,7 +68,7 @@ int	check_exit(char *argv)
 	{
 		if (!ft_isdigit(argv[i]))
 		{
-			g_global.exit_ccode = 2;
+			v->exit_ccode = 2;
 			write(2, " numeric argument required\n", 27);
 			return (0);
 		}
@@ -78,30 +77,29 @@ int	check_exit(char *argv)
 	return (1);
 }
 
-void	ft_exit(char **argv)
+int	ft_exit(t_big *v, char **argv)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	if (argv[2] && argv[2][0] != '\0')
-	{
-		g_global.exit_status = 1;
-		write(2, " too many arguments\n", 20);
-		return ;
-	}
-	g_global.exit = 1;
-	if (argv[1] && check_exit(argv[1]))
+	while (argv[i])
+		i++;
+	if (i > 2)
+		return (v->exit_status = 1, write(2, " too many arguments\n", 20));
+	else if (i == 2 && check_exit(v, argv[1]))
 	{
 		i = ft_atoil(argv[1], &j);
 		if (j)
 		{
-			g_global.exit_status = 2;
+			v->exit_status = 2;
 			write(2, " numeric argument required\n", 27);
 		}
 		else
-			g_global.exit_ccode = i;
+			v->exit_ccode = i;
 	}
+	v->exit = 1;
 	printf("exit\n");
+	return (1);
 }

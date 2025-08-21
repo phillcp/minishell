@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 23:07:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/06/23 14:29:56 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:43:58 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static char	*replace_question(char *s1, const char *s2, int pos, int len)
 	return (t1);
 }
 
-int	expand_question(char **str, int start, int i)
+int	expand_question(t_big *v, char **str, int start, int i)
 {
 	char	*s;
 	char	*big;
 
 	i = 2;
 	s = *str;
-	big = ft_itoa(g_global.exit_status);
+	big = ft_itoa(v->exit_status);
 	if (!big)
 		return (0);
 	*str = replace_question(s, big, start + 1, i + 1);

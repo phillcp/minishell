@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 19:38:22 by fporto            #+#    #+#             */
-/*   Updated: 2022/03/09 16:32:53 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/21 14:55:28 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_itoa(long n)
 		neg = 1;
 	}
 	len = ft_nlen(n);
-	number = malloc(len + neg + 1);
+	number = ft_calloc(len + neg + 1, 1);
 	if (!number)
 		return (NULL);
 	i = len + neg - 1;

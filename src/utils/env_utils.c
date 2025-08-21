@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 15:20:39 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:42:04 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_name(char *str, char c)
 
 //The Get Env function will make a copy of the system environmental list and it.
 //The return is as dual linked list. Check Minishell header for the list struct.
-t_dl_list	*get_env(char **env)
+t_dl_list	*get_env(t_big *v, char **env)
 {
 	t_dl_list	*temp;
 	int			x;
@@ -91,7 +91,7 @@ t_dl_list	*get_env(char **env)
 	int			aux;
 
 	x = -1;
-	g_global.env = NULL;
+	v->env = NULL;
 	splited = malloc(sizeof(char *) * 2);
 	while (env[++x] != NULL)
 	{
@@ -99,34 +99,34 @@ t_dl_list	*get_env(char **env)
 		splited[0] = ft_substr(env[x], 0, aux);
 		splited[1] = ft_substr(env[x], aux + 1, ft_strlen(env[x]) - aux);
 		temp = ft_lstnew_dl(splited);
-		ft_lstadd_back_dl(&g_global.env, temp);
+		ft_lstadd_back_dl(&v->env, temp);
 	}
 	ft_free(splited);
-	return (g_global.env);
+	return (v->env);
 }
 
 //The Check Env names will replace the content of the provided env variable
 //'name; if found on the internal environmental list with the provided
 //string 'content'.
-//free(g_global.env->content);
-int	check_env_names(char *name, char *content)
+//free(v->env->content);
+int	check_env_names(t_big *v, char *name, char *content)
 {
 	t_dl_list	*head;
 
-	head = g_global.env;
+	head = v->env;
 	while (1)
 	{
-		if (ft_strcmp(name, g_global.env->name))
+		if (ft_strcmp(name, v->env->name))
 		{
-			ft_free(g_global.env->content);
-			g_global.env->content = ft_strdup(content);
-			g_global.env = head;
+			ft_free(v->env->content);
+			v->env->content = ft_strdup(content);
+			v->env = head;
 			return (1);
 		}
-		if (g_global.env->next == NULL)
+		if (v->env->next == NULL)
 			break ;
-		g_global.env = g_global.env->next;
+		v->env = v->env->next;
 	}
-	g_global.env = head;
+	v->env = head;
 	return (0);
 }

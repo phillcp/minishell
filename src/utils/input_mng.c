@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 18:28:09 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:04:02 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "utilities.h"
 #include "minishell.h"
 
-static int	heredoc_loop(t_list *heredoc, int input_hdoc)
+static int	heredoc_loop(t_big *v, t_list *heredoc, int input_hdoc)
 {
 	char	*pth;
 	char	*i;
@@ -24,13 +24,13 @@ static int	heredoc_loop(t_list *heredoc, int input_hdoc)
 	{
 		if (input_hdoc > 2)
 			close(input_hdoc);
-		i = ft_itoa(++g_global.hdoc_counter);
+		i = ft_itoa(++v->hdoc_counter);
 		pth = heredoc->content;
-		pth = temp_path(pth, g_global.temp_path);
+		pth = temp_path(pth, v->temp_path);
 		fd = open(pth, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fd == -1)
 		{
-			error_output('i', heredoc->content);
+			error_output(v, 'i', heredoc->content);
 			ft_free(pth);
 			return (-1);
 		}
@@ -42,7 +42,7 @@ static int	heredoc_loop(t_list *heredoc, int input_hdoc)
 	return (input_hdoc);
 }
 
-static int	input_loop(t_list *input, int input_file)
+static int	input_loop(t_big *v, t_list *input, int input_file)
 {
 	char	*pth;
 	char	*content;
@@ -58,7 +58,7 @@ static int	input_loop(t_list *input, int input_file)
 		fd = open(pth, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fd == -1)
 		{
-			error_output('i', input->content + 1);
+			error_output(v, 'i', input->content + 1);
 			ft_free(pth);
 			return (-1);
 		}
@@ -69,15 +69,15 @@ static int	input_loop(t_list *input, int input_file)
 	return (input_file);
 }
 
-int	file_input(t_list *input, t_list *heredoc, t_list *in)
+int	file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in)
 {
 	int		input_file;
 	int		input_hdoc;
 
 	input_file = 0;
 	input_hdoc = 0;
-	input_file = input_loop(input, input_file);
-	input_hdoc = heredoc_loop(heredoc, input_hdoc);
+	input_file = input_loop(v, input, input_file);
+	input_hdoc = heredoc_loop(v, heredoc, input_hdoc);
 	if (!ft_strncmp(in->content, "<<", 2))
 	{
 		if (input_file > 2)
@@ -87,4 +87,27 @@ int	file_input(t_list *input, t_list *heredoc, t_list *in)
 	if (input_hdoc > 2)
 		close(input_hdoc);
 	return (input_file);
+}
+
+void	file_input_instruction(t_big *v, t_cmd *cmd)
+{
+	int	fd;
+	int	null_fd;
+
+	fd = 0;
+	if (!cmd->in.in)
+		return ;
+	fd = file_input(v, cmd->in.input, cmd->in.heredoc, cmd->in.in);
+	if (fd < 0 || !cmd->in.in)
+	{
+		null_fd = open("/dev/null", O_RDONLY);
+		if (null_fd >= 0)
+		{
+			dup2(null_fd, 0);
+			close(null_fd);
+			return ;
+		}
+	}
+	dup2(fd, 0);
+	close(fd);
 }

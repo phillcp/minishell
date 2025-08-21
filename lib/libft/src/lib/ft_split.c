@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 13:21:53 by fporto            #+#    #+#             */
-/*   Updated: 2025/08/20 18:44:08 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:58:11 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*get_word(char *s, char c)
 			s++;
 		while (s[i] && s[i] != c)
 			i++;
-		word = malloc(i + 1);
+		word = ft_calloc(i + 1, 1);
 		if (!word)
 			return (NULL);
 		i = 0;
@@ -87,7 +87,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	str = (char *)s;
 	nb = nb_words((char *)str, c);
-	arr = (char **)malloc(sizeof(char *) * (nb + 1));
+	arr = (char **)ft_calloc(sizeof(char *), (nb + 1));
 	if (!arr)
 		return (NULL);
 	arr[nb] = NULL;

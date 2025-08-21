@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 11:55:20 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:19:42 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,113 +14,81 @@
 #include "execution.h"
 #include "minishell.h"
 
-/*
-*   Check the input files flags. If the file does not exist, it will
-*    return 0, which will make the execute to stop and exit the command loop.
-*/
-static int	file_input_instruction(t_cmd *cmd, int input)
+static int	setup_pipe(int pipefd[2])
 {
-	input = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
-	if (input > 0)
+	if (pipe(pipefd) == -1)
 	{
-		if (dup2(input, 0) != -1)
-			return (EXIT_SUCCESS);
+		write(2, " Bad pipe\n", 10);
+		return (-1);
 	}
-	return (-1);
+	return (0);
 }
 
-int	bultin_exec(t_cmd *cmd)
+void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 {
-	int	output;
-	int	input;
-
-	input = 0;
-	if (cmd->in.in)
+	if (prev_fd != -1)
 	{
-		if (file_input_instruction(cmd, input) < 0)
-			return (-1);
+		dup2(prev_fd, 0);
+		close(prev_fd);
 	}
-	if (cmd->in.out)
+	if (!v->last_pipe)
 	{
-		output = file_output(cmd->in.output, cmd->in.append, cmd->in.out);
-		if (output < 0)
-			dup2(output, 1);
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
 	}
-	screening_one(cmd->cmd);
-	return (EXIT_SUCCESS);
+	file_output_instruction(v, cmd);
+	file_input_instruction(v, cmd);
+	cmd_selector(v, cmd->cmd);
+	exit(v->exit_status);
 }
 
-/*
-*   Checks for the END (;) flag so it can reset the First_cmd variable;
-*    Also, it modifies the STOP variable in case it detects the OR flag;
-*    Also, stops the cmd to be executed in case STOP variable is > 0.
-*/
-static int	stop_check(t_cmd *cmd)
+void	parent_pipe(t_big *v, int *prev_fd, int *pipefd)
 {
-	if (g_global.stop > 0)
-		return (g_global.exit_status);
-	return (execute_cmd(cmd));
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (!v->last_pipe)
+	{
+		close(pipefd[1]);
+		*prev_fd = pipefd[0];
+	}
 }
 
-/*
-*   Modifies STOP variable when there is a &&/|| flag with no command which
-*    means we are in between a parentesis and a command.
-*/
-static void	no_cmd_flagged(t_cmd *cmd)
+static void	wait_forks(t_big *v, int *pid_lst, int pid_counter)
 {
-	if (cmd->cmd_flags & 0x04)
-	{
-		if (g_global.stop > 0)
-			g_global.stop = 5;
-		else
-			g_global.stop = -3;
-		g_global.and_flag--;
-	}
-	if (cmd->cmd_flags & 0x08)
-	{
-		if (g_global.and_flag > 0)
-		{
-			if (g_global.stop > 0)
-				g_global.stop = -4;
-			else
-				g_global.stop = 6;
-			g_global.and_flag--;
-		}
-		if (g_global.stop > 0 && g_global.or_flag > 0)
-			g_global.stop = 6;
-		g_global.or_flag--;
-	}
-	g_global.first_cmd = 1;
+	int	status;
+	int	i;
+
+	i = -1;
+	while (++i < pid_counter)
+		waitpid(pid_lst[i], &status, 0);
+	if (WIFEXITED(status))
+		v->exit_status = WEXITSTATUS(status);
 }
 
-/*
-*   Flags used:
-*   If (cmd_flags & 0x01) at least one argument/cmd has a possible wildcard.
-*   If (cmd_flags & 0x02) at least one argument/cmd needs to expand exit code.
-*   If (cmd_flags & 0x04) cmd is to be executed before a &&
-*   If (cmd_flags & 0x08) cmd is to be executed before a ||
-*   If (cmd_flags & 0x10) cmd is at the end of a list
-*   If (cmd_flags & 0x20) cmd is to be executed before a ; therefore reseting
-*    logic.
-*   If (cmd_flags & 0x40) input piped to next command.
-*/
-int	command_exec(t_cmd *cmd)
+void	pipe_loop(t_big *v, t_tree *t, int i)
 {
-	int	ret;
+	t_tree	*t_temp;
+	t_cmd	*cmd;
+	int		pipefd[2];
+	pid_t	pid;
+	int		prev_fd;
 
-	ret = 0;
-	if (!cmd->cmd[0])
+	prev_fd = -1;
+	while (++i < t->lcount)
 	{
-		no_cmd_flagged(cmd);
-		return (-2);
+		t_temp = t->leaves[i];
+		cmd = (t_cmd *)t_temp->content;
+		v->hdoc_counter += 10;
+		if (setup_pipe(pipefd) == -1)
+			return ;
+		if (i == t->lcount - 1)
+			v->last_pipe = 1;
+		pid = fork();
+		v->pid_lst[v->pid_counter++] = pid;
+		if (pid == 0)
+			child_pipe(v, cmd, prev_fd, pipefd);
+		parent_pipe(v, &prev_fd, pipefd);
 	}
-	if (!cmd_identifier(cmd->cmd) && g_global.first_cmd
-		&& ((cmd->cmd_flags & 0x10) || (cmd->cmd_flags & 0x20)))
-		return (bultin_exec(cmd));
-	ret = stop_check(cmd);
-	if (cmd->cmd_flags & 0x40)
-		g_global.first_cmd = 0;
-	else
-		g_global.first_cmd = 1;
-	return (ret);
+	wait_forks(v, v->pid_lst, v->pid_counter);
 }

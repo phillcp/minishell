@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 17:33:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:40:50 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,36 +42,39 @@ void	export_wrong(char *str)
 	write(2, "': not a valid identifier\n", 26);
 }
 
-void	create_hdoc_and_pid_arrays(void)
+void	create_hdoc_and_pid_arrays(t_big *v)
 {
 	int	i;
 
 	i = -1;
-	g_global.hdoc_files = malloc(sizeof(char **) * (FD_MAX + 1));
+	v->hdoc_files = malloc(sizeof(char **) * (FD_MAX + 1));
 	while (++i < FD_MAX)
-		g_global.hdoc_files[i] = ft_itoa(i);
-	g_global.hdoc_files[i] = NULL;
-	g_global.pid_lst = malloc(sizeof(int *) * (CHILD_MAX + 1));
+		v->hdoc_files[i] = ft_itoa(i);
+	v->hdoc_files[i] = NULL;
+	v->pid_lst = malloc(sizeof(int *) * (CHILD_MAX + 1));
 	i = -1;
 	while (++i < CHILD_MAX)
-		g_global.pid_lst[i] = -1;
-	g_global.pid_lst[i] = '\0';
+		v->pid_lst[i] = -1;
+	v->pid_lst[i] = '\0';
 }
 
-void	exit_loop(void)
+void	exit_loop(t_big *v)
 {
 	int	i;
+	int	exit_ccode;
 
-	if (!g_global.exit_ccode)
-	g_global.exit_ccode = g_global.exit_status;
-	free_dl_list(g_global.env);
+	exit_ccode = v->exit_ccode;
+	if (!v->exit_ccode)
+		exit_ccode = v->exit_status;
+	free_dl_list(v->env);
 	i = -1;
 	while (++i < FD_MAX)
-		ft_free(g_global.hdoc_files[i]);
-	ft_free(g_global.hdoc_files);
-	ft_free(g_global.pid_lst);
-	ft_free(g_global.head);
-	ft_free(g_global.temp_path);
+		ft_free(v->hdoc_files[i]);
+	ft_free(v->hdoc_files);
+	ft_free(v->pid_lst);
+	ft_free(v->head);
+	ft_free(v->temp_path);
 	rl_clear_history();
-	exit(g_global.exit_ccode);
+	ft_free(v);
+	exit(exit_ccode);
 }

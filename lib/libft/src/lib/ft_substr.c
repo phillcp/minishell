@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 19:08:35 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 17:15:18 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:53:11 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	j = 0;
 	range = rng(s, start, len);
-	str = malloc(range + 1);
+	str = ft_calloc(range + 1, 1);
 	if (ft_strlen(s) >= start)
 	{
 		if (!str)

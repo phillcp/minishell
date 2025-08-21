@@ -6,12 +6,12 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 11:02:55 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:27:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include "minishell.h"
 #include "parser.h"
 #include "utilities.h"
 
@@ -61,7 +61,7 @@ void	free_command(t_commands *cmd)
 	ft_free(cmd);
 }
 
-t_commands	*parse(const char *str)
+t_commands	*parse(t_big *v, const char *str)
 {
 	t_commands	*cmd;
 
@@ -79,7 +79,7 @@ t_commands	*parse(const char *str)
 		cmd->error = 100;
 	if (cmd->error)
 		return (cmd);
-	if (!expand(cmd->tree))
+	if (!expand(v, cmd->tree))
 		cmd->error = 1000;
 	if (cmd->error)
 		return (cmd);

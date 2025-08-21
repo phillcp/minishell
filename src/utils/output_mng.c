@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:45 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 18:29:18 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:48:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 #include "utilities.h"
 #include "minishell.h"
 
-int	error_output(char type, char *str)
+int	error_output(t_big *v, char type, char *str)
 {
 	if (type == 'c')
 	{
 		write (2, "minishell: command not found: ", 30);
 		ft_putstr_fd(str, 2);
 		write (2, "\n", 1);
-		g_global.exit_status = 127;
+		v->exit_status = 127;
 	}
 	else if (type == 's')
 	{
 		write (2, "minishell: special char not defined: ", 37);
 		ft_putstr_fd(str, 2);
 		write (2, "\n", 1);
-		g_global.exit_status = 33;
+		v->exit_status = 33;
 	}
 	else if (type == 'i' || type == 'd')
 	{
 		write (2, "minishell: ", 11);
 		ft_putstr_fd(str, 2);
 		write (2, ": No such file or directory\n", 28);
-		g_global.exit_status = 1;
+		v->exit_status = 1;
 	}
-	return (g_global.exit_status);
+	return (v->exit_status);
 }
 
 static int	output_loop(t_list *output, int output_file)

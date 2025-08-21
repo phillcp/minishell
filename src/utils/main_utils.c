@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 12:16:35 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:57:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@
 
 #include "minishell.h"
 #include "utilities.h"
-
-void	exit_fork(void)
-{
-	ft_free(g_global.input);
-	exit(0);
-}
 
 void	signal_handler(int signal)
 {
@@ -37,7 +31,7 @@ void	signal_handler(int signal)
 *  Closes all possibly open file descriptors and
 *  kills all processes that were not naturally closed.
 */
-void	clean_processes(void)
+void	clean_processes(t_big *v)
 {
 	int	i;
 
@@ -45,25 +39,25 @@ void	clean_processes(void)
 	while (++i < MAX_FD)
 		close(i);
 	i = -1;
-	while (g_global.pid_lst[++i] > 0)
+	while (v->pid_lst[++i] > 0)
 	{
-		kill(g_global.pid_lst[i], SIGTERM);
-		g_global.pid_lst[i] = -1;
+		kill(v->pid_lst[i], SIGTERM);
+		v->pid_lst[i] = -1;
 	}
 }
 
-void	re_init(void)
+void	re_init(t_big *v)
 {
-	clean_processes();
-	g_global.fd_in = 0;
-	g_global.fd_out = 1;
-	g_global.cmd_counter = 0;
-	g_global.file_counter = 0;
-	g_global.hdoc_counter = 0;
-	g_global.pid_counter = 0;
-	g_global.first_cmd = 1;
-	g_global.stop = 0;
-	g_global.and_flag = 0;
-	g_global.or_flag = 0;
-	g_global.es_f = 0;
+	clean_processes(v);
+	v->fd_in = 0;
+	v->fd_out = 1;
+	v->cmd_counter = 0;
+	v->file_counter = 0;
+	v->hdoc_counter = 0;
+	v->pid_counter = 0;
+	v->last_pipe = 0;
+	v->stop = 0;
+	v->and_flag = 0;
+	v->or_flag = 0;
+	v->es_f = 0;
 }

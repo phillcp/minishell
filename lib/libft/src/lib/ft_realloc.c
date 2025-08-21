@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:30:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 12:32:20 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:51:39 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	*ft_realloc(void *ptr, size_t osize, size_t nsize)
 	char	*ret;
 
 	if (!ptr)
-		return (malloc(nsize));
+		return (ft_calloc(nsize, 1));
 	if (!nsize)
 		ft_free(ptr);
 	if (!nsize)
 		return (NULL);
-	ret = malloc(nsize);
+	ret = ft_calloc(nsize, 1);
 	if (!ret)
 		return (ptr);
 	if (osize > nsize)
