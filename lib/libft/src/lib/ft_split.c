@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 13:21:53 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/24 22:49:45 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/20 18:44:08 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,6 @@ char	**ft_split(char const *s, char c)
 		start += (ft_strlen(arr[i]));
 		start += spaces(str + start, c);
 	}
+	arr[i] = NULL;
 	return (arr);
 }

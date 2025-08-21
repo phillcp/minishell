@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:08:49 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/20 18:29:37 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int	ft_execve(char **argv, int i)
 	g_global.str = NULL;
 	j = path_creation_loop(argv, paths, argv[i]);
 	if (j == 127)
-		error_output('c', 0, NULL);
-	exit(127);
+		error_output('c', argv[0]);
 	return (j);
 }

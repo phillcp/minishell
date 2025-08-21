@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:41:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:42:16 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	dup_init_and_close(char type)
 		g_global.tmp_out = dup(1);
 		g_global.fd_in = dup(g_global.tmp_in);
 	}
-	if (type == 'c')
+	else if (type == 'c')
 	{
 		dup2(g_global.tmp_in, 0);
 		dup2(g_global.tmp_out, 1);

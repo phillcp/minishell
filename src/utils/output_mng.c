@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:45 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:27:32 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/20 18:29:18 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 #include "utilities.h"
 #include "minishell.h"
 
-int	error_output(char type, int i, char *str)
+int	error_output(char type, char *str)
 {
-	if (i < 0)
-		i = 0;
 	if (type == 'c')
 	{
-		printf("minishell: command not found: %s\n", g_global.argv[i]);
+		write (2, "minishell: command not found: ", 30);
+		ft_putstr_fd(str, 2);
+		write (2, "\n", 1);
 		g_global.exit_status = 127;
 	}
 	else if (type == 's')
 	{
-		printf("minishell: special char not defined: %s\n", g_global.argv[i]);
+		write (2, "minishell: special char not defined: ", 37);
+		ft_putstr_fd(str, 2);
+		write (2, "\n", 1);
 		g_global.exit_status = 33;
 	}
 	else if (type == 'i' || type == 'd')
@@ -44,12 +46,12 @@ static int	output_loop(t_list *output, int output_file)
 
 	while (output)
 	{
-		if (output_file)
+		if (output_file > 2)
 			close(output_file);
 		path = ft_substr((char *)output->content, 1,
 				ft_strlen((char *)output->content));
 		check_mask(&path);
-		output_file = open(path, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR
+		output_file = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR
 				| S_IWUSR | S_IRGRP | S_IROTH);
 		output = output->next;
 		ft_free(path);
@@ -63,11 +65,11 @@ static int	append_loop(t_list *append, int output_file)
 
 	while (append)
 	{
-		if (output_file)
+		if (output_file > 2)
 			close(output_file);
 		path = ft_substr((char *)append->content, 2,
 				ft_strlen((char *)append->content));
-		output_file = open(path, O_RDWR | O_CREAT | O_APPEND, 0644);
+		output_file = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		append = append->next;
 		ft_free(path);
 	}
@@ -80,19 +82,19 @@ static int	final_output_loop(t_list *final_output, int output_file)
 
 	while (final_output)
 	{
-		if (output_file)
+		if (output_file > 2)
 			close(output_file);
 		if (!ft_strncmp(final_output->content, ">>", 2))
 		{
 			path = ft_substr((char *)final_output->content, 2,
 					ft_strlen((char *)final_output->content));
-			output_file = open(path, O_RDWR | O_CREAT | O_APPEND, 0644);
+			output_file = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (!ft_strncmp(final_output->content, ">", 1))
 		{
 			path = ft_substr((char *)final_output->content, 1,
 					ft_strlen((char *)final_output->content));
-			output_file = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+			output_file = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		ft_free(path);
 		final_output = final_output->next;

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/18 13:19:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:33:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	exit_loop(void)
 	int	i;
 
 	if (!g_global.exit_ccode)
-		g_global.exit_ccode = g_global.exit_status;
+	g_global.exit_ccode = g_global.exit_status;
 	free_dl_list(g_global.env);
 	i = -1;
 	while (++i < FD_MAX)

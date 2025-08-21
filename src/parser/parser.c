@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 11:58:22 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:02:55 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,34 @@
 #include "parser.h"
 #include "utilities.h"
 
-static void	free_cmd(void *v)
+static void	free_cmd_cmd(void *v)
 {
 	t_cmd	*cmd;
 	int		i;
+
+	cmd = (t_cmd *)v;
+	i = -1;
+	if (cmd->cmd)
+	{
+		while (cmd->cmd[++i])
+		{
+			ft_free(cmd->cmd[i]);
+			cmd->cmd[i] = NULL;
+		}
+		ft_free(cmd->cmd);
+	}
+}
+
+static void	free_cmd(void *v)
+{
+	t_cmd	*cmd;
 
 	if (!v)
 		return ;
 	cmd = (t_cmd *)v;
 	if (cmd->line)
 		ft_free(cmd->line);
-	i = -1;
-	if (cmd->cmd)
-	{
-		while (cmd->cmd[++i])
-			ft_free(cmd->cmd[i]);
-		ft_free(cmd->cmd);
-	}
+	free_cmd_cmd(v);
 	if (cmd->in.input)
 		ft_lstclear(&cmd->in.input, ft_free);
 	if (cmd->in.heredoc)

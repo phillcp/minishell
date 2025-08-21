@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/19 11:48:19 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:18:01 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	screening_one(char **argv)
 		else if (ft_strcmp(argv[i], "cd"))
 			i = ft_cd(argv);
 		else if (ft_strcmp(argv[i], " "))
-			printf("\n");
+			write(1, "\n", 1);
 		else if (ft_strcmp(argv[i], "env"))
 			ft_env(g_global.env);
 		else

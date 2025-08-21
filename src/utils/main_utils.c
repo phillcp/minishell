@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:38:36 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:16:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	re_init(void)
 	g_global.cmd_counter = 0;
 	g_global.file_counter = 0;
 	g_global.hdoc_counter = 0;
-	g_global.pid_counter = -1;
+	g_global.pid_counter = 0;
 	g_global.first_cmd = 1;
 	g_global.stop = 0;
 	g_global.and_flag = 0;

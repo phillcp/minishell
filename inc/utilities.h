@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/18 13:04:52 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:55:09 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define QUOTES_OPEN 2
 # define MAX_FD 256
 
-int			error_output(char type, int i, char *str);
+int			error_output(char type, char *str);
 
 int			env_sorted(void);
 
@@ -50,6 +50,7 @@ void		exit_fork(void);
 
 int			file_input(t_list *input, t_list *heredoc, t_list *in);
 int			file_output(t_list *output, t_list *append, t_list *final_output);
+void		file_output_instruction(t_cmd *cmd);
 
 int			screening_one(char **argv);
 void		cmd_selector(char **argv);

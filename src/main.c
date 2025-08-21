@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/19 12:39:02 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:13:03 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 #include "parser.h"
 #include "utilities.h"
 #include "execution.h"
+#include "commands.h"
 #include "readline.h"
 #include "history.h"
 #include <signal.h>
+#include <errno.h>
 
 t_global	g_global;
 
@@ -43,7 +45,7 @@ static void	struct_init(char **env)
 	create_hdoc_and_pid_arrays();
 	g_global.file_counter = 0;
 	g_global.cmd_counter = 0;
-	g_global.pid_counter = -1;
+	g_global.pid_counter = 0;
 }
 
 /*
@@ -52,16 +54,16 @@ static void	struct_init(char **env)
 */
 static int	check_cmd_calls(t_tree *t)
 {
-	t_cmd		*cmd;
+	t_cmd		cmd;
 	static int	step;
 
-	cmd = (t_cmd *)t->content;
-	step += 10;
-	if (!cmd)
+	if (!t->content)
 		return (0);
-	g_global.argv = cmd->cmd;
+	cmd = *(t_cmd *)(t->content);
+	step += 10;
+	g_global.argv = cmd.cmd;
 	g_global.hdoc_counter = step;
-	if (command_exec(cmd) == -1)
+	if (command_exec(&cmd) == -1)
 		return (-1);
 	return (1);
 }
@@ -100,6 +102,128 @@ void	tree_loop(t_tree *t, int i)
 		(g_global.exit_status = WEXITSTATUS(status)) && (g_global.boola = 1);
 }
 
+void file_input_instruction(t_cmd *cmd)
+{
+	int fd;
+	int null_fd;
+
+	fd = 0;
+	if (!cmd->in.in)
+		return ;
+	fd = file_input(cmd->in.input, cmd->in.heredoc, cmd->in.in);
+	if (fd < 0 || !cmd->in.in)
+	{
+		null_fd = open("/dev/null", O_RDONLY);
+		if (null_fd >= 0)
+		{
+			dup2(null_fd, 0);
+			close(null_fd);
+			return ;
+		}
+	}
+	dup2(fd, 0);
+	close(fd);
+}
+
+static int	setup_pipe(int pipefd[2])
+{
+	if (pipe(pipefd) == -1)
+	{
+		write(2, " Bad pipe\n", 10);
+		return (-1);
+	}
+	return (0);
+}
+
+void	child_pipe(t_cmd *cmd, int prev_fd, int *pipefd, int is_last)
+{
+	if (prev_fd != -1)
+	{
+		dup2(prev_fd, 0);
+		close(prev_fd);
+	}
+	if (!is_last)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+	}
+	file_output_instruction(cmd);
+	file_input_instruction(cmd);
+	cmd_selector(cmd->cmd);
+	exit(0);
+}
+
+void	parent_pipe(int *prev_fd, int *pipefd, int is_last)
+{
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (!is_last)
+	{
+		close(pipefd[1]);
+		*prev_fd = pipefd[0];
+	}
+}
+
+static void	wait_forks(int *pid_lst, int pid_counter)
+{
+	int	status;
+	int	i = -1;
+
+	while (++i < pid_counter)
+		waitpid(pid_lst[i], &status, 0);
+}
+
+void	pipe_loop(t_tree *t, int i)
+{
+	t_tree	*t_temp;
+	t_cmd	*cmd;
+	int		pipefd[2];
+	pid_t	pid;
+	int		prev_fd;
+	
+	prev_fd = -1;
+	while (++i < t->lcount)
+	{
+		t_temp = t->leaves[i];
+		cmd = (t_cmd *)t_temp->content;
+		g_global.hdoc_counter += 10;
+		if (i < t->lcount && setup_pipe(pipefd) == -1)
+			return ;
+		pid = fork();
+		g_global.pid_lst[g_global.pid_counter++] = pid;
+		if (pid == 0)
+			child_pipe(cmd, prev_fd, pipefd, i == t->lcount - 1);
+		parent_pipe(&prev_fd, pipefd, i == t->lcount - 1);
+	}
+	wait_forks(g_global.pid_lst, g_global.pid_counter);
+}
+
+void	exec_single(t_tree *t)
+{
+	t_cmd	*cmd;
+	int		status;
+	pid_t	pid;
+
+	cmd = (t_cmd *)t->leaves[0]->content;
+	if (ft_strcmp(cmd->cmd[0], "exit"))
+	{
+		ft_exit(cmd->cmd);
+		return ;
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		file_output_instruction(cmd);
+		file_input_instruction(cmd);
+		cmd_selector(cmd->cmd);
+		exit(0);
+	}
+	waitpid(pid, &status, 0);
+	if (g_global.exit_status == 1)
+		status = 1;
+}
+
 static void	input_loop(char *input)
 {
 	t_commands	*cmd;
@@ -113,7 +237,10 @@ static void	input_loop(char *input)
 		g_global.cmd = cmd;
 		check_heredoc(cmd->tree);
 		g_global.hdoc_counter = 0;
-		tree_loop(cmd->tree, -1);
+		if (cmd->tree->lcount > 1)
+			pipe_loop(cmd->tree, -1);
+		else
+			exec_single(cmd->tree);
 		delete_temp(g_global.temp_path);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 13:25:06 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/20 18:23:53 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ char	*temp_path(char *filename, char *path)
 	if (!filename || !path)
 		return (NULL);
 	pth = ft_strjoin(path, filename);
-	ft_free(g_global.hdoc_files[g_global.file_counter]);
-	g_global.hdoc_files[g_global.file_counter++] = filename;
 	return (pth);
 }
 
@@ -60,7 +58,6 @@ static int	create_hrdoc_file(char *eof_str, char *filename)
 	}
 	ft_free(input);
 	ft_free(eof_str);
-	ft_free(filename);
 	close(output);
 	return (0);
 }
@@ -85,7 +82,8 @@ static void	check_heredoc_call(t_cmd *cmd)
 		filename = ft_strjoin(eof, i);
 		ft_free(i);
 		if (create_hrdoc_file(ft_substr(eof, 2, ft_strlen(eof)), filename) < 0)
-			printf("Error: unable to create heredoc file\n");
+			write(2, "Error: unable to create heredoc file\n", 37);
+		cmd->in.heredoc->content = filename;
 		cmd->in.heredoc = cmd->in.heredoc->next;
 	}
 	if (eof)
