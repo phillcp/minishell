@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 12:42:43 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:33:04 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int	ft_export(t_big *v, char **argv)
 		ft_lstadd_back_dl(&v->env, temp);
 	}
 	v->env = head;
+	v->exit_status = 0;
 	return (1);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:56:37 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:35:48 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/22 08:47:03 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 
 static void	node_destroyer(t_dl_list *list)
 {
@@ -49,7 +50,7 @@ static int	lst_str_check(t_dl_list *lst, char *str)
 //env list.
 //The integer 'i' is the index of the command 'unset' on the received args
 //table.
-void	ft_unset(t_dl_list *env, char **argv, int i)
+void	ft_unset(t_big *v, t_dl_list *env, char **argv, int i)
 {
 	t_dl_list	*head;
 	t_dl_list	*temp;
@@ -71,4 +72,5 @@ void	ft_unset(t_dl_list *env, char **argv, int i)
 	temp->next = temp2;
 	node_destroyer(env);
 	env = head;
+	v->exit_status = 0;
 }

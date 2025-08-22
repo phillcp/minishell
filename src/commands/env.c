@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:07:34 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/22 08:33:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 
-void	ft_env(t_dl_list *env)
+void	ft_env(t_big *v, t_dl_list *env)
 {
 	ft_lstprint(env, 'a');
+	v->exit_status = 0;
 }

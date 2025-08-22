@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:27:40 by fporto            #+#    #+#             */
-/*   Updated: 2025/08/14 16:44:00 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:05:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	free(buffer);
 	*line = ft_substr(lineread[fd], 0, \
-(ft_strchr(lineread[fd], '\n') - lineread[fd]));
+	(ft_strchr(lineread[fd], '\n') - lineread[fd]));
 	temp = lineread[fd];
 	lineread[fd] = ft_strdup(temp + ft_strlen(*line) + 1);
 	free(temp);

@@ -6,13 +6,14 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 17:19:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:51:12 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utilities.h"
 #include "execution.h"
 #include "minishell.h"
+#include <signal.h>
 
 static int	setup_pipe(int pipefd[2])
 {
@@ -37,8 +38,8 @@ void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 		dup2(pipefd[1], 1);
 		close(pipefd[1]);
 	}
-	file_output_instruction(v, cmd);
 	file_input_instruction(v, cmd);
+	file_output_instruction(v, cmd);
 	cmd_selector(v, cmd->cmd);
 	exit(v->exit_status);
 }
@@ -57,13 +58,27 @@ void	parent_pipe(t_big *v, int *prev_fd, int *pipefd)
 static void	wait_forks(t_big *v, int *pid_lst, int pid_counter)
 {
 	int	status;
+	int	sig;
 	int	i;
 
 	i = -1;
 	while (++i < pid_counter)
+	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid_lst[i], &status, 0);
-	if (WIFEXITED(status))
-		v->exit_status = WEXITSTATUS(status);
+		signal(SIGINT, signal_handler);
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGPIPE)
+				write(2, "Broken pipe\n", 12);
+			else if (sig == SIGINT)
+				write(2, "\n", 1);
+			v->exit_status = 128 + sig;
+		}
+		else if (WIFEXITED(status))
+			v->exit_status = WEXITSTATUS(status);
+	}
 }
 
 void	pipe_loop(t_big *v, t_tree *t, int i)

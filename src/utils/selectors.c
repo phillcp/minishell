@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 17:30:16 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:26:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static int	screening_two(t_big *v, char ***argv_p, int i)
 
 	argv = *argv_p;
 	if (ft_strcmp(argv[i], "pwd"))
-		ft_pwd();
+		ft_pwd(v);
 	else if (ft_strcmp(argv[i], "export"))
 		ft_export(v, argv);
 	else if (ft_strcmp(argv[i], "unset"))
-		ft_unset(v->env, argv, i);
+		ft_unset(v, v->env, argv, i);
 	else
 		i = 1;
 	return (i);
@@ -41,13 +41,13 @@ int	screening_one(t_big *v, char **argv)
 		if (ft_strcmp(argv[i], "exit"))
 			ft_exit(v, argv);
 		else if (ft_strcmp(argv[i], "echo"))
-			ft_echo(argv);
+			ft_echo(v, argv);
 		else if (ft_strcmp(argv[i], "cd"))
 			ft_cd(v, argv);
-		else if (ft_strcmp(argv[i], " "))
-			write(1, "\n", 1);
+		else if (ft_strcmp(argv[i], "test"))
+			write(1, "hello\n", 6);
 		else if (ft_strcmp(argv[i], "env"))
-			ft_env(v->env);
+			ft_env(v, v->env);
 		else
 			i = screening_two(v, &argv, i);
 	}
@@ -59,16 +59,19 @@ void	cmd_selector(t_big *v, char **argv)
 	if (argv[0])
 	{
 		if (ft_strcmp(argv[0], "echo"))
-			ft_echo(argv);
+			ft_echo(v, argv);
 		else if (ft_strcmp(argv[0], "env"))
-			ft_env(v->env);
+			ft_env(v, v->env);
 		else if (ft_strcmp(argv[0], "pwd") || ft_strcmp(argv[0], "PWD"))
-			ft_pwd();
+			ft_pwd(v);
 		else if (ft_strcmp(argv[0], "cd"))
 			ft_cd(v, argv);
-		else if (ft_strcmp(argv[0], "exit") || ft_strcmp(argv[0], "unset") ||
-	ft_strcmp(argv[0], "export"))
+		else if (ft_strcmp(argv[0], "exit") || ft_strcmp(argv[0], "unset")
+			|| ft_strcmp(argv[0], "export"))
+		{
+			v->exit_status = 0;
 			return ;
+		}
 		else
 			ft_execve(v, argv, 0);
 	}
@@ -76,17 +79,14 @@ void	cmd_selector(t_big *v, char **argv)
 
 int	builtin(t_big *v, t_cmd	*cmd)
 {
-	int	s_stdin;
-	int	s_stdout;
-	int	i;
+	int	s_in;
+	int	s_out;
 
-	save_std_fds(&s_stdin, &s_stdout);
-	file_output_instruction(v, cmd);
-	file_input_instruction(v, cmd);
-	i = screening_one(v, cmd->cmd);
-	restore_std_fds(s_stdin, s_stdout);
-	if (!i)
+	save_std_fds(&s_in, &s_out);
+	if (!builtin_input_i(v, cmd) || !builtin_output_i(v, cmd))
 		return (0);
+	screening_one(v, cmd->cmd);
+	restore_std_fds(s_in, s_out);
 	return (1);
 }
 
@@ -101,7 +101,7 @@ int	cmd_identifier(char **argv)
 			i = 0;
 		else if (ft_strcmp(argv[i], "cd"))
 			i = 0;
-		else if (ft_strcmp(argv[i], " "))
+		else if (ft_strcmp(argv[i], "test"))
 			i = 0;
 		else if (ft_strcmp(argv[i], "echo"))
 			i = 0;

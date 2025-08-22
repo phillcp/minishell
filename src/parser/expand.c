@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 14:56:22 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:29:25 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ int	expand(t_big *v, t_tree *t)
 	while (i < t->lcount)
 		if (!expand(v, t->leaves[i++]))
 			return (0);
+	v->exit_status = 0;
 	return (1);
 }

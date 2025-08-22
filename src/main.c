@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 17:58:55 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:57:14 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,38 @@ static void	struct_init(t_big *v, char **env)
 	v->pid_counter = 0;
 }
 
+void	wait_one_pid(t_big *v, pid_t pid, char *str)
+{
+	int	status;
+	int	sig;
+
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, signal_handler);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGPIPE)
+			write(2, "Broken pipe\n", 12);
+		else if (sig == SIGSEGV)
+		{
+			error_output(v, 'd', str);
+			v->exit_status = 127;
+		}
+		else if (sig == SIGINT)
+			write(2, "\n", 1);
+		v->exit_status = 128 + sig;
+	}
+	else if (WIFEXITED(status))
+		v->exit_status = WEXITSTATUS(status);
+}
+
 void	exec_single(t_big *v, t_tree *t)
 {
 	t_cmd	*cmd;
-	int		status;
 	pid_t	pid;
 
 	cmd = (t_cmd *)t->leaves[0]->content;
-	// printf("line: %s|\n", cmd->line);
-	// int k = 0;
-	// while (cmd->cmd[k])
-	// {
-	// 	printf("cmds: %s|\n", cmd->cmd[k]);
-	// 	k++;
-	// }
 	if (!cmd_identifier(cmd->cmd))
 	{
 		builtin(v, cmd);
@@ -68,15 +86,13 @@ void	exec_single(t_big *v, t_tree *t)
 	pid = fork();
 	if (pid == 0)
 	{
-		file_output_instruction(v, cmd);
+		signal(SIGINT, SIG_DFL);
 		file_input_instruction(v, cmd);
+		file_output_instruction(v, cmd);
 		cmd_selector(v, cmd->cmd);
-		printf("exit_status: %d\n", v->exit_status);
 		exit(v->exit_status);
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		v->exit_status = WEXITSTATUS(status);
+	wait_one_pid(v, pid, cmd->cmd[0]);
 }
 
 static void	input_loop(t_big *v, char *input)
@@ -130,3 +146,10 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+
+	// int i = 0;
+	// while (argv[i])
+	// {
+	// 	printf("argv[%d]: %s\n", i, argv[i]);
+	// 	i++;
+	// }

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:53:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 17:15:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 08:51:18 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	echo_flag(char **argv, int i, int j, int k)
 	}
 }
 
-void	 ft_echo(char **argv)
+void	ft_echo(t_big *v, char **argv)
 {
 	int	i;
 	int	j;
@@ -43,4 +43,5 @@ void	 ft_echo(char **argv)
 	if (i >= 2 && ft_strcmp(argv[1], "-n"))
 		k = 2;
 	echo_flag(argv, i, j, k);
+	v->exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 11:51:02 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:04:02 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 		input = readline("heredoc> ");
 	}
 	ft_free(input);
-	ft_free(eof_str);
+	ft_free(filename);
 	close(output);
 	return (0);
 }
@@ -83,6 +83,7 @@ static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 		filename = ft_strjoin(eof, i);
 		ft_free(i);
 		sub_s = ft_substr(eof, 2, ft_strlen(eof));
+		ft_free(eof);
 		if (create_hrdoc_file(v, sub_s, filename) < 0)
 			write(2, "Error: unable to create heredoc file\n", 37);
 		ft_free(sub_s);

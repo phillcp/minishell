@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 16:49:37 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 08:36:58 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_cd(t_big *v, char **argv)
 		return (-1);
 	}
 	ret = change_directory(v, head, argv[1]);
+	v->exit_status = 0;
 	if (ret < 0)
 		error_output(v, 'd', argv[1]);
 	return (ret);

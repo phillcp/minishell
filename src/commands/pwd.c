@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:55:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 16:27:03 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:13:33 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include <limits.h>
 #include "minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_big *v)
 {
 	char	pwd[PATH_MAX];
 
 	if (!getcwd(pwd, PATH_MAX))
 		return (-1);
 	printf("%s\n", pwd);
+	v->exit_status = 0;
 	return (1);
 }
 

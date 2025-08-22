@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 12:42:04 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:31:51 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,8 @@ char	*get_name(char *str, char c)
 	}
 	if (!i)
 		return (NULL);
-	name = malloc(sizeof(char *) * (ft_strlen(str) + 1));
-	while (str[++x] && str[x] != c)
-		name[x] = str[x];
-	name[x] = '\0';
+	name = malloc(sizeof(char) * (x + 1));
+	ft_strlcpy(name, str, x + 1);
 	return (name);
 }
 

@@ -6,12 +6,24 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 18:49:17 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:05:08 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+#include "utilities.h"
+
+void	get_in(char *s, int *skp, int *i, char **in)
+{
+	while (s[*skp] && ft_isspace(s[(*skp) + (*i)]))
+		(*skp)++;
+	while (s[(*skp) + (*i)] && !ft_isspace(s[(*skp) + (*i)])
+		&& !ft_isspecial(s[(*skp) + (*i)]))
+		(*i)++;
+	*in = ft_substr(s, *skp, *i);
+	check_mask(in);
+}
 
 int	word_split(t_tree *t)
 {

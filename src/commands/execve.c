@@ -6,13 +6,13 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 18:07:33 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:43:37 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utilities.h"
-
+#include <signal.h>
 #include "libft.h"
 
 /*
@@ -90,23 +90,17 @@ static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
 	char	**env;
 	char	*total;
 	int		i;
-	int		j;
 
 	i = -1;
-	j = -1;
 	env = temp_env(v);
 	while (path[++i])
 	{
 		total = path_creation(v, path[i], cmd);
-		if ((execve(total, cmds, env) != -1))
-			--j;
+		execve(total, cmds, env);
 		ft_free(total);
 		total = NULL;
-		++j;
 	}
 	free_table(env);
-	if (j == i)
-		return (1);
 	return (127);
 }
 
@@ -119,18 +113,14 @@ int	ft_execve(t_big *v, char **argv, int i)
 {
 	char	*path;
 	char	**paths;
-	int		j;
 
 	if (!argv[i])
 		return (0);
 	path = return_env_content(v->env, "PATH");
 	paths = ft_split((const char *)path, ':');
 	v->str = NULL;
-	j = path_creation_loop(v, argv, paths, argv[i]);
-	if (j == 127)
-	{
-		printf("a\n");
-		error_output(v, 'c', argv[0]);
-	}
-	return (j);
+	path_creation_loop(v, argv, paths, argv[i]);
+	free_table(paths);
+	error_output(v, 'c', argv[0]);
+	return (0);
 }

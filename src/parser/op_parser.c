@@ -6,12 +6,13 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 11:58:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:54:08 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
+#include "utilities.h"
 
 int	ft_isspecial(char s)
 {
@@ -28,11 +29,7 @@ static int	input(char *s, t_cmd *cmd, int heredoc)
 	skp = 0;
 	i = 0;
 	l = NULL;
-	while (s[skp] && ft_isspace(s[skp + i]))
-		skp++;
-	while (s[skp + i] && !ft_isspace(s[skp + i]) && !ft_isspecial(s[skp + i]))
-		i++;
-	in = ft_substr(s, skp, i);
+	get_in(s, &skp, &i, &in);
 	((!heredoc) && (l = ft_lstnew(ft_strjoin("<", in))))
 		|| (l = ft_lstnew(ft_strjoin("<<", in)));
 	free(in);

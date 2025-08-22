@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 15:58:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:10:54 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define MAX_FD 256
 
 int			error_output(t_big *v, char type, char *str);
+void		err_i(t_big *v, char *str);
+void		err_c(t_big *v, char *str);
 
 // int		env_sorted(void);
 
@@ -50,8 +52,11 @@ void		restore_std_fds(int in, int out);
 
 int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
 void		file_input_instruction(t_big *v, t_cmd *cmd);
-int			file_output(t_list *output, t_list *append, t_list *final_output);
+int			builtin_input_i(t_big *v, t_cmd *cmd);
+int			file_output(t_big *v, t_list *output, t_list *append,
+				t_list *final_output);
 void		file_output_instruction(t_big *v, t_cmd *cmd);
+int			builtin_output_i(t_big *v, t_cmd *cmd);
 
 int			screening_one(t_big *v, char **argv);
 void		cmd_selector(t_big *v, char **argv);

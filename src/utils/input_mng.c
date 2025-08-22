@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 18:04:02 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:56:29 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,28 @@ int	file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in)
 void	file_input_instruction(t_big *v, t_cmd *cmd)
 {
 	int	fd;
-	int	null_fd;
 
 	fd = 0;
 	if (!cmd->in.in)
 		return ;
 	fd = file_input(v, cmd->in.input, cmd->in.heredoc, cmd->in.in);
-	if (fd < 0 || !cmd->in.in)
-	{
-		null_fd = open("/dev/null", O_RDONLY);
-		if (null_fd >= 0)
-		{
-			dup2(null_fd, 0);
-			close(null_fd);
-			return ;
-		}
-	}
+	if (fd < 0)
+		exit(v->exit_status);
 	dup2(fd, 0);
 	close(fd);
+}
+
+int	builtin_input_i(t_big *v, t_cmd *cmd)
+{
+	int	fd;
+
+	fd = 0;
+	if (!cmd->in.in)
+		return (1);
+	fd = file_input(v, cmd->in.input, cmd->in.heredoc, cmd->in.in);
+	if (fd < 0 || !cmd->in.in)
+		return (0);
+	dup2(fd, 0);
+	close(fd);
+	return (1);
 }

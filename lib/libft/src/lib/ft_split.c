@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 13:21:53 by fporto            #+#    #+#             */
-/*   Updated: 2025/08/21 14:58:11 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:07:19 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,5 @@ char	**ft_split(char const *s, char c)
 		start += (ft_strlen(arr[i]));
 		start += spaces(str + start, c);
 	}
-	arr[i] = NULL;
 	return (arr);
 }

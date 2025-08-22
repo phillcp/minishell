@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 13:09:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:07:11 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int			unmask_str(char *str);
 t_commands	*validate(const char *str);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
+void		get_in(char *s, int *skp, int *i, char **in);
 
 #endif
