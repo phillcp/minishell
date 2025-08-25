@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 08:36:58 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:23:57 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	change_directory(t_big *v, t_dl_list *head, char *path)
 	v->env = head;
 	if (ret >= 0)
 	{
-		check_env_names(v, "PWD", tmp_path);
-		check_env_names(v, "OLDPWD", tmp_path);
+		check_env_names(v, "OLDPWD", old_pwd);
+		check_env_names(v, "PWD", getcwd(old_pwd, PATH_MAX));
 	}
 	ft_free(tmp_path);
 	return (ret);
