@@ -83,7 +83,7 @@ LANG := C
 ################################################################################
 
 # Compiler
-CC := clang
+CC := cc
 
 # Compiler flags
 CFLAGS := -Wall -Wextra -Werror
@@ -180,14 +180,14 @@ SRC_ROOT := src/
 # Exemple:
 # DIRS := folder1/:folder2/
 # DIRS += folder1/:folder3/:folder4/
-DIRS := lib/:gnl/
+# DIRS := lib/:gnl/
 
-SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
-SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
+# SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
+# SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
 
-SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
-OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
-DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
+# SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
+# OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
+# DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
 
 # List of folders with header files.Each folder needs to end with a '/'. The
 # path to the folders is relative to the root of the makefile. Library includes
@@ -198,11 +198,10 @@ INC_DIRS += ${INC_ROOT}
 # Files
 ################################################################################
 
-SRCS_LIST = $(foreach dl,${SRC_DIRS_LIST},$(subst ${SPACE},:,$(strip $(foreach\
-	dir,$(subst :,${SPACE},${dl}),$(wildcard ${dir}*.c)))))
+SRCS_LIST = src/lib/ft_lstmap.c:src/lib/ft_realloc.c:src/lib/ft_strlcpy.c:src/lib/ft_memset.c:src/lib/ft_lstlast.c:src/lib/ft_strnstr.c:src/lib/ft_isspace.c:src/lib/ft_lstdelone.c:src/lib/ft_isdigit.c:src/lib/ft_strlen.c:src/lib/ft_memcmp.c:src/lib/ft_lstsize.c:src/lib/ft_itoa.c:src/lib/ft_memcpy.c:src/lib/ft_isalpha.c:src/lib/ft_abs.c:src/lib/ft_uitoa.c:src/lib/ft_islower.c:src/lib/ft_calloc.c:src/lib/ft_lstiter.c:src/lib/ft_strmapi.c:src/lib/ft_putendl_fd.c:src/lib/ft_substr.c:src/lib/ft_lstadd_back.c:src/lib/ft_putnbr_fd.c:src/lib/ft_split.c:src/lib/ft_char_to_str.c:src/lib/ft_strtrim.c:src/lib/ft_lstnew.c:src/lib/ft_atoi.c:src/lib/ft_putchar_fd.c:src/lib/ft_strcat_char.c:src/lib/ft_tree.c:src/lib/ft_strstr.c:src/lib/ft_memccpy.c:src/lib/ft_putstr_fd.c:src/lib/ft_dl_list.c:src/lib/ft_isascii.c:src/lib/ft_isprint.c:src/lib/ft_bzero.c:src/lib/ft_toupper.c:src/lib/ft_dl_list2.c:src/lib/ft_strlcat.c:src/lib/ft_strchr.c:src/lib/ft_memchr.c:src/lib/ft_isupper.c:src/lib/ft_memmove.c:src/lib/ft_isstrdigit.c:src/lib/ft_strdup.c:src/lib/ft_lstadd_front.c:src/lib/ft_lstclear.c:src/lib/ft_strjoin.c:src/lib/ft_strcmp.c:src/lib/ft_strrchr.c:src/lib/ft_isalnum.c:src/lib/ft_isblank.c:src/lib/ft_tolower.c:src/lib/ft_free.c:src/lib/ft_strichr.c:src/lib/ft_strncmp.c:src/gnl/get_next_line.c
 OBJS_LIST = $(subst ${SRC_ROOT},${OBJ_ROOT},$(subst .c,.o,${SRCS_LIST}))
 
-SRCS = $(foreach dir,${SRC_DIRS},$(wildcard ${dir}*.c))
+SRCS = src/lib/ft_lstmap.c src/lib/ft_realloc.c src/lib/ft_strlcpy.c src/lib/ft_memset.c src/lib/ft_lstlast.c src/lib/ft_strnstr.c src/lib/ft_isspace.c src/lib/ft_lstdelone.c src/lib/ft_isdigit.c src/lib/ft_strlen.c src/lib/ft_memcmp.c src/lib/ft_lstsize.c src/lib/ft_itoa.c src/lib/ft_memcpy.c src/lib/ft_isalpha.c src/lib/ft_abs.c src/lib/ft_uitoa.c src/lib/ft_islower.c src/lib/ft_calloc.c src/lib/ft_lstiter.c src/lib/ft_strmapi.c src/lib/ft_putendl_fd.c src/lib/ft_substr.c src/lib/ft_lstadd_back.c src/lib/ft_putnbr_fd.c src/lib/ft_split.c src/lib/ft_char_to_str.c src/lib/ft_strtrim.c src/lib/ft_lstnew.c src/lib/ft_atoi.c src/lib/ft_putchar_fd.c src/lib/ft_strcat_char.c src/lib/ft_tree.c src/lib/ft_strstr.c src/lib/ft_memccpy.c src/lib/ft_putstr_fd.c src/lib/ft_dl_list.c src/lib/ft_isascii.c src/lib/ft_isprint.c src/lib/ft_bzero.c src/lib/ft_toupper.c src/lib/ft_dl_list2.c src/lib/ft_strlcat.c src/lib/ft_strchr.c src/lib/ft_memchr.c src/lib/ft_isupper.c src/lib/ft_memmove.c src/lib/ft_isstrdigit.c src/lib/ft_strdup.c src/lib/ft_lstadd_front.c src/lib/ft_lstclear.c src/lib/ft_strjoin.c src/lib/ft_strcmp.c src/lib/ft_strrchr.c src/lib/ft_isalnum.c src/lib/ft_isblank.c src/lib/ft_tolower.c src/lib/ft_free.c src/lib/ft_strichr.c src/lib/ft_strncmp.c src/gnl/get_next_line.c
 OBJS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRCS:.c=.o})
 DEPS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRCS:.c=.d})
 

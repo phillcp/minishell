@@ -6,18 +6,13 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 14:54:08 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 21:20:53 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
 #include "utilities.h"
-
-int	ft_isspecial(char s)
-{
-	return (!!ft_strchr(" \t\n\v\f\r<>$\"\'&|()", s));
-}
 
 static int	input(char *s, t_cmd *cmd, int heredoc)
 {
@@ -30,8 +25,7 @@ static int	input(char *s, t_cmd *cmd, int heredoc)
 	i = 0;
 	l = NULL;
 	get_in(s, &skp, &i, &in);
-	((!heredoc) && (l = ft_lstnew(ft_strjoin("<", in))))
-		|| (l = ft_lstnew(ft_strjoin("<<", in)));
+	l = aux3(heredoc, in);
 	free(in);
 	if (!l)
 		return (-1);
@@ -59,8 +53,7 @@ static int	output(char *str, t_cmd *cmd, int append)
 	while (str[skip + i] && !ft_isspace(str[skip + i]))
 		i++;
 	out = ft_substr(str, skip, i);
-	((!append) && (l = ft_lstnew(ft_strjoin(">", out))))
-		|| (l = ft_lstnew(ft_strjoin(">>", out)));
+	l = aux4(append, out);
 	free(out);
 	if (!l)
 		return (-1);
@@ -73,6 +66,23 @@ static int	output(char *str, t_cmd *cmd, int append)
 	return (skip + i + !!append);
 }
 
+int	parse_op_cmd2(char *cur, t_cmd *cmd)
+{
+	int i;
+
+	if (!ft_strncmp(cur, "<<", 2))
+		i = input(cur + 2, cmd, 1);
+	else if (!ft_strncmp(cur, ">>", 2))
+		i = output(cur + 2, cmd, 1);
+	else if (*cur == '<')
+		i = input(cur + 1, cmd, 0);
+	else if (*cur == '>')
+		i = output(cur + 1, cmd, 0);
+	else
+		i = 0;
+	return (i);
+}
+
 static int	parse_op_cmd(t_cmd *cmd)
 {
 	char	q;
@@ -83,16 +93,13 @@ static int	parse_op_cmd(t_cmd *cmd)
 	cur = (char *) cmd->line;
 	while (*cur)
 	{
-		(*cur == '\'') && !(q & 2) && (q ^= 1);
-		(*cur == '\"') && !(q & 1) && (q ^= 2);
-		(q & 3) && cur++;
+		aux(cur, 0, &q);
 		if (q & 3)
+		{
+			cur++;
 			continue ;
-		((!ft_strncmp(cur, "<<", 2)) && ((i = input(cur + 2, cmd, 1)) || 1))
-		|| ((!ft_strncmp(cur, ">>", 2)) && ((i = output(cur + 2, cmd, 1)) || 1))
-		|| ((*cur == '<') && ((i = input(cur + 1, cmd, 0)) || 1))
-		|| ((*cur == '>') && ((i = output(cur + 1, cmd, 0)) || 1))
-		|| (i = 0);
+		}
+		i = parse_op_cmd2(cur, cmd);
 		if (i < 0)
 			return (0);
 		cur += i + 1;

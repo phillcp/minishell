@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:48:01 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/27 20:48:06 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	exec_single(t_big *v, t_tree *t)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
-	int	s_in;
-	int	s_out;
+	int		s_in;
+	int		s_out;
 
 	cmd = (t_cmd *)t->leaves[0]->content;
 	if (!cmd_identifier(cmd->cmd))
@@ -134,6 +134,8 @@ int	main(int argc, char **argv, char **env)
 	(void) argc;
 	(void) argv;
 	v = (t_big *)ft_calloc(sizeof(t_big), 1);
+	if (!v)
+		return (1);
 	struct_init(v, env);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);

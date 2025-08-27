@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_uitoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 19:38:22 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 15:26:47 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/27 20:44:51 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	ft_nlen(unsigned int n)
 	return (len);
 }
 
-static char	*cat(char *str, long number, size_t i)
+static char	*cat(char *str, long number, int i)
 {
 	while (i >= 0)
 	{
@@ -44,13 +44,13 @@ char	*ft_uitoa(unsigned int n)
 {
 	char	*number;
 	size_t	len;
-	size_t	i;
+	int		i;
 
 	len = ft_nlen(n);
 	number = malloc(len + 1);
 	if (!number)
 		return (NULL);
-	i = len - 1;
+	i = (int)len - 1;
 	if (n)
 		number = cat(number, n, i);
 	number[len] = '\0';

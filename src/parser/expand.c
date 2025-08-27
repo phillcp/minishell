@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:25:32 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/27 19:37:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd)
 		return (NULL);
 	while (++i && s[(++i) >> 1])
 	{
-		(s[i >> 1] == '\'') && (i ^= 1);
+		if (s[i >> 1] == '\'')
+			i ^= 1;
 		if (i & 1)
 			continue ;
 		if ((s[i >> 1] & 0x7F) == '$')

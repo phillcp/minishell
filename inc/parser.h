@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 14:07:11 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 20:56:39 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ typedef struct s_cmd
 }				t_cmd;
 
 t_commands	*parse(t_big *v, const char *str);
+void		aux(const char *str, int i, char *q);
+void		aux1(const char *str, int i, char *q, char *text);
+void		aux2(char c, char *q, int *count);
+t_list		*aux3(int heredoc, char *in);
+t_list		*aux4(int append, char *out);
 char		*proc_q(char *str, t_commands *cmd);
 int			split_cmd(t_tree *t, char *c, int i);
 int			parse_op(t_tree *t);

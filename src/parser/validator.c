@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:37 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 16:04:26 by fporto           ###   ########.fr       */
+/*   Updated: 2025/08/27 19:45:17 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int	check_qparen(const char *str, int i)
 	text = 0;
 	while (i != -2 && str[++i])
 	{
-		(str[i] == '\'') && !(q & 2) && (q ^= 1);
-		(str[i] == '\"') && !(q & 1) && (q ^= 2);
+		aux(str, i, &q);
 		if ((q || ft_isspace(str[i])))
 			continue ;
 		if (str[i] == '(')
@@ -54,18 +53,10 @@ static int	check_ops(const char *str, char q, char text, int i)
 {
 	while (str[++i])
 	{
-		(str[i] == '\'') && !(q & 2) && (text = 1) && (q ^= 1);
-		(str[i] == '\"') && !(q & 1) && (text = 1) && (q ^= 2);
+		aux1(str, i, &q, &text);
 		if (q & 3 || ft_isspace(str[i]))
 			continue ;
-		if (((str[i] == '&' && str[i + 1] == '&')
-				|| (str[i] == '|' && str[i + 1] == '|') || (str[i] == ';')))
-		{
-			if ((!text && q != 8) || (text && q == 8))
-				return (0);
-			((str[i] != ';') && ++i && (q == -1)) || (text = 0) || (q &= 3);
-		}
-		else if (str[i] == ')' && ((text && !(q == 8)) || (!text && (q == 8))))
+		if (str[i] == ')' && ((text && !(q == 8)) || (!text && (q == 8))))
 			(text || !text) && (q = 8)
 				&& (text = 0);
 		else if (str[i] == '(' && !text && !(q == 8))
@@ -81,25 +72,17 @@ static int	check_ops(const char *str, char q, char text, int i)
 static int	check_lvls(const char *str, int i)
 {
 	char	q;
-	char	ao;
 
 	q = 0;
-	ao = 0;
 	while (i != -2 && str[++i])
 	{
-		(str[i] == '\'') && !(q & 2) && (q ^= 1);
-		(str[i] == '\"') && !(q & 1) && (q ^= 2);
+		aux(str, i, &q);
 		if ((q || ft_isspace(str[i])))
 			continue ;
 		if (str[i] == '(')
 			i = check_qparen(str, i);
 		else if (str[i] == ')')
 			return (i);
-		else
-			((str[i] == '&') && (str[i + 1] == '&') && !ao && (ao = 1))
-			|| ((str[i] == '|') && (str[i + 1] == '|') && !ao && (ao = 2))
-			|| ((str[i] == '&') && (str[i + 1] == '&') && ao == 2 && (i = -2))
-			|| ((str[i] == '|') && (str[i + 1] == '|') && ao == 1 && (i = -2));
 	}
 	return (i);
 }

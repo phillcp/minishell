@@ -149,14 +149,14 @@ DEFAULT_LIB_RULES += debug_tsan debug_tsan_re debug_msan debug_msan_re
 # Exemple:
 # DIRS := folder1/:folder2/
 # DIRS += folder1/:folder3/:folder4/
-DIRS := ./:commands/:utils/:parser/:execution/
+# DIRS := ./:commands/:utils/:parser/:execution/
 
-SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
-SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
+# SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
+# SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
 
-SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
-OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
-DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
+# SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
+# OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
+# DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
 
 # List of folders with header files.Each folder needs to end with a '/'. The
 # path to the folders is relative to the root of the makefile. Library includes
@@ -167,11 +167,10 @@ INC_DIRS += ${INC_ROOT}
 # Files
 ################################################################################
 
-SRCS_LIST = $(foreach dl,${SRC_DIRS_LIST},$(subst ${SPACE},:,$(strip $(foreach\
-	dir,$(subst :,${SPACE},${dl}),$(wildcard ${dir}*.c)))))
+SRCS_LIST = src/./main.c:src/commands/echo.c:src/commands/unset.c:src/commands/env.c:src/commands/pwd.c:src/commands/export.c:src/commands/execve.c:src/commands/cd.c:src/utils/heredoc_mng.c:src/utils/env_utils.c:src/utils/free_utils.c:src/utils/selectors.c:src/utils/main_utils3.c:src/utils/output_mng.c:src/utils/main_utils.c:src/utils/export_utils.c:src/utils/input_mng.c:src/utils/main_utils2.c:src/parser/aux.c:src/parser/validator.c:src/parser/expand_question.c:src/parser/lstsort.c:src/parser/parser.c:src/parser/cmd_spliter.c:src/parser/q_parser.c:src/parser/expand.c:src/parser/op_parser.c:src/execution/execute_cmd.c:src/execution/command_exec.c
 OBJS_LIST = $(subst ${SRC_ROOT},${OBJ_ROOT},$(subst .c,.o,${SRCS_LIST}))
 
-SRCS = $(foreach dir,${SRC_DIRS},$(wildcard ${dir}*.c))
+SRCS = src/./main.c src/commands/echo.c src/commands/unset.c src/commands/env.c src/commands/pwd.c src/commands/export.c src/commands/execve.c src/commands/cd.c src/utils/heredoc_mng.c src/utils/env_utils.c src/utils/free_utils.c src/utils/selectors.c src/utils/main_utils3.c src/utils/output_mng.c src/utils/main_utils.c src/utils/export_utils.c src/utils/input_mng.c src/utils/main_utils2.c src/parser/aux.c src/parser/validator.c src/parser/expand_question.c src/parser/lstsort.c src/parser/parser.c src/parser/cmd_spliter.c src/parser/q_parser.c src/parser/expand.c src/parser/op_parser.c src/execution/execute_cmd.c src/execution/command_exec.c
 OBJS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRCS:.c=.o})
 DEPS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRCS:.c=.d})
 
