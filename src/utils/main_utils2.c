@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 15:40:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:47:27 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,30 +63,13 @@
 // 	}
 // }
 
-/*
-*   It checks the AND and OR flag in case there is a command so it can call the
-*    tree_loop function and so it can execute the next command. This is necessa-
-*    ry because the commands work inside a while loop that is forked and we
-*    we only have access to the Exit Status of the command after it resolves.
-*   It will also modifies the STOP variable at this stage so that the next
-*    command will not resolve in case the STOP is > 0.
-*/
-
-// void	check_and_or_flag(t_cmd *cmd, t_tree *t, int i)
-// {
-// 	if (cmd && !(cmd->cmd_flags & 0x40))
-// 	{
-// 		if (cmd->cmd[0])
-// 		{
-// 			and_or_flag(cmd);
-// 			if (cmd->cmd_flags & 0x10)
-// 				end_flag_condition();
-// 			else if ((cmd->cmd_flags & 0x20))
-// 				g_global.stop = -10;
-// 		}
-// 		tree_loop(t, i);
-// 	}
-// }
+void	exit_loop2(t_big *v)
+{
+	close(2);
+	close(1);
+	close(0);
+	exit_loop(v);
+}
 
 void	save_std_fds(int *in, int *out)
 {

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:07:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:47:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 int			error_output(t_big *v, char type, char *str);
 void		err_i(t_big *v, char *str);
 void		err_c(t_big *v, char *str);
+void		exit_child(t_big *v);
+void		exit_loop2(t_big *v);
 
 // int		env_sorted(void);
 

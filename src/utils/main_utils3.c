@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 15:40:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:40:07 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "utilities.h"
 #include "minishell.h"
 #include "readline.h"
+
+void	exit_child(t_big *v)
+{
+	close(2);
+	close(1);
+	close(0);
+	delete_temp(v, v->temp_path);
+	free_command(v->cmd);
+	exit_loop(v);
+}
 
 void	check_mask(char **pth)
 {

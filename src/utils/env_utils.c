@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 16:31:51 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:06:50 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_name(char *str, char c)
 	}
 	if (!i)
 		return (NULL);
-	name = malloc(sizeof(char) * (x + 1));
+	name = ft_calloc((x + 1), sizeof(char));
 	ft_strlcpy(name, str, x + 1);
 	return (name);
 }

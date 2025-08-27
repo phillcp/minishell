@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_mng.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 14:56:29 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:10:17 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	file_input_instruction(t_big *v, t_cmd *cmd)
 		return ;
 	fd = file_input(v, cmd->in.input, cmd->in.heredoc, cmd->in.in);
 	if (fd < 0)
-		exit(v->exit_status);
+		exit_child(v);
 	dup2(fd, 0);
 	close(fd);
 }

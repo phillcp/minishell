@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:08:35 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:48:01 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	exec_single(t_big *v, t_tree *t)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
+	int	s_in;
+	int	s_out;
 
 	cmd = (t_cmd *)t->leaves[0]->content;
 	if (!cmd_identifier(cmd->cmd))
@@ -87,10 +89,12 @@ void	exec_single(t_big *v, t_tree *t)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		save_std_fds(&s_in, &s_out);
 		file_input_instruction(v, cmd);
 		file_output_instruction(v, cmd);
 		cmd_selector(v, cmd->cmd);
-		exit(v->exit_status);
+		restore_std_fds(s_in, s_out);
+		exit_child(v);
 	}
 	wait_one_pid(v, pid, cmd->cmd[0]);
 }
@@ -142,14 +146,7 @@ int	main(int argc, char **argv, char **env)
 		else if (input)
 			ft_free(input);
 		if (v->exit || !input)
-			exit_loop(v);
+			exit_loop2(v);
 	}
 	return (0);
 }
-
-	// int i = 0;
-	// while (argv[i])
-	// {
-	// 	printf("argv[%d]: %s\n", i, argv[i]);
-	// 	i++;
-	// }

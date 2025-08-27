@@ -65,7 +65,7 @@ CREATE_LIB_TARGETS := 1
 ################################################################################
 
 # Compiler
-CC := clang
+CC := cc
 
 # Compiler flags
 CFLAGS := -Wall -Wextra -Werror -Wvla -DREADLINE_LIBRARY

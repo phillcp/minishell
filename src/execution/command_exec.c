@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 16:51:12 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:26:02 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	setup_pipe(int pipefd[2])
 
 void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 {
+	signal(SIGINT, SIG_DFL);
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0);
@@ -41,7 +42,7 @@ void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 	file_input_instruction(v, cmd);
 	file_output_instruction(v, cmd);
 	cmd_selector(v, cmd->cmd);
-	exit(v->exit_status);
+	exit_child(v);
 }
 
 void	parent_pipe(t_big *v, int *prev_fd, int *pipefd)

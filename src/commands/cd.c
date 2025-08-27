@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:23:57 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:17:48 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static int	change_directory(t_big *v, t_dl_list *head, char *path)
 		tmp_path = ft_strdup(return_env_content(v->env, "HOME"));
 	else if (path[0] == '~')
 		tmp_path = ft_strjoin(return_env_content(v->env, "HOME"), path + 1);
-	else if (ft_strcmp(path, "-"))
-		tmp_path = ft_strdup(return_env_content(v->env, "OLDPWD"));
 	else
 		tmp_path = ft_strdup(path);
 	ret = chdir(tmp_path);

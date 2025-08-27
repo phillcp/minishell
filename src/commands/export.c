@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 16:33:04 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:13:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ static int	find_char(char *s1, char c)
 	while (s1[x] && s1[x] != c)
 		x++;
 	return (x);
+}
+
+void	free_set(t_big *v, char **content, t_dl_list *head)
+{
+	free(content[0]);
+	free(content[1]);
+	v->env = head;
+	v->exit_status = 0;
 }
 
 int	ft_export(t_big *v, char **argv)
@@ -50,7 +58,6 @@ int	ft_export(t_big *v, char **argv)
 		temp = ft_lstnew_dl(content);
 		ft_lstadd_back_dl(&v->env, temp);
 	}
-	v->env = head;
-	v->exit_status = 0;
+	free_set(v, content, head);
 	return (1);
 }
