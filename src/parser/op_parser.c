@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 21:20:53 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:08:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	output(char *str, t_cmd *cmd, int append)
 
 int	parse_op_cmd2(char *cur, t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	if (!ft_strncmp(cur, "<<", 2))
 		i = input(cur + 2, cmd, 1);

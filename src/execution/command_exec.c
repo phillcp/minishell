@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:26:02 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:06:29 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,11 @@ void	pipe_loop(t_big *v, t_tree *t, int i)
 		t_temp = t->leaves[i];
 		cmd = (t_cmd *)t_temp->content;
 		v->hdoc_counter += 10;
-		if (setup_pipe(pipefd) == -1)
-			return ;
 		if (i == t->lcount - 1)
 			v->last_pipe = 1;
+		if (!v->last_pipe)
+			if (setup_pipe(pipefd) == -1)
+				return ;
 		pid = fork();
 		v->pid_lst[v->pid_counter++] = pid;
 		if (pid == 0)
