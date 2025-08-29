@@ -1,460 +1,112 @@
-################################################################################
-# Makefile
-################################################################################
+NAME	=	libft.a
+CC		=	@cc
+AR		=	@ar rcs
+CFLAGS	=	-Wall -Wextra -Werror -MMD -MP #-g
+
+BIN_DIR	=	bin/
+SRC_DIR	=	src/
+INC_DIR	=	inc/
+OBJ_DIR	=	obj/
+DEP_DIR	=	dep/
+
+SRC 	=	gnl/get_next_line.c \
+			lib/ft_abs.c \
+			lib/ft_atoi.c \
+			lib/ft_bzero.c \
+			lib/ft_calloc.c \
+			lib/ft_char_to_str.c \
+			lib/ft_dl_list.c \
+			lib/ft_dl_list2.c \
+			lib/ft_free.c \
+			lib/ft_isalnum.c \
+			lib/ft_isalpha.c \
+			lib/ft_isascii.c \
+			lib/ft_isblank.c \
+			lib/ft_isdigit.c \
+			lib/ft_islower.c \
+			lib/ft_isprint.c \
+			lib/ft_isspace.c \
+			lib/ft_isstrdigit.c \
+			lib/ft_isupper.c \
+			lib/ft_itoa.c \
+			lib/ft_lstadd_back.c \
+			lib/ft_lstadd_front.c \
+			lib/ft_lstclear.c \
+			lib/ft_lstdelone.c \
+			lib/ft_lstiter.c \
+			lib/ft_lstlast.c \
+			lib/ft_lstmap.c \
+			lib/ft_lstnew.c \
+			lib/ft_lstsize.c \
+			lib/ft_memccpy.c \
+			lib/ft_memchr.c \
+			lib/ft_memcmp.c \
+			lib/ft_memcpy.c \
+			lib/ft_memmove.c \
+			lib/ft_memset.c \
+			lib/ft_putchar_fd.c \
+			lib/ft_putendl_fd.c \
+			lib/ft_putnbr_fd.c \
+			lib/ft_putstr_fd.c \
+			lib/ft_realloc.c \
+			lib/ft_split.c \
+			lib/ft_strcat_char.c \
+			lib/ft_strchr.c \
+			lib/ft_strcmp.c \
+			lib/ft_strdup.c \
+			lib/ft_strichr.c \
+			lib/ft_strjoin.c \
+			lib/ft_strlcat.c \
+			lib/ft_strlcpy.c \
+			lib/ft_strlen.c \
+			lib/ft_strmapi.c \
+			lib/ft_strncmp.c \
+			lib/ft_strnstr.c \
+			lib/ft_strrchr.c \
+			lib/ft_strstr.c \
+			lib/ft_strtrim.c \
+			lib/ft_substr.c \
+			lib/ft_tolower.c \
+			lib/ft_toupper.c \
+			lib/ft_tree.c \
+			lib/ft_uitoa.c
+SRCS	= $(addprefix $(SRC_DIR), $(SRC))
+OBJS	= $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%,$(SRCS:.c=.o))
+DEPS	= $(patsubst $(SRC_DIR)%, $(DEP_DIR)%,$(SRCS:.c=.d))
+
+INCS	= -I$(INC_DIR)
+
+RESET	= \033[0m
+BOLD	= \033[1m
+RED		= \033[31m
+GREEN	= \033[32m
+YELLOW	= \033[33m
+
+
+all: $(BIN_DIR)$(NAME)
+
+$(OBJ_DIR) $(DEP_DIR) $(BIN_DIR):
+	@mkdir -p $@
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@) $(dir $(DEP_DIR)$*.d)
+	$(CC) $(CFLAGS) ${INCS} -c $< -o $@ -MF $(DEP_DIR)$*.d || { echo "$(RED)Failed to create lib obj/dep$(RESET)"; exit 1; }
+
+$(BIN_DIR)$(NAME): $(OBJS) | $(BIN_DIR)
+	@echo "$(BOLD)$(YELLOW)Creating library$(RESET)"
+	$(AR) $@ $(OBJS) || { echo "$(RED)Failed to create lib$(RESET)"; exit 1; }
+	@echo "$(BOLD)$(GREEN)Library compiled succesfully$(RESET)"
+
+clean:
+	@echo "$(BOLD)$(YELLOW)Deleting lib objs and deps$(RESET)"
+	@rm -rf $(OBJ_DIR) $(DEP_DIR)
+	@echo "$(BOLD)$(GREEN)Completed lib clean$(RESET)"
 
-# Makefile by fletcher97
-# Version: 2.4
-# Repo: www.github.com/fletcher97/utils
+fclean: clean	
+	@rm -rf $(NAME)
 
-# v2.4: Added PEDANTIC variable on configs section. If set to true a lot of
-# warning flags will be added to use while compiling. By default this feature is
-# turned on. Setting the variable to anything else will disable extra warnings.
-# Turning it off will still compile with -Wall -Wextra -Werror.
-#
-# A LANG variable was aslo added to to specify what language the program is
-# using so as to be able to detect the extentions of the files (not implemented)
-# and enable more warnings.
+re: fclean all
 
-# v2.3: A rule to check if a program can be compiled was added in other to be
-# used for git hooks. A folder with hooks can be found in the same repository
-# this makefile came from.
-
-# As of version 2.2 this Makefile expects an asan.c file to be present in the
-# asan folder inside the SRC_ROOT directory. A copy of the file is provided
-# with the Makefile. Also it now uses clang instead of gcc.
-
-# This makefile can be copied to a directory and it will generate the file
-# structure and initialize a git repository with the .init rule. Any variables
-# and rules for the specific project can be added in the appropriate section.
-
-# By default this makefile assumes that libft, 42's student made library, a copy
-# of which can be obtained by cloning https://github.com/fletcher97/libft.git,
-# is being used. It can be removed by simply commenting any reference to it on
-# the library section.
-
-################################################################################
-# Project Variables
-################################################################################
-
-# Name of a single binary. Add as many variables as required by the project
-NAME1 := libft.a
-
-# The names of all the binaries. Add aditional variables created above separated
-# by space.
-NAMES := ${NAME1}
-
-AR = ar rcs
-
-################################################################################
-# Configs
-################################################################################
-
-# Verbose levels
-# 0: Make will be totaly silenced
-# 1: Make will print echos and printf
-# 2: Make will not be silenced but target commands will not be printed
-# 3: Make will print each command
-# 4: Make will print all debug info
-#
-# If no value is specified or an incorrect value is given make will print each
-# command like if VERBOSE was set to 3.
-VERBOSE := 1
-
-# Version 2.1 and above of this makefile can generate targets to use other
-# makefiles as dependencies. This feature will execute the rule of same name in
-# an other makefile. This can be usefull in many situation but also a hinderence
-# in others. If for example you just want to clean the root directory the clean
-# rule will be executed in any other makefile specified. You can deactivate the
-# creation of these targets by setting the bellow variable to 0.
-# CREATE_LIB_TARGETS := 0
-
-# Pedantic allows for extra warning flags to be used while compiling. If set to
-# true these flags are applied. If set to anything else the flags will not be
-# used. By default it's turned on.
-PEDANTIC := true
-
-# Specify the language use by your program. This will allow to detect file
-# extentions automatically (not implemented). It also allows fo warnings to be
-# activated/deactivated based on the language used.
-LANG := C
-
-################################################################################
-# Compiler & Flags
-################################################################################
-
-# Compiler
-CC := cc
-
-# Compiler flags
-CFLAGS := -Wall -Wextra -Werror
-
-# Pedantic flags
-ifeq (${PEDANTIC},true)
-	CFLAGS += -Wpedantic -Werror=pedantic -pedantic-errors -Wcast-align
-	CFLAGS += -Wdisabled-optimization -Wformat=2 -Wuninitialized
-	CFLAGS += -Winit-self -Wmissing-include-dirs -Wredundant-decls -Wshadow
-	CFLAGS += -Wstrict-overflow=5 -Wundef -fdiagnostics-show-option
-	CFLAGS += -fstack-protector-all -fstack-clash-protection
-	ifeq (${CC},gcc)
-		CFLAGS += -Wformat-signedness -Wformat-truncation=2 -Wformat-overflow=2
-		CFLAGS += -Wlogical-op -Wstringop-overflow=4
-	endif
-	ifeq (${LANG},C++)
-		CFLAGS += -Wctor-dtor-privacy -Wold-style-cast -Woverloaded-virtual
-		CFLAGS += -Wsign-promo
-		ifeq (${CC},gcc)
-			CFLAGS += -Wstrict-null-sentinel -Wnoexcept
-		endif
-	endif
-endif
-
-# Generic debug flags
-DFLAGS := -g
-
-# Address sanitizing flags
-ASAN := -fsanitize=address -fsanitize-recover=address
-ASAN += -fno-omit-frame-pointer -fno-common
-ASAN += -fsanitize=pointer-subtract -fsanitize=pointer-compare
-# Technicaly UBSan but works with ASan
-ASAN += -fsanitize=undefined
-# Technicaly LSan but works with ASan
-ASAN += -fsanitize=leak
-# Thread sanitizing flags
-TSAN := -fsanitize=thread
-# Memory sanitizing flags
-MSAN := -fsanitize=memory -fsanitize-memory-track-origins
-
-################################################################################
-# Root Folders
-################################################################################
-
-BIN_ROOT := bin/
-DEP_ROOT := dep/
-INC_ROOT := inc/
-LIB_ROOT := lib/
-OBJ_ROOT := obj/
-SRC_ROOT := src/
-
-################################################################################
-# Libraries
-################################################################################
-
-# Libft
-# LIBFT_ROOT := ${LIB_ROOT}libft/
-# LIBFT_INC := ${LIBFT_ROOT}inc/
-# LIBFT := ${LIBFT_ROOT}bin/libft.a
-
-# INC_DIRS += ${LIBFT_INC}
-# LIBS += -L${LIBFT_ROOT}bin -lft
-
-# Libraries for which to create default targets. All libraries in this list will
-# have targets created autimatically. The targets that are created are set in
-# DEFAULT_LIB_RULES. The targets will have to format <library root>//<target>
-# and it will invoke make as follows:
-# `make -C <library root> <rule>`
-# DEFAULT_LIBS := ${LIBFT_ROOT}
-
-# Default targets to create for libraries specified in DEFAULT_LIBS. This is a
-# small list of common targets in most makefiles.
-# DEFAULT_LIB_RULES := all clean re
-
-# All projects with a copy of this makefile v2.1 and up ate garanteed to work
-# with these targets. If you wish to not use them just comment the lines you
-# don't want.
-# DEFAULT_LIB_RULES += fclean clean_all clean_dep
-# DEFAULT_LIB_RULES += debug debug_re debug_asan debug_asan_re
-
-# All projects with a copy of this makefile v2.2 and up ate garanteed to work
-# with these targets. If you wish to not use them just comment the lines you
-# don't want.
-# DEFAULT_LIB_RULES += debug_tsan debug_tsan_re debug_msan debug_msan_re
-
-################################################################################
-# Content Folders
-################################################################################
-
-# Lists of ':' separated folders inside SRC_ROOT containing source files. Each
-# folder needs to end with a '/'. The path to the folders is relative to
-# SRC_ROOTIf SRC_ROOT contains files './' needs to be in the list. Each list is
-# separated by a space or by going to a new line and adding onto the var.
-# Exemple:
-# DIRS := folder1/:folder2/
-# DIRS += folder1/:folder3/:folder4/
-# DIRS := lib/:gnl/
-
-# SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
-# SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
-
-# SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
-# OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
-# DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
-
-# List of folders with header files.Each folder needs to end with a '/'. The
-# path to the folders is relative to the root of the makefile. Library includes
-# can be specified here.
-INC_DIRS += ${INC_ROOT}
-
-################################################################################
-# Files
-################################################################################
-
-SRCS_LIST = src/lib/ft_lstmap.c:src/lib/ft_realloc.c:src/lib/ft_strlcpy.c:src/lib/ft_memset.c:src/lib/ft_lstlast.c:src/lib/ft_strnstr.c:src/lib/ft_isspace.c:src/lib/ft_lstdelone.c:src/lib/ft_isdigit.c:src/lib/ft_strlen.c:src/lib/ft_memcmp.c:src/lib/ft_lstsize.c:src/lib/ft_itoa.c:src/lib/ft_memcpy.c:src/lib/ft_isalpha.c:src/lib/ft_abs.c:src/lib/ft_uitoa.c:src/lib/ft_islower.c:src/lib/ft_calloc.c:src/lib/ft_lstiter.c:src/lib/ft_strmapi.c:src/lib/ft_putendl_fd.c:src/lib/ft_substr.c:src/lib/ft_lstadd_back.c:src/lib/ft_putnbr_fd.c:src/lib/ft_split.c:src/lib/ft_char_to_str.c:src/lib/ft_strtrim.c:src/lib/ft_lstnew.c:src/lib/ft_atoi.c:src/lib/ft_putchar_fd.c:src/lib/ft_strcat_char.c:src/lib/ft_tree.c:src/lib/ft_strstr.c:src/lib/ft_memccpy.c:src/lib/ft_putstr_fd.c:src/lib/ft_dl_list.c:src/lib/ft_isascii.c:src/lib/ft_isprint.c:src/lib/ft_bzero.c:src/lib/ft_toupper.c:src/lib/ft_dl_list2.c:src/lib/ft_strlcat.c:src/lib/ft_strchr.c:src/lib/ft_memchr.c:src/lib/ft_isupper.c:src/lib/ft_memmove.c:src/lib/ft_isstrdigit.c:src/lib/ft_strdup.c:src/lib/ft_lstadd_front.c:src/lib/ft_lstclear.c:src/lib/ft_strjoin.c:src/lib/ft_strcmp.c:src/lib/ft_strrchr.c:src/lib/ft_isalnum.c:src/lib/ft_isblank.c:src/lib/ft_tolower.c:src/lib/ft_free.c:src/lib/ft_strichr.c:src/lib/ft_strncmp.c:src/gnl/get_next_line.c
-OBJS_LIST = $(subst ${SRC_ROOT},${OBJ_ROOT},$(subst .c,.o,${SRCS_LIST}))
-
-SRCS = src/lib/ft_lstmap.c src/lib/ft_realloc.c src/lib/ft_strlcpy.c src/lib/ft_memset.c src/lib/ft_lstlast.c src/lib/ft_strnstr.c src/lib/ft_isspace.c src/lib/ft_lstdelone.c src/lib/ft_isdigit.c src/lib/ft_strlen.c src/lib/ft_memcmp.c src/lib/ft_lstsize.c src/lib/ft_itoa.c src/lib/ft_memcpy.c src/lib/ft_isalpha.c src/lib/ft_abs.c src/lib/ft_uitoa.c src/lib/ft_islower.c src/lib/ft_calloc.c src/lib/ft_lstiter.c src/lib/ft_strmapi.c src/lib/ft_putendl_fd.c src/lib/ft_substr.c src/lib/ft_lstadd_back.c src/lib/ft_putnbr_fd.c src/lib/ft_split.c src/lib/ft_char_to_str.c src/lib/ft_strtrim.c src/lib/ft_lstnew.c src/lib/ft_atoi.c src/lib/ft_putchar_fd.c src/lib/ft_strcat_char.c src/lib/ft_tree.c src/lib/ft_strstr.c src/lib/ft_memccpy.c src/lib/ft_putstr_fd.c src/lib/ft_dl_list.c src/lib/ft_isascii.c src/lib/ft_isprint.c src/lib/ft_bzero.c src/lib/ft_toupper.c src/lib/ft_dl_list2.c src/lib/ft_strlcat.c src/lib/ft_strchr.c src/lib/ft_memchr.c src/lib/ft_isupper.c src/lib/ft_memmove.c src/lib/ft_isstrdigit.c src/lib/ft_strdup.c src/lib/ft_lstadd_front.c src/lib/ft_lstclear.c src/lib/ft_strjoin.c src/lib/ft_strcmp.c src/lib/ft_strrchr.c src/lib/ft_isalnum.c src/lib/ft_isblank.c src/lib/ft_tolower.c src/lib/ft_free.c src/lib/ft_strichr.c src/lib/ft_strncmp.c src/gnl/get_next_line.c
-OBJS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRCS:.c=.o})
-DEPS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRCS:.c=.d})
-
-INCS := ${addprefix -I,${INC_DIRS}}
-
-BINS := ${addprefix ${BIN_ROOT},${NAMES}}
-
-################################################################################
-# Conditions
-################################################################################
-
-ifeq ($(shell uname),Linux)
-	SED := sed -i.tmp --expression
-else ifeq ($(shell uname),Darwin)
-	SED := sed -i.tmp
-endif
-
-ifeq ($(VERBOSE),0)
-	MAKEFLAGS += --silent
-	BLOCK := &>/dev/null
-else ifeq ($(VERBOSE),1)
-	MAKEFLAGS += --silent
-else ifeq ($(VERBOSE),2)
-	AT := @
-else ifeq ($(VERBOSE),4)
-	MAKEFLAGS += --debug=v
-endif
-
-# ifeq (${CREATE_LIB_TARGETS},0)
-# 	undefine DEFAULT_LIBS
-# endif
-
-################################################################################
-# VPATHS
-################################################################################
-
-vpath %.o $(OBJ_ROOT)
-vpath %.h $(INC_ROOT)
-vpath %.c $(SRC_DIRS)
-vpath %.d $(DEP_DIRS)
-
-################################################################################
-# Project Target
-################################################################################
-
-all: ${BINS}
-
-.SECONDEXPANSION:
-${BIN_ROOT}${NAME1}: $$(call get_files,$${@F},$${OBJS_LIST})
-	${AT}printf "\033[33m[CREATING ${@F}]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${@D} ${BLOCK}
-	${AT}${AR} $@ $^ ${BLOCK}
-
-################################################################################
-# Clean Targets
-################################################################################
-
-clean: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
-	${AT}printf "\033[38;5;1m[REMOVING OBJECTS]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
-	${AT}find ${OBJ_ROOT} -type f -name "*.o" -delete ${BLOCK}
-
-fclean: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
-	${AT}printf "\033[38;5;1m[REMOVING OBJECTS]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
-	${AT}find ${OBJ_ROOT} -type f -name "*.o" -delete ${BLOCK}
-	${AT}printf "\033[38;5;1m[REMOVING BINARIES]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${BIN_ROOT} ${BLOCK}
-	${AT}find ${BIN_ROOT} -type f\
-		$(addprefix -name ,${NAMES}) -delete ${BLOCK}
-
-clean_dep: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
-	${AT}printf "\033[38;5;1m[REMOVING DEPENDENCIES]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${DEP_ROOT} ${BLOCK}
-	${AT}find ${DEP_ROOT} -type f -name "*.d" -delete ${BLOCK}
-
-clean_all: fclean clean_dep
-	rm -rf bin
-	rm -rf dep
-	rm -rf obj
-
-re: clean_all all
-
-################################################################################
-# Debug Targets
-################################################################################
-
-debug: CFLAGS += ${DFLAGS}
-debug: $$(call get_lib_target,$${DEFAULT_LIBS},$$@) all
-
-debug_asan: CFLAGS += ${DFLAGS} ${ASAN}
-debug_asan: $$(call get_lib_target,$${DEFAULT_LIBS},$$@) all
-
-debug_tsan: CFLAGS += ${DFLAGS} ${TSAN}
-debug_tsan: $$(call get_lib_target,$${DEFAULT_LIBS},$$@) all
-
-debug_msan: CFLAGS += ${DFLAGS} ${MSAN}
-debug_msan: $$(call get_lib_target,$${DEFAULT_LIBS},$$@) all
-
-debug_re: fclean debug
-
-debug_asan_re: fclean debug_asan
-
-debug_tsan_re: fclean debug_tsan
-
-debug_msan_re: fclean debug_msan
-
-################################################################################
-# Utility Targets
-################################################################################
-
-.init:
-	${AT}printf "\033[33m[CREATING FOLDER STRUCTURE]\033[0m\n" ${BLOCK}
-	${AT}mkdir -p ${BIN_ROOT} ${BLOCK}
-	${AT}mkdir -p ${DEP_ROOT} ${BLOCK}
-	${AT}mkdir -p ${INC_ROOT} ${BLOCK}
-	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
-	${AT}mkdir -p ${SRC_ROOT} ${BLOCK}
-	${AT}printf "\033[33m[INITIALIZING GIT REPOSITORY]\033[0m\n" ${BLOCK}
-	${AT}git init ${BLOCK}
-	${AT}echo "*.o\n*.d\n.vscode\na.out\n.DS_Store\nbin/\n*.ignore"\
-		> .gitignore ${BLOCK}
-	${AT}date > $@ ${BLOCK}
-	${AT}printf "\033[33m[CREATING FIRST COMMIT]\033[0m\n" ${BLOCK}
-	${AT}git add .gitignore ${BLOCK}
-	${AT}git add $@ ${BLOCK}
-	${AT}git add Makefile ${BLOCK}
-	${AT}git commit -m "init" ${BLOCK}
-
-# Meta target to force a target to be executed
-.FORCE: ;
-
-# Print a specifique variable
-print-%: ; @echo $*=$($*)
-
-# List all the targets in alphabetical order
-targets:
-	${AT}${MAKE} LC_ALL=C -pRrq -f ${CURRENT_FILE} : 2>/dev/null\
-		| awk -v RS= -F: '/^# File/,/^# files hash-table stats/\
-			{if ($$1 !~ "^[#]") {print $$1}}\
-			{if ($$1 ~ "# makefile") {print $$2}}'\
-		| sort
-
-compile-test: ${addprefix compile-test/,${NAMES}}
-
-################################################################################
-# .PHONY
-################################################################################
-
-# Phony clean targets
-.PHONY: clean fclean clean_dep clean_all
-
-# Phony debug targets
-.PHONY: debug debug_re debug_asan debug_asan_re debug_tsan debug_tsan_re
-
-# Phony utility targets
-.PHONY: targets .FORCE compile-test
-
-# Phony execution targets
-.PHONY: re all
-
-################################################################################
-# Constantes
-################################################################################
-
-NULL =
-SPACE = ${NULL} #
-CURRENT_FILE = ${MAKEFILE_LIST}
-
-################################################################################
-# Functions
-################################################################################
-
-# Get the index of a given word in a list
-_index = $(if $(findstring $1,$2),$(call _index,$1,\
-	$(wordlist 2,$(words $2),$2),x $3),$3)
-index = $(words $(call _index,$1,$2))
-
-# Get value at the same index
-lookup = $(word $(call index,$1,$2),$3)
-
-# Remove duplicates
-rmdup = $(if $1,$(firstword $1) $(call rmdup,$(filter-out $(firstword $1),$1)))
-
-# Get files for a specific binary
-get_files = $(subst :,${SPACE},$(call lookup,$1,${NAMES},$2))
-
-# Get default target for libs given a rule
-get_lib_target = $(foreach lib,$1,${lib}/$2)
-
-################################################################################
-# Target Templates
-################################################################################
-
-define make_bin_def
-${1}: ${2}
-endef
-
-define make_obj_def
-${1}: ${2} ${3}
-	$${AT}printf "\033[38;5;14m[OBJ]: \033[38;5;47m$$@\033[0m\n" $${BLOCK}
-	$${AT}mkdir -p $${@D} $${BLOCK}
-	$${AT}$${CC} $${CFLAGS} $${INCS} -c $$< -o $$@ $${BLOCK}
-endef
-
-define make_dep_def
-${1}: ${2}
-	$${AT}printf "\033[38;5;13m[DEP]: \033[38;5;47m$$@\033[0m\n" $${BLOCK}
-	$${AT}mkdir -p $${@D} $${BLOCK}
-	$${AT}$${CC} -MM $$< $${INCS} -MF $$@ $${BLOCK}
-	$${AT}$${SED} 's|:| $$@ :|' $$@ $${SED_END} $${BLOCK}
-	$${AT}$${SED} '1 s|^|$${@D}/|' $$@ && rm -f $$@.tmp $${BLOCK}
-	$${AT}$${SED} '1 s|^$${DEP_ROOT}|$${OBJ_ROOT}|' $$@\
-		&& rm -f $$@.tmp $${BLOCK}
-endef
-
-define make_lib_def
-${1}/${2}: .FORCE
-	make -C ${1} ${2}
-endef
-
-define make_compile_test_def
-compile-test/${1}: .FORCE
-	$${AT}printf "\033[33m[TESTING $${@F}]\033[0m\n" $${BLOCK}
-	$${AT}$${CC} $${CFLAGS} -fsyntax-only $${INCS}\
-		$$(call get_files,$${@F},$${SRCS_LIST}) $${BLOCK}
-endef
-
-################################################################################
-# Target Generator
-################################################################################
-
-ifneq (${BIN_ROOT},./)
-$(foreach bin,${BINS},$(eval\
-$(call make_bin_def,$(notdir ${bin}),${bin})))
-endif
-
-$(foreach src,${SRCS},$(eval\
-$(call make_dep_def,$(subst ${SRC_ROOT},${DEP_ROOT},${src:.c=.d}),${src})))
-
-$(foreach src,${SRCS},$(eval\
-$(call make_obj_def,$(subst ${SRC_ROOT},${OBJ_ROOT},${src:.c=.o}),\
-${src},\
-$(subst ${SRC_ROOT},${DEP_ROOT},${src:.c=.d}))))
-
-$(foreach lib,${DEFAULT_LIBS},$(foreach target,${DEFAULT_LIB_RULES},$(eval\
-$(call make_lib_def,${lib},${target}))))
-
-$(foreach name,$(NAMES),$(eval\
-$(call make_compile_test_def,${name})))
-
-################################################################################
-# Includes
-################################################################################
+.PHONY: all re clean fclean
 
 -include ${DEPS}

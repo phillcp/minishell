@@ -6,15 +6,14 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:04:02 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/29 20:52:43 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#include "readline.h"
+#include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
 
