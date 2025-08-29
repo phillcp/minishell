@@ -9,7 +9,7 @@ INC_DIR	=	inc/
 LIB_DIR	=	lib/
 OBJ_DIR	=	obj/
 DEP_DIR	=	dep/
-LIBFT_DIR = $(LIB_DIR)/libft/
+LIBFT_DIR = $(LIB_DIR)libft/
 
 SRC 	=	main.c \
 			commands/cd.c \
@@ -68,26 +68,27 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@) $(dir $(DEP_DIR)$*.d)
 	$(CC) $(CFLAGS) ${INCS} -c $< -o $@ -MF $(DEP_DIR)$*.d || { echo "$(RED)Failed to create obj/dep$(RESET)"; exit 1;}
 
-$(LIBFT):
-	@echo "$(BOLD)$(YELLOW)Building libft$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR) all
-
-$(BIN_DIR)$(NAME): $(OBJS) $(LIBFT) | $(BIN_DIR)
+$(BIN_DIR)$(NAME): $(OBJS) libft | $(BIN_DIR)
 	@echo "$(BOLD)$(YELLOW)Creating program$(RESET)"
 	$(CC) $(CFLAGS) ${INCS} $(OBJS) $(LIBFT) -o $@ $(RDLINE_FLAG) || { echo "$(RED)Failed to create program$(RESET)"; exit 1; }
 	@echo "$(BOLD)$(GREEN)Program compiled succesfully$(RESET)"
 
+libft:
+	@echo "$(BOLD)$(YELLOW)Building libft$(RESET)"
+	@$(MAKE) -s -C $(LIBFT_DIR) all
+
 clean:
-	@echo "$(BOLD)$(YELLOW)Deleting objs and deps$(RESET)"
+	@echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
-	@echo "$(BOLD)$(GREEN)Completed clean$(RESET)"
+	@echo "$(BOLD)$(GREEN)Clean$(RESET)"
 
-fclean: clean	
+fclean: clean
 	@rm -rf $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
 
+clean_all: fclean
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
 re: fclean all
 
-.PHONY: all re clean fclean
+.PHONY: all re clean fclean libft
 
 -include ${DEPS}

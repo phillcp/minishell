@@ -93,14 +93,13 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) ${INCS} -c $< -o $@ -MF $(DEP_DIR)$*.d || { echo "$(RED)Failed to create lib obj/dep$(RESET)"; exit 1; }
 
 $(BIN_DIR)$(NAME): $(OBJS) | $(BIN_DIR)
-	@echo "$(BOLD)$(YELLOW)Creating library$(RESET)"
 	$(AR) $@ $(OBJS) || { echo "$(RED)Failed to create lib$(RESET)"; exit 1; }
 	@echo "$(BOLD)$(GREEN)Library compiled succesfully$(RESET)"
 
 clean:
-	@echo "$(BOLD)$(YELLOW)Deleting lib objs and deps$(RESET)"
+	@echo "$(BOLD)$(YELLOW)Cleaning lib$(RESET)"
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
-	@echo "$(BOLD)$(GREEN)Completed lib clean$(RESET)"
+	@echo "$(BOLD)$(GREEN)Lib clean$(RESET)"
 
 fclean: clean	
 	@rm -rf $(NAME)
