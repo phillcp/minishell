@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/26 17:06:50 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/29 22:54:37 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-
 #include "libft.h"
-
 #include "minishell.h"
 #include "utilities.h"
 
-//The Print Env Content prints the content of the provided env variable. It will
-//also free the provided "name" string if we provide the char 'y' on the
-//free_name param.
 void	print_env_content(t_dl_list *lst, char *name, char free_name)
 {
 	char	*content;
@@ -37,8 +32,6 @@ void	print_env_content(t_dl_list *lst, char *name, char free_name)
 		ft_free(name);
 }
 
-//The Return Env Content find the inputed variable name on the program internal
-//environmental dual linked list and returns its content if found.
 char	*return_env_content(t_dl_list *lst, char *name)
 {
 	while (lst)
@@ -52,9 +45,6 @@ char	*return_env_content(t_dl_list *lst, char *name)
 	return (lst->content);
 }
 
-//The Get Name function returns the content of a string that is found before
-//the provided char is found. In this case, is used to find the name of the
-//variable before it find an equal sign ('=').
 char	*get_name(char *str, char c)
 {
 	char	*name;
@@ -79,8 +69,6 @@ char	*get_name(char *str, char c)
 	return (name);
 }
 
-//The Get Env function will make a copy of the system environmental list and it.
-//The return is as dual linked list. Check Minishell header for the list struct.
 t_dl_list	*get_env(t_big *v, char **env)
 {
 	t_dl_list	*temp;
@@ -103,10 +91,6 @@ t_dl_list	*get_env(t_big *v, char **env)
 	return (v->env);
 }
 
-//The Check Env names will replace the content of the provided env variable
-//'name; if found on the internal environmental list with the provided
-//string 'content'.
-//free(v->env->content);
 int	check_env_names(t_big *v, char *name, char *content)
 {
 	t_dl_list	*head;

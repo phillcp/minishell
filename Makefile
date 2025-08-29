@@ -1,7 +1,7 @@
 NAME	=	minishell
 CC		=	@cc
 AR		=	@ar rcs
-CFLAGS	=	-Wall -Wextra -Werror -MMD -MP #-g
+CFLAGS	=	-Wall -Wextra -Werror -MMD -MP -g
 
 BIN_DIR	=	bin/
 SRC_DIR	=	src/
@@ -61,21 +61,23 @@ YELLOW	= \033[33m
 
 all: $(BIN_DIR)$(NAME)
 
-$(OBJ_DIR) $(DEP_DIR) $(BIN_DIR):
+$(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@) $(dir $(DEP_DIR)$*.d)
 	$(CC) $(CFLAGS) ${INCS} -c $< -o $@ -MF $(DEP_DIR)$*.d || { echo "$(RED)Failed to create obj/dep$(RESET)"; exit 1;}
+	@echo "$(BOLD)$(YELLOW)File $< compiled$(RESET)"
 
-$(BIN_DIR)$(NAME): $(OBJS) libft | $(BIN_DIR)
-	@echo "$(BOLD)$(YELLOW)Creating program$(RESET)"
-	$(CC) $(CFLAGS) ${INCS} $(OBJS) $(LIBFT) -o $@ $(RDLINE_FLAG) || { echo "$(RED)Failed to create program$(RESET)"; exit 1; }
-	@echo "$(BOLD)$(GREEN)Program compiled succesfully$(RESET)"
-
-libft:
+$(LIBFT):
 	@echo "$(BOLD)$(YELLOW)Building libft$(RESET)"
 	@$(MAKE) -s -C $(LIBFT_DIR) all
+
+$(BIN_DIR)$(NAME): $(OBJS) $(LIBFT)
+	@echo "$(BOLD)$(YELLOW)Creating program$(RESET)"
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) ${INCS} $(OBJS) $(LIBFT) -o $@ $(RDLINE_FLAG) || { echo "$(RED)Failed to create program$(RESET)"; exit 1; }
+	@echo "$(BOLD)$(GREEN)Program compiled succesfully$(RESET)"
 
 clean:
 	@echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"
@@ -83,12 +85,11 @@ clean:
 	@echo "$(BOLD)$(GREEN)Clean$(RESET)"
 
 fclean: clean
-	@rm -rf $(NAME)
-
-clean_all: fclean
+	@rm -rf $(BIN_DIR)
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
+	
 re: fclean all
 
-.PHONY: all re clean fclean libft
+.PHONY: all re clean fclean
 
 -include ${DEPS}

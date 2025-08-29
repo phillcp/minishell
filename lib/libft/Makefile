@@ -102,7 +102,7 @@ clean:
 	@echo "$(BOLD)$(GREEN)Lib clean$(RESET)"
 
 fclean: clean	
-	@rm -rf $(NAME)
+	@rm -rf $(BIN_DIR)
 
 re: fclean all
 

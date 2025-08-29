@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 14:40:32 by fporto            #+#    #+#             */
-/*   Updated: 2025/08/14 16:43:34 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/29 22:54:33 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <string.h>
-
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -46,10 +45,6 @@ typedef struct s_dl_list
 	struct s_dl_list	*next;
 }						t_dl_list;
 
-/*
-*	double_linked_list
-*/
-
 t_dl_list		*ft_lstnew_dl(char **content);
 void			ft_lstadd_back_dl(t_dl_list **lst, t_dl_list *new);
 t_dl_list		*ft_lstlast_dl(t_dl_list *lst);
@@ -59,14 +54,9 @@ void			ft_lstprint(t_dl_list *lst, char type);
 void			ft_lstnode_print(t_dl_list *lst, char *name);
 void			ft_lstnode_print_dl(t_dl_list *lst);
 t_dl_list		*ft_lstdup_dl(t_dl_list *lst);
-
-/*
-*	tree
-*/
 t_tree			*ft_treenew(void *content);
 int				ft_treeadd(t_tree *tree, void *content);
 int				ft_treeclear(t_tree *t, void (*del)(void *));
-
 int				ft_atoi(const char *s);
 void			ft_bzero(void *s, size_t n);
 void			*ft_calloc(size_t nmemb, size_t size);
@@ -97,7 +87,6 @@ int				ft_strichr(const char *str, const char c);
 char			*ft_strstr(const char *haystack, const char *needle);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
-
 char			*ft_itoa(long n);
 char			*ft_uitoa(unsigned int n);
 char			**ft_split(char const *s, char c);
@@ -105,12 +94,10 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strtrim(char const *s1, char const *set);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
-
 void			ft_putchar_fd(char c, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
-
 void			ft_lstadd_front(t_list **lst, t_list *new);
 void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstclear(t_list **lst, void (*del)(void *));
@@ -121,7 +108,6 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), \
 void (*del)(void *));
 t_list			*ft_lstnew(void *content);
 int				ft_lstsize(t_list *lst);
-
 int				ft_abs(int n);
 char			*ft_strcat_char(char *str, char c);
 char			*ft_char_to_str(char c);

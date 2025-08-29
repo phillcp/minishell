@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:13:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/29 22:52:25 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@ static int	find_char(char *s1, char c)
 	return (x);
 }
 
-void	free_set(t_big *v, char **content, t_dl_list *head)
+void	free_set(t_big *v, char **content)
 {
 	free(content[0]);
 	free(content[1]);
-	v->env = head;
 	v->exit_status = 0;
+}
+
+void	add_list(t_big *v, char **content)
+{
+	t_dl_list	*temp;
+
+	temp = ft_lstnew_dl(content);
+	ft_lstadd_back_dl(&v->env, temp);
 }
 
 int	ft_export(t_big *v, char **argv)
 {
 	t_dl_list	*head;
-	t_dl_list	*temp;
 	char		*content[2];
 	char		*arg;
 
@@ -53,11 +59,10 @@ int	ft_export(t_big *v, char **argv)
 	if (!find_char(arg, '='))
 		return (0);
 	content[1] = ft_substr(arg, find_char(arg, '=') + 1, ft_strlen(arg));
-	if (!check_env_names(v, content[0], content[1]))
-	{
-		temp = ft_lstnew_dl(content);
-		ft_lstadd_back_dl(&v->env, temp);
-	}
-	free_set(v, content, head);
+	if (check_env_names(v, content[0], content[1]))
+		free_set(v, content);
+	else
+		add_list(v, content);
+	v->env = head;
 	return (1);
 }

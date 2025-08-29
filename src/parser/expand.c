@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 19:37:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/29 23:12:56 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,31 +74,31 @@ static int	expand1(t_big *v, char **str, int start, t_cmd *cmd)
 	ft_free(tmp);
 	if (!big)
 		return (0);
-	*str = replace(s, big, start - 1, (i + 1) + ((s[start] & 0x80) * 16777216));
+	*str = replace(s, big, start - 1, (i + 1));
 	i = ft_abs(i - ft_strlen(big));
 	ft_free(s);
-	return (i);
+	return (i - 1);
 }
 
-static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd)
+static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd, int i)
 {
-	int	i;
+	int	j;
 
-	i = -2;
+	j = 0;
 	if (!s)
 		return (NULL);
-	while (++i && s[(++i) >> 1])
+	while (s[++i])
 	{
-		if (s[i >> 1] == '\'')
-			i ^= 1;
-		if (i & 1)
+		if (s[i] == '\'')
+			j ^= 1;
+		if (j & 1)
 			continue ;
-		if ((s[i >> 1] & 0x7F) == '$')
+		if ((s[i] & 0x7F) == '$')
 		{
-			if ((s[(i >> 1) + 1] & 0x7F) == '?')
-				i += (expand_question(v, &s, (i >> 1), 0) << 1);
+			if ((s[i + 1] & 0x7F) == '?')
+				i += (expand_question(v, &s, i, 0));
 			else
-				i += (expand1(v, &s, (i >> 1) + 1, cmd) << 1);
+				i += (expand1(v, &s, i + 1, cmd));
 		}
 	}
 	return (s);
@@ -112,7 +112,7 @@ int	expand(t_big *v, t_tree *t)
 	cmd = (t_cmd *)t->content;
 	if (cmd)
 	{
-		cmd->line = expand_cmd(v, cmd->line, cmd);
+		cmd->line = expand_cmd(v, cmd->line, cmd, 0);
 		if (!cmd->line)
 			return (0);
 	}
