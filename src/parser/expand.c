@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:47:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:53:41 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*replace(char *s1, const char *s2, int pos, int len)
 	return (t1);
 }
 
-static int	expand2(char **s, int *i, t_cmd *cmd, int start)
+static int	expand2(char **s, int *i, int start)
 {
 	char	*str;
 
@@ -56,7 +56,7 @@ static int	expand2(char **s, int *i, t_cmd *cmd, int start)
 	return (1);
 }
 
-static int	expand1(t_big *v, char **str, int start, t_cmd *cmd)
+static int	expand1(t_big *v, char **str, int start)
 {
 	char	*s;
 	char	*big;
@@ -64,7 +64,7 @@ static int	expand1(t_big *v, char **str, int start, t_cmd *cmd)
 	int		i;
 
 	s = *str;
-	if (!expand2(&s, &i, cmd, start))
+	if (!expand2(&s, &i, start))
 		return (0);
 	tmp = ft_substr(s, start, i);
 	unmask_str(tmp);
@@ -78,7 +78,7 @@ static int	expand1(t_big *v, char **str, int start, t_cmd *cmd)
 	return (i - 1);
 }
 
-static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd, int i)
+static char	*expand_cmd(t_big *v, char *s, int i)
 {
 	int	j;
 
@@ -96,7 +96,7 @@ static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd, int i)
 			if ((s[i + 1] & 0x7F) == '?')
 				i += (expand_question(v, &s, i, 0));
 			else
-				i += (expand1(v, &s, i + 1, cmd));
+				i += (expand1(v, &s, i + 1));
 		}
 	}
 	return (s);
@@ -110,7 +110,7 @@ int	expand(t_big *v, t_tree *t)
 	cmd = (t_cmd *)t->content;
 	if (cmd)
 	{
-		cmd->line = expand_cmd(v, cmd->line, cmd, -1);
+		cmd->line = expand_cmd(v, cmd->line, -1);
 		if (!cmd->line)
 			return (0);
 	}

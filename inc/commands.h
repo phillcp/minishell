@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:51:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 08:46:28 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 19:15:02 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ int		ft_execve(t_big *v, char **argv, int i);
 //PWD and Exit cmd functions
 int		ft_pwd(t_big *v);
 int		ft_exit(t_big *v, char **argv);
-
-//Signal functions
-// void	get_signal(int signal);
 
 //Unset cmd functions
 void	ft_unset(t_big *v, t_dl_list *env, char **argv, int i);

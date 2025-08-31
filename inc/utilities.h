@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:36:23 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 19:54:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		cmd_selector(t_big *v, char **argv);
 int			builtin(t_big *v, t_cmd *cmd);
 int			cmd_identifier(char **argv);
 
-char		*temp_path(char *filename, char *home);
+char		*temp_path(char *filename, char *path);
 void		check_heredoc(t_big *v, t_tree *t);
 void		export_wrong(char *str);
 void		check_mask(char **pth);

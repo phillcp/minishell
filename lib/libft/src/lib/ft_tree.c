@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:12:50 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 10:33:20 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:12:07 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ int	ft_treeadd(t_tree *tree, void *content)
 		return (0);
 	tree->leaves = ft_realloc(tree->leaves, tree->lcount * sizeof(t_tree),
 			(tree->lcount + 1) * sizeof(t_tree));
+	if (!tree->leaves)
+	{
+		ft_free(new);
+		return (0);
+	}
 	tree->leaves[tree->lcount++] = new;
 	return (1);
 }

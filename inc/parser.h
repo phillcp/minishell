@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:44:06 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:21:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_cmd
 }				t_cmd;
 
 t_commands	*parse(t_big *v, const char *str);
-void		aux(const char *str, int i, char *q);
 t_commands	*assign_error(t_commands *cmd, int i);
 void		in_q_dq_assign(bool *in_q_dq, bool *skip, int *count);
 t_list		*init_list(int key, char *in_out, char c);
@@ -65,5 +64,6 @@ int			unmask_str(char *str);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 void		get_in(char *s, int *skp, int *i, char **in);
+int			validate(const char *line);
 
 #endif

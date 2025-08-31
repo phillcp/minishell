@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:31:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:48:24 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 20:10:05 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-void	aux(const char *str, int i, char *q)
-{
-	if (str[i] == '\'' && !(*q & 2))
-		*q ^= 1;
-	else if (str[i] == '\"' && !(*q & 1))
-		*q ^= 2;
-}
 
 void	in_q_dq_assign(bool *in_q_dq, bool *skip, int *count)
 {

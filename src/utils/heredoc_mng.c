@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_mng.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:21:19 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 19:37:43 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@
 #include "libft.h"
 #include "minishell.h"
 
-char	*temp_path(char *filename, char *path, char *eof_str)
+char	*temp_path(char *filename, char *path)
 {
 	char	*pth;
 
-	if (!filename || !path || !eof_str)
-	{
-		ft_free(filename);
+	if (!filename || !path)
 		return (NULL);
-	}
 	pth = ft_strjoin(path, filename);
 	return (pth);
 }
@@ -35,7 +32,9 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 	char	*input;
 	int		output;
 
-	filename = temp_path(filename, v->temp_path, eof_str);
+	if (!eof_str)
+		return (-1);
+	filename = temp_path(filename, v->temp_path);
 	if (!filename)
 		return (-1);
 	output = open(filename, 02 | 0100 | 01000, 0400 | 0200 | 040 | 04);

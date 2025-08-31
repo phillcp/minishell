@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:46:10 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 20:21:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ t_commands	*parse(t_big *v, const char *str)
 	cmd = ft_calloc(1, sizeof(t_commands));
 	if (!cmd)
 		return (cmd);
+	if (!validate(str))
+		return (assign_error(cmd, 1));
 	cmd->tree = ft_treenew(NULL);
 	cmd->line = process_quotes(ft_strdup(str), 0);
 	if (!cmd->line || !cmd->tree)

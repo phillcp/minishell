@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_spliter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:47:32 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:17:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	word_split(t_tree *t)
 	return (1);
 }
 
-static void	*newcmd(char *key, char *c)
+static void	*newcmd(char *s)
 {
 	t_cmd	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->line = c;
+	cmd->line = s;
 	return (cmd);
 }
 
@@ -65,14 +65,14 @@ int	split_cmd(t_tree *t, char *s, int i)
 	{
 		if (s[i] == '|')
 		{
-			if (!ft_treeadd(t, newcmd(s + i, ft_substr(s, j, i - j))))
+			if (!ft_treeadd(t, newcmd(ft_substr(s, j, i - j))))
 				return (-1);
 			j = ++i;
 		}
 		else
 			i++;
 	}
-	if (!ft_treeadd(t, newcmd(s + i, ft_substr(s, j, i - j))))
+	if (!ft_treeadd(t, newcmd(ft_substr(s, j, i - j))))
 		return (-1);
 	return (i);
 }
