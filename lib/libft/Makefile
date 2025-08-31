@@ -99,14 +99,14 @@ $(BIN_DIR)$(NAME): $(OBJS) | $(BIN_DIR)
 
 clean:
 	@if [ -d $(OBJ_DIR) ] || [ -d $(DEP_DIR) ]; then \
-		echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"; \
+		echo "$(BOLD)$(YELLOW)Cleaning lib$(RESET)"; \
 		rm -rf $(OBJ_DIR) $(DEP_DIR); \
-		echo "$(BOLD)$(GREEN)Clean$(RESET)"; \
+		echo "$(BOLD)$(GREEN)Lib clean$(RESET)"; \
 	else \
 		echo "$(BOLD)$(BLUE)No objs or deps to clean in lib$(RESET)"; \
 	fi
 
-fclean: clean	
+fclean: clean
 	@rm -rf $(BIN_DIR)
 
 re: fclean all
