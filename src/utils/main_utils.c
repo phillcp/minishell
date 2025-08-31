@@ -6,15 +6,14 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:37:26 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:45:00 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-
-#include "readline.h"
+#include <readline/readline.h>
 
 #include "minishell.h"
 #include "utilities.h"
@@ -60,5 +59,6 @@ void	re_init(t_big *v)
 	v->stop = 0;
 	v->and_flag = 0;
 	v->or_flag = 0;
-	v->es_f = 0;
+	v->last_pipe = 0;
+	v->empty_str = 0;
 }

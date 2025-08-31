@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:16:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:10:36 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parent_pipe(t_big *v, int *prev_fd, int *pipefd)
 	}
 }
 
-static void	wait_forks(t_big *v, int *pid_lst, int pid_counter)
+static void	wait_forks(t_big *v, int *pid_lst, int pid_counter, t_cmd *cmd)
 {
 	int	status;
 	int	sig;
@@ -79,6 +79,8 @@ static void	wait_forks(t_big *v, int *pid_lst, int pid_counter)
 		}
 		else if (WIFEXITED(status))
 			v->exit_status = WEXITSTATUS(status);
+		if (v->exit_status == 50)
+			error_output(v, 'c', cmd->cmd[pid_counter]);
 	}
 }
 
@@ -90,7 +92,6 @@ void	pipe_loop(t_big *v, t_tree *t, int i)
 	pid_t	pid;
 	int		prev_fd;
 
-	v->last_pipe = 0;
 	prev_fd = -1;
 	while (++i < t->lcount)
 	{
@@ -108,5 +109,5 @@ void	pipe_loop(t_big *v, t_tree *t, int i)
 			child_pipe(v, cmd, prev_fd, pipefd);
 		parent_pipe(v, &prev_fd, pipefd);
 	}
-	wait_forks(v, v->pid_lst, v->pid_counter);
+	wait_forks(v, v->pid_lst, v->pid_counter, cmd);
 }

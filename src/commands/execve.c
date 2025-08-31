@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:29:49 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:03:33 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_execve(t_big *v, char **argv, int i)
 
 	if (!argv[i])
 	{
-		error_output(v, 'c', argv[0]);
+		v->exit_status = 50;
 		return (0);
 	}
 	path = return_env_content(v->env, "PATH");
@@ -112,5 +112,5 @@ int	ft_execve(t_big *v, char **argv, int i)
 	path_creation_loop(v, argv, paths, argv[i]);
 	free_table(paths);
 	error_output(v, 'c', argv[0]);
-	return (0);
+	return (1);
 }

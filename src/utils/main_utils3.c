@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:40:07 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:57:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utilities.h"
 #include "minishell.h"
-#include "readline.h"
+#include <readline/readline.h>
 
 void	exit_child(t_big *v)
 {

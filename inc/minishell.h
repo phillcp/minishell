@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 15:48:21 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:44:33 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ typedef struct s_big
 	char		*input;
 	char		*heredoc;
 	char		**hdoc_files;
-	int			boola;
+	int			empty_str;
 	int			cmd_counter;
 	int			file_counter;
 	int			hdoc_counter;
 	int			pid_counter;
 	int			and_flag;
 	int			or_flag;
-	int			es_f;
 	int			pid;
 	int			*pid_lst;
 	int			stop;

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:22:51 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:10:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	struct_init(t_big *v, char **env)
 	v->exit_ccode = 0;
 	v->and_flag = 0;
 	v->or_flag = 0;
-	v->es_f = 0;
 	v->stop = 0;
 	v->fd_in = 0;
 	v->fd_out = 1;
@@ -44,6 +43,8 @@ static void	struct_init(t_big *v, char **env)
 	v->file_counter = 0;
 	v->cmd_counter = 0;
 	v->pid_counter = 0;
+	v->last_pipe = 0;
+	v->last_pipe = 0;
 }
 
 void	wait_one_pid(t_big *v, pid_t pid, char *str)
@@ -70,6 +71,8 @@ void	wait_one_pid(t_big *v, pid_t pid, char *str)
 	}
 	else if (WIFEXITED(status))
 		v->exit_status = WEXITSTATUS(status);
+	if (v->exit_status == 50)
+		error_output(v, 'c', str);
 }
 
 void	exec_single(t_big *v, t_tree *t)
@@ -141,7 +144,6 @@ int	main(int argc, char **argv, char **env)
 	while ("swag")
 	{
 		input = readline(CLR_PURPLE"Minishell:> "CLR_RST);
-		v->boola = 0;
 		if (input && ft_strlen(input) != 0)
 			input_loop(v, input);
 		else if (input)
