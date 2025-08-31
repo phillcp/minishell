@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 10:08:49 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 09:49:50 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	input(char *s, t_cmd *cmd, int heredoc)
 	i = 0;
 	l = NULL;
 	get_in(s, &skp, &i, &in);
-	l = aux3(heredoc, in);
+	l = init_list(heredoc, in, '<');
 	free(in);
 	if (!l)
 		return (-1);
@@ -34,8 +34,8 @@ static int	input(char *s, t_cmd *cmd, int heredoc)
 	else
 		ft_lstadd_back(&cmd->in.input, l);
 	cmd->in.in = l;
-	ft_memset(s - (1 + !!heredoc), ' ', skp + i + 1 + !!heredoc);
-	return (skp + i + !!heredoc);
+	ft_memset(s - (1 + heredoc), ' ', skp + i + 1 + heredoc);
+	return (skp + i + heredoc);
 }
 
 static int	output(char *str, t_cmd *cmd, int append)
@@ -53,7 +53,7 @@ static int	output(char *str, t_cmd *cmd, int append)
 	while (str[skip + i] && !ft_isspace(str[skip + i]))
 		i++;
 	out = ft_substr(str, skip, i);
-	l = aux4(append, out);
+	l = init_list(append, out, '>');
 	free(out);
 	if (!l)
 		return (-1);
@@ -62,8 +62,8 @@ static int	output(char *str, t_cmd *cmd, int append)
 	else
 		ft_lstadd_back(&cmd->in.output, l);
 	cmd->in.out = l;
-	ft_memset(str - (1 + !!append), ' ', skip + i + 1 + !!append);
-	return (skip + i + !!append);
+	ft_memset(str - (1 + append), ' ', skip + i + 1 + append);
+	return (skip + i + append);
 }
 
 int	parse_op_cmd2(char *cur, t_cmd *cmd)

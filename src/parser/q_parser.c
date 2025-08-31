@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 00:28:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:37:47 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static char	*rem_q(char *str, int count)
 	int		p2;
 
 	ret = ft_calloc(ft_strlen(str) - count + 1, 1);
+	if (!ret)
+		return (NULL);
 	p1 = -1;
 	p2 = -1;
 	while (str[++p1])
@@ -91,7 +93,7 @@ char	*process_quotes(char *str, int count)
 		if (*s == '$' && !in_q)
 			in_var = true;
 		if (ft_strchr(" \'\"|", *s))
-            in_var = false;
+			in_var = false;
 		if (*s == '$' && in_q)
 			*s = 0x80;
 		mask_char(s, in_q, in_dq, skip);

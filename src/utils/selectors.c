@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:08:19 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:26:04 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	screening_one(t_big *v, char **argv)
 
 void	cmd_selector(t_big *v, char **argv)
 {
-	if (argv[0])
+	if (argv)
 	{
 		if (ft_strcmp(argv[0], "echo"))
 			ft_echo(v, argv);

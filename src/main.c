@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 20:53:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:22:51 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ static void	input_loop(t_big *v, char *input)
 	t_commands	*cmd;
 
 	v->input = input;
-	v->last_pipe = 0;
 	add_history(input);
 	cmd = parse(v, input);
 	if (!cmd->error)

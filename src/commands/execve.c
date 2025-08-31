@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:08:14 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:29:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 #include <signal.h>
 #include "libft.h"
 
-/*
-*   Finds executable in PATH if exists ele executes command with relative path
-*/
 static char	*path_creation(t_big *v, char *path, char *cmd)
 {
 	char		*temp;
@@ -80,11 +77,6 @@ static char	**temp_env(t_big *v)
 	return (env);
 }
 
-/*
-*   The path creation loop function is mainly used to cut down lines on the
-*    execve function body. It will loop through all the possible path's found in
-*    the env "PATH" ($PATH) and try to run each of them with the inputed cmd.
-*/
 static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
 {
 	char	**env;
@@ -104,18 +96,16 @@ static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
 	return (127);
 }
 
-/*
-*   The execve function is used to execute various commands such as ls, wc, grep
-*    etc. This commands are not mandatory but will improve the user experience
-*    and they will help during the program evaluation.
-*/
 int	ft_execve(t_big *v, char **argv, int i)
 {
 	char	*path;
 	char	**paths;
 
 	if (!argv[i])
+	{
+		error_output(v, 'c', argv[0]);
 		return (0);
+	}
 	path = return_env_content(v->env, "PATH");
 	paths = ft_split((const char *)path, ':');
 	v->str = NULL;

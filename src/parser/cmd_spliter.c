@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 21:13:25 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:15:26 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,23 @@ static void	*newcmd(char *key, char *c)
 	return (cmd);
 }
 
-int	split_cmd(t_tree *t, char *c, int i)
+int	split_cmd(t_tree *t, char *s, int i)
 {
 	int	j;
 
-	j = i;
-	while (j >= 0 && c[i])
+	j = 0;
+	while (s[i])
 	{
-		if (c[i] == '|')
+		if (s[i] == '|')
 		{
-			ft_treeadd(t, newcmd(c + i, ft_substr(c, j, i - j)));
-			(j = ++i);
+			if (!ft_treeadd(t, newcmd(s + i, ft_substr(s, j, i - j))))
+				return (-1);
+			j = ++i;
 		}
 		else
 			i++;
 	}
-	if (j >= 0 && i - j > 0)
-		ft_treeadd(t, newcmd(c + i, ft_substr(c, j, i - j)));
-	if (j == -1 || !c[i])
-		return (i);
-	return (i + 1);
+	if (!ft_treeadd(t, newcmd(s + i, ft_substr(s, j, i - j))))
+		return (-1);
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 00:30:00 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:37:19 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,10 @@ typedef struct s_cmd
 
 t_commands	*parse(t_big *v, const char *str);
 void		aux(const char *str, int i, char *q);
-void		aux1(const char *str, int i, char *q, char *text);
+t_commands	*assign_error(t_commands *cmd, int i);
 void		in_q_dq_assign(bool *in_q_dq, bool *skip, int *count);
-t_list		*aux3(int heredoc, char *in);
-t_list		*aux4(int append, char *out);
-void		set_false(bool *in_q,bool *in_dq, bool *in_var, bool *skip);
+t_list		*init_list(int key, char *in_out, char c);
+void		set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip);
 char		*process_quotes(char *str, int count);
 int			split_cmd(t_tree *t, char *c, int i);
 int			parse_op(t_tree *t);
@@ -93,7 +92,6 @@ int			expand_question(t_big *v, char **str, int start, int i);
 int			unmask(t_tree *t);
 void		free_command(t_commands *cmd);
 int			unmask_str(char *str);
-t_commands	*validate(const char *str);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 void		get_in(char *s, int *skp, int *i, char **in);

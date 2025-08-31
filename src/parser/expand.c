@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 23:12:56 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:11:26 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	*expand_cmd(t_big *v, char *s, t_cmd *cmd, int i)
 	{
 		if (s[i] == '\'')
 			j ^= 1;
-		if (j & 1)
+		if (j == 1)
 			continue ;
 		if ((s[i] & 0x7F) == '$')
 		{
@@ -112,7 +112,7 @@ int	expand(t_big *v, t_tree *t)
 	cmd = (t_cmd *)t->content;
 	if (cmd)
 	{
-		cmd->line = expand_cmd(v, cmd->line, cmd, 0);
+		cmd->line = expand_cmd(v, cmd->line, cmd, -1);
 		if (!cmd->line)
 			return (0);
 	}

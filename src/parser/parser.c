@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/30 21:24:47 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:15:28 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,16 @@ t_commands	*parse(t_big *v, const char *str)
 		return (cmd);
 	cmd->tree = ft_treenew(NULL);
 	cmd->line = process_quotes(ft_strdup(str), 0);
-	if ((split_cmd(cmd->tree, cmd->line, 0) - 1) == (int)ft_strlen(cmd->line))
-		if (!cmd->error)
-			cmd->error = 10;
-	if (cmd->error)
-		return (cmd);
+	if (!cmd->line || !cmd->tree)
+		return (assign_error(cmd, 1));
+	if (split_cmd(cmd->tree, cmd->line, 0) == -1)
+		return (assign_error(cmd, 3));
 	if (!parse_op(cmd->tree))
-		cmd->error = 100;
-	if (cmd->error)
-		return (cmd);
+		return (assign_error(cmd, 4));
 	if (!expand(v, cmd->tree))
-		cmd->error = 1000;
-	if (cmd->error)
-		return (cmd);
+		return (assign_error(cmd, 5));
 	if (!word_split(cmd->tree))
-		cmd->error = 10000;
-	if (!cmd->error)
-		unmask(cmd->tree);
+		return (assign_error(cmd, 6));
+	unmask(cmd->tree);
 	return (cmd);
 }

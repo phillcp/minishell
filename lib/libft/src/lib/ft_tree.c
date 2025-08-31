@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:12:50 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/20 18:06:01 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 10:33:20 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	ft_treeclear(t_tree *t, void (*del)(void *))
 	del(t->content);
 	while (t->lcount)
 		ft_treeclear(t->leaves[--t->lcount], del);
-	free(t->leaves);
-	free(t);
+	ft_free(t->leaves);
+	ft_free(t);
 	return (1);
 }
 

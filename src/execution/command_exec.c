@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 10:06:29 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:16:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	pipe_loop(t_big *v, t_tree *t, int i)
 	pid_t	pid;
 	int		prev_fd;
 
+	v->last_pipe = 0;
 	prev_fd = -1;
 	while (++i < t->lcount)
 	{
