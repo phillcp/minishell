@@ -6,12 +6,11 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 19:35:40 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 00:28:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 #include "parser.h"
 #include "utilities.h"
 
@@ -60,47 +59,42 @@ static char	*rem_q(char *str, int count)
 	p1 = -1;
 	p2 = -1;
 	while (str[++p1])
-		if (!ft_strchr("\\\"\'", str[p1]))
+		if (!ft_strchr("\"\'", str[p1]))
 			ret[++p2] = str[p1];
 	ft_free(str);
 	return (ret);
 }
 
-/**
- * q:
- *	S : single quotes
- *	D : double quotes
- *	Q : skip escape
- *	V : inside variable
- *
- * Toogle single quotes
- * Toogle double quotes
- * Escape next char
- * Enter var
- */
-char	*proc_q(char *str, t_commands *cmd)
+static void	mask_char(char *c, bool in_q, bool in_dq, bool skip)
 {
-	char	q;
-	int		count;
-	char	*c;
+	if ((*c & 0x7F) && (in_q || in_dq) && !skip)
+		*c |= 0x80;
+}
 
-	q = 0;
-	count = 0;
-	c = str - 1;
-	while (*++c)
+char	*process_quotes(char *str, int count)
+{
+	bool	in_q;
+	bool	in_dq;
+	bool	in_var;
+	bool	skip;
+	char	*s;
+
+	set_false(&in_q, &in_dq, &in_var, &skip);
+	s = str - 1;
+	while (*++s)
 	{
-		q &= ~Q;
-		aux2(*c, &q, &count);
-		if ((*c == '$') && !(q & S))
-			q |= V;
-		if (ft_strchr(" \'\"|", *c))
-			q &= ~V;
-		if ((*c == '$') && (q & S))
-			*c = 0x80;
-		if ((*c & 0x7F) && (q & (S | D)) && !(q & Q))
-			*c |= 0x80;
+		skip = false;
+		if (*s == '\'' && !in_dq)
+			in_q_dq_assign(&in_q, &skip, &count);
+		else if (*s == '\"' && !in_q)
+			in_q_dq_assign(&in_dq, &skip, &count);
+		if (*s == '$' && !in_q)
+			in_var = true;
+		if (ft_strchr(" \'\"|", *s))
+            in_var = false;
+		if (*s == '$' && in_q)
+			*s = 0x80;
+		mask_char(s, in_q, in_dq, skip);
 	}
-	if (q & (S | D))
-		cmd->error = QUOTES_OPEN;
 	return (rem_q(str, count));
 }

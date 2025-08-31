@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:31:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 21:04:34 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 00:29:46 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,11 @@ void	aux1(const char *str, int i, char *q, char *text)
 	}
 }
 
-void	aux2(char c, char *q, int *count)
+void	in_q_dq_assign(bool *in_q_dq, bool *skip, int *count)
 {
-	if (c == '\'' && !(*q & D))
-	{
-		*q ^= S | Q;
-		*count += 1;
-	}
-	else if (c == '\"' && !(*q & S))
-	{
-		*q ^= D | Q;
-		*count += 1;
-	}
+	*in_q_dq = !(*in_q_dq);
+	*skip = true;
+	(*count)++;
 }
 
 t_list	*aux3(int heredoc, char *in)

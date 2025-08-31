@@ -81,6 +81,7 @@ BOLD	= \033[1m
 RED		= \033[31m
 GREEN	= \033[32m
 YELLOW	= \033[33m
+BLUE	= \033[34m
 
 
 all: $(BIN_DIR)$(NAME)
@@ -97,9 +98,13 @@ $(BIN_DIR)$(NAME): $(OBJS) | $(BIN_DIR)
 	@echo "$(BOLD)$(GREEN)Library compiled succesfully$(RESET)"
 
 clean:
-	@echo "$(BOLD)$(YELLOW)Cleaning lib$(RESET)"
-	@rm -rf $(OBJ_DIR) $(DEP_DIR)
-	@echo "$(BOLD)$(GREEN)Lib clean$(RESET)"
+	@if [ -d $(OBJ_DIR) ] || [ -d $(DEP_DIR) ]; then \
+		echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"; \
+		rm -rf $(OBJ_DIR) $(DEP_DIR); \
+		echo "$(BOLD)$(GREEN)Clean$(RESET)"; \
+	else \
+		echo "$(BOLD)$(BLUE)No objs or deps to clean in lib$(RESET)"; \
+	fi
 
 fclean: clean	
 	@rm -rf $(BIN_DIR)

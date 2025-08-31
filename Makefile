@@ -22,6 +22,7 @@ SRC 	=	main.c \
 			execution/command_exec.c \
 			execution/execute_cmd.c \
 			parser/aux.c \
+			parser/aux2.c \
 			parser/cmd_spliter.c \
 			parser/expand_question.c \
 			parser/expand.c \
@@ -29,7 +30,6 @@ SRC 	=	main.c \
 			parser/op_parser.c \
 			parser/parser.c \
 			parser/q_parser.c \
-			parser/validator.c \
 			utils/env_utils.c \
 			utils/export_utils.c \
 			utils/free_utils.c \
@@ -57,6 +57,7 @@ BOLD	= \033[1m
 RED		= \033[31m
 GREEN	= \033[32m
 YELLOW	= \033[33m
+BLUE	= \033[34m
 
 
 all: $(BIN_DIR)$(NAME)
@@ -80,9 +81,13 @@ $(BIN_DIR)$(NAME): $(OBJS) $(LIBFT)
 	@echo "$(BOLD)$(GREEN)Program compiled succesfully$(RESET)"
 
 clean:
-	@echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"
-	@rm -rf $(OBJ_DIR) $(DEP_DIR)
-	@echo "$(BOLD)$(GREEN)Clean$(RESET)"
+	@if [ -d $(OBJ_DIR) ] || [ -d $(DEP_DIR) ]; then \
+		echo "$(BOLD)$(YELLOW)Cleaning$(RESET)"; \
+		rm -rf $(OBJ_DIR) $(DEP_DIR); \
+		echo "$(BOLD)$(GREEN)Clean$(RESET)"; \
+	else \
+		echo "$(BOLD)$(BLUE)No objs or deps to clean$(RESET)"; \
+	fi
 
 fclean: clean
 	@rm -rf $(BIN_DIR)
