@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:47:36 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:54:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	create_hdoc_and_pid_arrays(t_big *v)
 	v->hdoc_files[i] = NULL;
 	v->pid_lst = ft_calloc(sizeof(int *), (CHILD_MAX + 1));
 	if (!v->pid_lst)
-			return (0);
+		return (0);
 	i = -1;
 	while (++i < CHILD_MAX)
 		v->pid_lst[i] = -1;
