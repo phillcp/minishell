@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 09:49:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:55:44 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,21 @@ int	parse_op_cmd2(char *cur, t_cmd *cmd)
 
 static int	parse_op_cmd(t_cmd *cmd)
 {
-	char	q;
+	bool	in_q;
+	bool	in_dq;
 	char	*cur;
 	int		i;
 
-	q = 0;
+	in_q = false;
+	in_dq = false;
 	cur = (char *) cmd->line;
 	while (*cur)
 	{
-		aux(cur, 0, &q);
-		if (q & 3)
+		if (cur == '\'' && !in_dq)
+			in_q = !in_q;
+		else if (cur == '\"' && !in_q)
+			in_dq = !in_dq;
+		if (in_q || in_dq)
 		{
 			cur++;
 			continue ;

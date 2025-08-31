@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:15:28 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:46:10 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ t_commands	*parse(t_big *v, const char *str)
 	t_commands	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_commands));
-	if (!cmd || cmd->error)
+	if (!cmd)
 		return (cmd);
 	cmd->tree = ft_treenew(NULL);
 	cmd->line = process_quotes(ft_strdup(str), 0);
 	if (!cmd->line || !cmd->tree)
-		return (assign_error(cmd, 1));
+		return (assign_error(cmd, 2));
 	if (split_cmd(cmd->tree, cmd->line, 0) == -1)
 		return (assign_error(cmd, 3));
 	if (!parse_op(cmd->tree))

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:11:26 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:47:42 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static int	expand2(char **s, int *i, t_cmd *cmd, int start)
 
 	str = *s;
 	*i = start - 1;
-	if ((str[*i + 1] & 0x7F) == '?')
-		cmd->cmd_flags |= 2;
 	if ((str[*i + 1] & 0x7F) == '?')
 		return (0);
 	while (ft_isalnum((str[++(*i)] & 0x7F)) || (str[*i] & 0x7F) == '_')

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:54 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 12:48:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:41:24 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,6 @@ void	free_list_nodes(t_dl_list *lst)
 		lst = temp;
 	}
 }
-
-// void	free_argv(void)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	x = 0;
-// 	while (g_global.argv[x] != NULL)
-// 		x++;
-// 	y = -1;
-// 	while (++y < x)
-// 	{
-// 		ft_free(g_global.argv[y]);
-// 		g_global.argv[y] = NULL;
-// 	}
-// 	ft_free(g_global.argv);
-// }
 
 void	free_dl_list(t_dl_list *lst)
 {

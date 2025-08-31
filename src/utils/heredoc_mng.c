@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 20:52:43 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:21:19 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,25 @@
 #include "libft.h"
 #include "minishell.h"
 
-//The Temp Path function is responsible to create the path for the temporary
-//files that hold the heredoc data provided by the user.
-char	*temp_path(char *filename, char *path)
+char	*temp_path(char *filename, char *path, char *eof_str)
 {
 	char	*pth;
 
-	if (!filename || !path)
+	if (!filename || !path || !eof_str)
+	{
+		ft_free(filename);
 		return (NULL);
+	}
 	pth = ft_strjoin(path, filename);
 	return (pth);
 }
 
-//The create heredoc file function is to create and save the information
-//provided by the user through input. The temp file name is going to be a
-//joint of the eof provided by the user and a global counter used for heredoc
-//requests count.
 static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 {
 	char	*input;
 	int		output;
 
-	if (!eof_str)
-		return (-1);
-	filename = temp_path(filename, v->temp_path);
+	filename = temp_path(filename, v->temp_path, eof_str);
 	if (!filename)
 		return (-1);
 	output = open(filename, 02 | 0100 | 01000, 0400 | 0200 | 040 | 04);
@@ -61,9 +56,6 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 	return (0);
 }
 
-//The Check heredoc call function will look for a heredoc call on the provided
-//cmd line. If found, it will request the creation of a temporary file that will
-//would the heredoc data.
 static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 {
 	t_list	*head;
@@ -93,9 +85,6 @@ static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 		cmd->in.heredoc = head;
 }
 
-//The Check heredoc function is to run through the command list. If cmd does not
-//point to NULL, it will send it to another function to check for an eventual
-//heredoc call in the cmd line.
 static int	check_loop(t_big *v, t_tree *t)
 {
 	t_cmd		*cmd;

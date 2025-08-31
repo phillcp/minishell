@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:31:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:36:38 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:48:24 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,12 @@ t_commands	*assign_error(t_commands *cmd, int i)
 	if (i != 0)
 		cmd->error = i;
 	return (cmd);
+}
+
+void	set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip)
+{
+	*(in_q) = false;
+	*(in_dq) = false;
+	*(in_var) = false;
+	*(skip) = false;
 }

@@ -22,7 +22,6 @@ SRC 	=	main.c \
 			execution/command_exec.c \
 			execution/execute_cmd.c \
 			parser/aux.c \
-			parser/aux2.c \
 			parser/cmd_spliter.c \
 			parser/expand_question.c \
 			parser/expand.c \
@@ -31,7 +30,6 @@ SRC 	=	main.c \
 			parser/parser.c \
 			parser/q_parser.c \
 			utils/env_utils.c \
-			utils/export_utils.c \
 			utils/free_utils.c \
 			utils/heredoc_mng.c \
 			utils/input_mng.c \

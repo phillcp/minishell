@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 12:03:33 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:17:50 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	ft_execve(t_big *v, char **argv, int i)
 	}
 	path = return_env_content(v->env, "PATH");
 	paths = ft_split((const char *)path, ':');
-	v->str = NULL;
 	path_creation_loop(v, argv, paths, argv[i]);
 	free_table(paths);
 	error_output(v, 'c', argv[0]);

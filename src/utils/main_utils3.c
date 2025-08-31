@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:57:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:56:01 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	create_hdoc_and_pid_arrays(t_big *v)
 	int	i;
 
 	i = -1;
-	v->hdoc_files = malloc(sizeof(char **) * (FD_MAX + 1));
+	v->hdoc_files = malloc(sizeof(char *) * (FD_MAX + 1));
 	while (++i < FD_MAX)
 		v->hdoc_files[i] = ft_itoa(i);
 	v->hdoc_files[i] = NULL;

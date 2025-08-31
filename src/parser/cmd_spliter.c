@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:15:26 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:47:32 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static void	*newcmd(char *key, char *c)
 	if (!cmd)
 		return (NULL);
 	cmd->line = c;
-	if (*key == '|')
-		cmd->cmd_flags |= 0x40;
 	return (cmd);
 }
 

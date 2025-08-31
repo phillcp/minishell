@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:47:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:36:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void		err_c(t_big *v, char *str);
 void		exit_child(t_big *v);
 void		exit_loop2(t_big *v);
 
-// int		env_sorted(void);
-
 int			check_env_names(t_big *v, char *name, char *content);
 void		print_env_content(t_dl_list *lst, char *name, char free_name);
 char		*return_env_content(t_dl_list *lst, char *name);
@@ -36,7 +34,6 @@ char		*get_name(char *str, char c);
 t_dl_list	*get_env(t_big *v, char **env);
 
 void		free_list_nodes(t_dl_list *lst);
-// void		free_argv(void);
 void		free_dl_list(t_dl_list *lst);
 void		delete_temp(t_big *v, char *path);
 void		free_table(char **table);
@@ -44,13 +41,11 @@ void		free_table(char **table);
 void		signal_handler(int signal);
 void		clean_processes(t_big *v);
 void		re_init(t_big *v);
-// void		check_and_or_flag(t_cmd *cmd, t_tree *t, int i);
-// void		tree_loop(t_tree *t, int i);
 void		create_hdoc_and_pid_arrays(t_big *v);
+int			save_hdoc_for_del(t_big *v, t_tree *t);
 void		exit_loop(t_big *v);
 void		save_std_fds(int *in, int *out);
 void		restore_std_fds(int in, int out);
-// int		dup_init_and_close(char type);
 
 int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
 void		file_input_instruction(t_big *v, t_cmd *cmd);

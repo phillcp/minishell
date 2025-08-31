@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:45:00 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:37:25 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,47 @@ void	signal_handler(int signal)
 	rl_redisplay();
 }
 
-/*
-*  Closes all possibly open file descriptors and
-*  kills all processes that were not naturally closed.
-*/
+static int	save_hdoc(t_big *v, t_cmd *cmd, int *j)
+{
+	t_list	*head;
+
+	if (cmd->in.heredoc)
+	{
+		head = cmd->in.heredoc;
+		while (cmd->in.heredoc)
+		{
+			ft_free(v->hdoc_files[++*(j)]);
+			v->hdoc_files[*j] = ft_strdup((char *)cmd->in.heredoc->content);
+			if (!v->hdoc_files[*j])
+			{
+				write(2, "Error: unable to save heredoc for deletion\n", 43);
+				cmd->in.heredoc = head;
+				return (0);
+			}
+			cmd->in.heredoc = cmd->in.heredoc->next;
+		}
+		cmd->in.heredoc = head;
+	}
+	return (1);
+}
+
+int	save_hdoc_for_del(t_big *v, t_tree *t)
+{
+	int		i;
+	int		j;
+	t_cmd	*cmd;
+
+	i = -1;
+	j = -1;
+	while (++i < t->lcount)
+	{
+		cmd = (t_cmd *)t->leaves[i]->content;
+		if (!save_hdoc(v, cmd, &j))
+			return (0);
+	}
+	return (1);
+}
+
 void	clean_processes(t_big *v)
 {
 	int	i;
@@ -49,8 +86,6 @@ void	clean_processes(t_big *v)
 void	re_init(t_big *v)
 {
 	clean_processes(v);
-	v->fd_in = 0;
-	v->fd_out = 1;
 	v->cmd_counter = 0;
 	v->file_counter = 0;
 	v->hdoc_counter = 0;

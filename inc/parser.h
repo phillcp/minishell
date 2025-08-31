@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:37:19 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:44:06 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ typedef struct s_big	t_big;
 # define Q 4
 # define V 8
 
-/**
- * error: Error code if parser fails
- */
 typedef struct s_commands
 {
 	int		error;
@@ -33,18 +30,6 @@ typedef struct s_commands
 	t_tree	*tree;
 }				t_commands;
 
-/**
- * in: pointer to the actual input node
- * input: Input for command if any. NULL for stdin otherwise contains path to
- *   file. If heredoc the end string is specified here
- * input_flags: Flags for input.
- *   Defaults to 0. No extract info
- *   If (input_flags & 1) heredoc used as input.
- *   If (input_flags & 2) input piped from previous cmd.
- * output: Input for command if any. NULL for stdout otherwise contains path to
- *   file.
- * output_flags: Flags for output. Defaults to 0. Set to 1 if file in append.
- */
 typedef struct s_input
 {
 	t_list	*in;
@@ -55,25 +40,10 @@ typedef struct s_input
 	t_list	*append;
 }				t_input;
 
-/**
- * cmd: Command to be executed
- * cmd_flags: flags about the command.
- *   If (cmd_flags & 0x01) at least one argument/cmd has a possible wildcard.
- *   If (cmd_flags & 0x02) at least one argument/cmd needs to expand exit code.
- *   If (cmd_flags & 0x04) cmd is to be executed before a &&
- *   If (cmd_flags & 0x08) cmd is to be executed before a ||
- *   If (cmd_flags & 0x10) cmd is at the end of a list
- *   If (cmd_flags & 0x20) cmd is to be executed before a ; therefore reseting
- *     logic.
- *   If (cmd_flags & 0x40) input piped to next command
- * args: Arguments to be passed to the command
- * in: input
- */
 typedef struct s_cmd
 {
 	char	*line;
 	char	**cmd;
-	char	cmd_flags;
 	t_input	in;
 }				t_cmd;
 

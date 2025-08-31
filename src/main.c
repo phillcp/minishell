@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 12:10:23 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:47:55 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
 #include <signal.h>
 #include <errno.h>
 
-/*
-*   Struct init function is used to initiate the stuct variable and cut down
-*    some lines in the main function body.
-*/
 static void	struct_init(t_big *v, char **env)
 {
 	v->head = malloc(sizeof(t_dl_list));
@@ -35,8 +31,6 @@ static void	struct_init(t_big *v, char **env)
 	v->and_flag = 0;
 	v->or_flag = 0;
 	v->stop = 0;
-	v->fd_in = 0;
-	v->fd_out = 1;
 	v->hdoc_counter = 0;
 	v->temp_path = ft_strdup("/tmp/");
 	create_hdoc_and_pid_arrays(v);
@@ -106,18 +100,20 @@ static void	input_loop(t_big *v, char *input)
 {
 	t_commands	*cmd;
 
-	v->input = input;
 	add_history(input);
 	cmd = parse(v, input);
-	if (!cmd->error)
+	if (cmd && !cmd->error)
 	{
 		v->cmd = cmd;
 		check_heredoc(v, cmd->tree);
-		v->hdoc_counter = 0;
-		if (cmd->tree->lcount > 1)
-			pipe_loop(v, cmd->tree, -1);
-		else
-			exec_single(v, cmd->tree);
+		if (save_hdoc_for_del(v, cmd->tree))
+		{
+			v->hdoc_counter = 0;
+			if (cmd->tree->lcount > 1)
+				pipe_loop(v, cmd->tree, -1);
+			else
+				exec_single(v, cmd->tree);
+		}
 		delete_temp(v, v->temp_path);
 	}
 	else
