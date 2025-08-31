@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:52:25 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 23:01:00 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,45 @@ void	add_list(t_big *v, char **content)
 	ft_lstadd_back_dl(&v->env, temp);
 }
 
+void	print_env_export(t_dl_list	*env)
+{
+	t_dl_list	*head;
+
+	head = env;
+	while (env)
+	{
+		printf("declare -x ");
+		printf("%s", (char *)env->name);
+		printf("=");
+		printf("\"%s\"\n", (char *)env->content);
+		env = env->next;
+	}
+	env = head;
+}
+
+int	check_print_env_export(t_big *v, char **argv)
+{
+	int	i;
+	
+	i = 0;
+	while (argv[i])
+		i++;
+	if (i == 1)
+	{
+		print_env_export(v->env);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_export(t_big *v, char **argv)
 {
 	t_dl_list	*head;
 	char		*content[2];
 	char		*arg;
-
+	
+	if (check_print_env_export(v, argv))
+		return (1);
 	head = v->env;
 	arg = argv[1];
 	content[0] = get_name(arg, '=');

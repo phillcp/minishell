@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:51:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 19:15:02 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 20:34:23 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_cd(t_big *v, char **argv);
 void	ft_echo(t_big *v, char **argv);
 
 //Env cmd functions
-void	ft_env(t_big *v, t_dl_list *env);
+void	ft_env(t_big *v, t_dl_list *env, char **argv);
 
 //Export cmd functions
 int		ft_export(t_big *v, char **argv);

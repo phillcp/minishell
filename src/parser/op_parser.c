@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 15:54:06 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 21:42:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	output(char *str, t_cmd *cmd, int append)
 	while (str[skip + i] && !ft_isspace(str[skip + i]))
 		i++;
 	out = ft_substr(str, skip, i);
+	check_mask(&out);
 	l = init_list(append, out, '>');
 	free(out);
 	if (!l)

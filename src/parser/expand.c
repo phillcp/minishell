@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 15:53:41 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 22:41:46 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ static int	expand1(t_big *v, char **str, int start)
 	if (!big)
 		return (0);
 	*str = replace(s, big, start - 1, (i + 1));
-	i = ft_abs(i - ft_strlen(big));
 	ft_free(s);
-	return (i - 1);
+	return (1);
 }
 
 static char	*expand_cmd(t_big *v, char *s, int i)
@@ -94,9 +93,9 @@ static char	*expand_cmd(t_big *v, char *s, int i)
 		if ((s[i] & 0x7F) == '$')
 		{
 			if ((s[i + 1] & 0x7F) == '?')
-				i += (expand_question(v, &s, i, 0));
+				(expand_question(v, &s, i, 0));
 			else
-				i += (expand1(v, &s, i + 1));
+				(expand1(v, &s, i + 1));
 		}
 	}
 	return (s);

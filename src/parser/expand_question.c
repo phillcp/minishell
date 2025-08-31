@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_question.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 23:07:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:26:39 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 21:58:00 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "parser.h"
 #include "minishell.h"
-#include <limits.h>
+#include "utilities.h"
 
 static char	*replace_question(char *s1, const char *s2, int pos, int len)
 {
@@ -45,6 +46,7 @@ int	expand_question(t_big *v, char **str, int start, int i)
 	big = ft_itoa(v->exit_status);
 	if (!big)
 		return (0);
+	check_mask(&s);
 	*str = replace_question(s, big, start + 1, i + 1);
 	i = ft_abs(i - ft_strlen(big));
 	ft_free(s);

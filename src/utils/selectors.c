@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:58:08 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 23:02:52 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	screening_one(t_big *v, char **argv)
 		else if (ft_strcmp(argv[i], "test"))
 			write(1, "hello\n", 6);
 		else if (ft_strcmp(argv[i], "env"))
-			ft_env(v, v->env);
+			ft_env(v, v->env, argv);
 		else
 			i = screening_two(v, &argv, i);
 	}
@@ -61,7 +61,7 @@ void	cmd_selector(t_big *v, char **argv)
 		if (ft_strcmp(argv[0], "echo"))
 			ft_echo(v, argv);
 		else if (ft_strcmp(argv[0], "env"))
-			ft_env(v, v->env);
+			ft_env(v, v->env, argv);
 		else if (ft_strcmp(argv[0], "pwd") || ft_strcmp(argv[0], "PWD"))
 			ft_pwd(v);
 		else if (ft_strcmp(argv[0], "cd"))
@@ -107,7 +107,7 @@ int	cmd_identifier(char **argv)
 			i = 0;
 		else if (ft_strcmp(argv[i], "env"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "export") && argv[i + 1] != NULL)
+		else if (ft_strcmp(argv[i], "export"))
 			i = 0;
 		else if (ft_strcmp(argv[i], "unset") && argv[i + 1] != NULL)
 			i = 0;

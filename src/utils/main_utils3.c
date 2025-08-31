@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 12:56:01 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/08/31 21:33:13 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	check_mask(char **pth)
 
 	i = -1;
 	j = 1;
-	while ((pth[0][++i] & 0x7F))
+	while ((pth[0][++i]))
 	{
-		if (ft_isascii(pth[0][i]))
-			j = 0;
+		if (ft_isascii(pth[0][i]  & 0x7F))
+			j = 1;
 	}
 	if (j)
 		unmask_str(*pth);

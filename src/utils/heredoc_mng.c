@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 19:37:43 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/08/31 21:35:12 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
+#include "utilities.h"
 
 char	*temp_path(char *filename, char *path)
 {
