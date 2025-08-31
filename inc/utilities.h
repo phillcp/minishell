@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:12:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:50:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			error_output(t_big *v, char type, char *str);
 void		err_i(t_big *v, char *str);
 void		err_c(t_big *v, char *str);
 void		exit_child(t_big *v);
-void		exit_loop2(t_big *v);
+void		exit_loop2(t_big *v, int init);
 
 int			check_env_names(t_big *v, char *name, char *content);
 void		print_env_content(t_dl_list *lst, char *name, char free_name);
@@ -41,7 +41,7 @@ void		free_table(char **table);
 void		signal_handler(int signal);
 void		clean_processes(t_big *v);
 void		re_init(t_big *v);
-void		create_hdoc_and_pid_arrays(t_big *v);
+int			create_hdoc_and_pid_arrays(t_big *v);
 int			save_hdoc_for_del(t_big *v, t_tree *t);
 void		exit_loop(t_big *v);
 void		save_std_fds(int *in, int *out);

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:27:08 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:51:21 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 #include "parser.h"
 #include <readline/readline.h>
 
-void	exit_loop2(t_big *v)
+void	exit_loop2(t_big *v, int init)
 {
 	close(2);
 	close(1);
 	close(0);
+	if (init)
+		write(2, "error initiating structure\n", 27);
 	exit_loop(v);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 21:50:20 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:52:24 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@
 #include <signal.h>
 #include <errno.h>
 
-static void	struct_init(t_big *v, char **env)
+static int	struct_init(t_big *v, char **env)
 {
 	v->head = malloc(sizeof(t_dl_list));
+	if (!v->head)
+		return (0);
 	v->env = get_env(v, env);
+	if (!v->env)
+		return (0);
 	v->exit = 0;
 	v->exit_status = 0;
 	v->exit_ccode = 0;
@@ -33,12 +37,14 @@ static void	struct_init(t_big *v, char **env)
 	v->stop = 0;
 	v->hdoc_counter = 0;
 	v->temp_path = ft_strdup("/tmp/");
-	create_hdoc_and_pid_arrays(v);
+	if (!create_hdoc_and_pid_arrays(v))
+		return (0);
 	v->file_counter = 0;
 	v->cmd_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
 	v->last_pipe = 0;
+	return (1);
 }
 
 void	wait_one_pid(t_big *v, pid_t pid, char *str)
@@ -134,7 +140,8 @@ int	main(int argc, char **argv, char **env)
 	v = (t_big *)ft_calloc(sizeof(t_big), 1);
 	if (!v)
 		return (1);
-	struct_init(v, env);
+	if (!struct_init(v, env))
+		exit_loop2(v, 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
 	while ("swag")
@@ -145,7 +152,7 @@ int	main(int argc, char **argv, char **env)
 		else if (input)
 			ft_free(input);
 		if (v->exit || !input)
-			exit_loop2(v);
+			exit_loop2(v, 0);
 	}
 	return (0);
 }

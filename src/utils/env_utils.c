@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:54:37 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:40:40 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,28 @@ t_dl_list	*get_env(t_big *v, char **env)
 {
 	t_dl_list	*temp;
 	int			x;
-	char		**splited;
+	char		**split;
 	int			aux;
 
 	x = -1;
 	v->env = NULL;
-	splited = malloc(sizeof(char *) * 2);
+	if (env[0] == NULL)
+	{
+		ft_lstadd_back_dl(&v->env, ft_lstnew_dl(NULL));
+		return (v->env);
+	}
+	split = ft_calloc(sizeof(char *), 2);
+	if (!split)
+		return (NULL);
 	while (env[++x] != NULL)
 	{
 		aux = ft_strichr(env[x], '=');
-		splited[0] = ft_substr(env[x], 0, aux);
-		splited[1] = ft_substr(env[x], aux + 1, ft_strlen(env[x]) - aux);
-		temp = ft_lstnew_dl(splited);
+		split[0] = ft_substr(env[x], 0, aux);
+		split[1] = ft_substr(env[x], aux + 1, ft_strlen(env[x]) - aux);
+		temp = ft_lstnew_dl(split);
 		ft_lstadd_back_dl(&v->env, temp);
 	}
-	ft_free(splited);
+	ft_free(split);
 	return (v->env);
 }
 
