@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 19:51:27 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/08/31 19:56:12 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:13:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,20 @@ void	go_wait(int *pid_lst, int *status, int i)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid_lst[i], status, 0);
 	signal(SIGINT, signal_handler);
+}
+
+void	print_env_export(t_dl_list	*env)
+{
+	t_dl_list	*head;
+
+	head = env;
+	while (env)
+	{
+		printf("declare -x ");
+		printf("%s", (char *)env->name);
+		printf("=");
+		printf("\"%s\"\n", (char *)env->content);
+		env = env->next;
+	}
+	env = head;
 }

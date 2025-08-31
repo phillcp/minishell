@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:56:37 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/22 08:47:03 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:30:05 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ static void	node_destroyer(t_dl_list *list)
 	ft_free(list->content);
 	list->name = NULL;
 	list->content = NULL;
+	ft_free(list);
 	list = NULL;
 }
 
-//Searches the list for the name of the variable we want to unset.
-//It's used to make sure we have the variable present on our list.
 static int	lst_str_check(t_dl_list *lst, char *str)
 {
 	t_dl_list	*head;
@@ -46,10 +45,6 @@ static int	lst_str_check(t_dl_list *lst, char *str)
 	return (0);
 }
 
-//Unset fuction is used to remove an environmental variable from our internal
-//env list.
-//The integer 'i' is the index of the command 'unset' on the received args
-//table.
 void	ft_unset(t_big *v, t_dl_list *env, char **argv, int i)
 {
 	t_dl_list	*head;

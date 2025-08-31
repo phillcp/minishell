@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 21:35:09 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:12:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int			save_hdoc_for_del(t_big *v, t_tree *t);
 void		exit_loop(t_big *v);
 void		save_std_fds(int *in, int *out);
 void		restore_std_fds(int in, int out);
+int			go_read_lines(t_big *v, char *input, int output, char *eof_str);
+void		print_env_export(t_dl_list	*env);
 
 int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
 void		file_input_instruction(t_big *v, t_cmd *cmd);

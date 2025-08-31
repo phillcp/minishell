@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 22:41:46 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:27:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	expand2(char **s, int *i, int start)
 	return (1);
 }
 
-static int	expand1(t_big *v, char **str, int start)
+int	expand1(t_big *v, char **str, int start)
 {
 	char	*s;
 	char	*big;
@@ -79,16 +79,16 @@ static int	expand1(t_big *v, char **str, int start)
 
 static char	*expand_cmd(t_big *v, char *s, int i)
 {
-	int	j;
+	bool	in_q;
 
-	j = 0;
+	in_q = false;
 	if (!s)
 		return (NULL);
 	while (s[++i])
 	{
 		if (s[i] == '\'')
-			j ^= 1;
-		if (j == 1)
+			in_q = !in_q;
+		if (in_q)
 			continue ;
 		if ((s[i] & 0x7F) == '$')
 		{
@@ -117,6 +117,5 @@ int	expand(t_big *v, t_tree *t)
 	while (i < t->lcount)
 		if (!expand(v, t->leaves[i++]))
 			return (0);
-	v->exit_status = 0;
 	return (1);
 }

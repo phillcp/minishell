@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 21:33:13 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:11:46 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	check_mask(char **pth)
 	j = 1;
 	while ((pth[0][++i]))
 	{
-		if (ft_isascii(pth[0][i]  & 0x7F))
+		if (ft_isascii(pth[0][i] & 0x7F))
 			j = 1;
 	}
 	if (j)

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 21:35:12 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:20:08 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,8 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 	if (output < 0)
 		return (-1);
 	input = readline("heredoc> ");
-	while (input && ft_strcmp(input, eof_str) != 1)
-	{
-		if (ft_strlen(input) > 0)
-			write(output, input, ft_strlen(input));
-		write(output, "\n", 1);
-		ft_free(input);
-		input = readline("heredoc> ");
-	}
+	if (go_read_lines(v, input, output, eof_str))
+		return (-1);
 	ft_free(input);
 	ft_free(filename);
 	close(output);

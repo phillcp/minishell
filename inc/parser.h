@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 16:21:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 00:27:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 void		get_in(char *s, int *skp, int *i, char **in);
 int			validate(const char *line);
+int			expand1(t_big *v, char **str, int start);
 
 #endif
