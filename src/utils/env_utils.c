@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:40:40 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 21:41:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,17 @@ char	*get_name(char *str, char c)
 {
 	char	*name;
 	int		x;
-	int		i;
 
 	x = -1;
-	i = 0;
 	if (!str || !str[0] || str[0] == '=')
+		return (NULL);
+	if (str[0] != '_' && !ft_isalpha(str[0]))
 		return (NULL);
 	while (str[++x] && str[x] != c)
 	{
-		if (ft_isalpha(str[x]))
-			i = 1;
-		if (!ft_isalnum(str[x]))
+		if (!ft_isalnum(str[x]) && str[x] != '_')
 			return (NULL);
 	}
-	if (!i)
-		return (NULL);
 	name = ft_calloc((x + 1), sizeof(char));
 	ft_strlcpy(name, str, x + 1);
 	return (name);
