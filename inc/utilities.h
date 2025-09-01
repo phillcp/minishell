@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:50:34 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:50:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		err_i(t_big *v, char *str);
 void		err_c(t_big *v, char *str);
 void		exit_child(t_big *v);
 void		exit_loop2(t_big *v, int init);
+void		signal_hdoc(int signal);
 
 int			check_env_names(t_big *v, char *name, char *content);
 void		print_env_content(t_dl_list *lst, char *name, char free_name);
@@ -48,6 +49,9 @@ void		save_std_fds(int *in, int *out);
 void		restore_std_fds(int in, int out);
 int			go_read_lines(t_big *v, char *input, int output, char *eof_str);
 void		print_env_export(t_dl_list	*env);
+void		hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename, char *sub_s);
+int			ft_strisspace(char *str);
+void		input_loop_extra(t_big *v, t_commands *cmd);
 
 int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
 void		file_input_instruction(t_big *v, t_cmd *cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 23:02:52 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:19:09 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	cmd_selector(t_big *v, char **argv)
 		else if (ft_strcmp(argv[0], "cd"))
 			ft_cd(v, argv);
 		else if (ft_strcmp(argv[0], "exit") || ft_strcmp(argv[0], "unset")
-			|| ft_strcmp(argv[0], "export"))
+			|| ft_strcmp(argv[0], "export") || ft_strisspace(argv[0]))
 		{
 			v->exit_status = 0;
 			return ;

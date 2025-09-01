@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 16:06:42 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/08/31 20:24:58 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:22:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@ static int	skip_spaces(const char *line, int i)
 {
 	while (line[i] && ft_isspace(line[i]))
 		i++;
+	return (i);
+}
+
+static int	check_in_out(const char *line, int i)
+{
+	i++;
+	if (line[i] == line[i - 1])
+		i++;
+	i = skip_spaces(line, i);
+	if (line[i] == '\0')
+		return (0);
+	if (line[i] == '<' || line[i] == '>')
+		return (0);
 	return (i);
 }
 
@@ -34,6 +47,12 @@ static int	validate_check(const char *line, bool *in_q, bool *in_dq, int *i)
 		if (line[*i] == '\0')
 			return (0);
 		if (line[*i] == '|')
+			return (0);
+	}
+	else if (line[*i] == '<' || line[*i] == '>')
+	{
+		*i = check_in_out(line, *i);
+		if (!*(i))
 			return (0);
 	}
 	else

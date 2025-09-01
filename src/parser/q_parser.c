@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   q_parser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:37:47 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:32:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static char	*rem_q(char *str, int count)
 		if (!ft_strchr("\"\'", str[p1]))
 			ret[++p2] = str[p1];
 	ft_free(str);
+	ret[++p2] = '\0';
 	return (ret);
 }
 

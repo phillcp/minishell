@@ -38,6 +38,7 @@ SRC 	=	main.c \
 			utils/main_utils.c \
 			utils/main_utils2.c \
 			utils/main_utils3.c \
+			utils/main_utils4.c \
 			utils/output_mng.c \
 			utils/selectors.c
 SRCS	= $(addprefix $(SRC_DIR), $(SRC))

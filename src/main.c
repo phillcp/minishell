@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:53:22 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:01:26 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 #include <signal.h>
 #include <errno.h>
 
+t_global	g_global;
+
 static int	struct_init(t_big *v, char **env)
 {
-	v->head = malloc(sizeof(t_dl_list));
+	g_global.signal = 0;
+	v->head = ft_calloc(sizeof(t_dl_list), 1);
 	if (!v->head)
 		return (0);
 	v->env = get_env(v, env);
@@ -32,17 +35,12 @@ static int	struct_init(t_big *v, char **env)
 	v->exit = 0;
 	v->exit_status = 0;
 	v->exit_ccode = 0;
-	v->and_flag = 0;
-	v->or_flag = 0;
-	v->stop = 0;
 	v->hdoc_counter = 0;
 	v->temp_path = ft_strdup("/tmp/");
 	if (!create_hdoc_and_pid_arrays(v))
 		return (0);
 	v->file_counter = 0;
-	v->cmd_counter = 0;
 	v->pid_counter = 0;
-	v->last_pipe = 0;
 	v->last_pipe = 0;
 	return (1);
 }
@@ -111,16 +109,7 @@ static void	input_loop(t_big *v, char *input)
 	if (cmd && !cmd->error)
 	{
 		v->cmd = cmd;
-		check_heredoc(v, cmd->tree);
-		if (save_hdoc_for_del(v, cmd->tree))
-		{
-			v->hdoc_counter = 0;
-			if (cmd->tree->lcount > 1)
-				pipe_loop(v, cmd->tree, -1);
-			else
-				exec_single(v, cmd->tree);
-		}
-		delete_temp(v, v->temp_path);
+		input_loop_extra(v, cmd);
 	}
 	else
 		printf("Syntax error code: %d\n", cmd->error);
@@ -144,7 +133,7 @@ int	main(int argc, char **argv, char **env)
 		exit_loop2(v, 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
-	while ("swag")
+	while (1)
 	{
 		input = readline(CLR_PURPLE"Minishell:> "CLR_RST);
 		if (input && ft_strlen(input) != 0)

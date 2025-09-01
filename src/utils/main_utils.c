@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:37:25 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:01:32 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,11 @@ void	clean_processes(t_big *v)
 void	re_init(t_big *v)
 {
 	clean_processes(v);
-	v->cmd_counter = 0;
+	g_global.signal = 0;
 	v->file_counter = 0;
 	v->hdoc_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
-	v->stop = 0;
-	v->and_flag = 0;
-	v->or_flag = 0;
-	v->last_pipe = 0;
+	v->exit_ccode = 0;
 	v->empty_str = 0;
 }

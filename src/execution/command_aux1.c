@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_aux1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 19:51:27 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/01 00:13:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:48:02 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utilities.h"
+#include "minishell.h"
 #include <signal.h>
 
 int	check_empty_cmd(char **cmd)
@@ -49,4 +50,18 @@ void	print_env_export(t_dl_list	*env)
 		env = env->next;
 	}
 	env = head;
+}
+
+int	ft_strisspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i])
+		return (0);
+	return (1);
 }

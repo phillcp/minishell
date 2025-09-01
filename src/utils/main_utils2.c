@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:51:21 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:36:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ static char	*expand_cmd2(t_big *v, char *s, int i)
 
 int	go_read_lines(t_big *v, char *input, int output, char *eof_str)
 {
+	if (!input && g_global.signal)
+		return (1);
 	while (input && ft_strcmp(input, eof_str) != 1)
 	{
+		if (!input && g_global.signal)
+			return (1);
 		if (ft_strlen(input) > 0)
 		{
 			input = expand_cmd2(v, input, -1);
@@ -72,5 +76,6 @@ int	go_read_lines(t_big *v, char *input, int output, char *eof_str)
 		ft_free(input);
 		input = readline("heredoc> ");
 	}
+	ft_free(input);
 	return (0);
 }

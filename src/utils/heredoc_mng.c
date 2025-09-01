@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_mng.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:20:08 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:03:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
@@ -43,8 +44,11 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 		return (-1);
 	input = readline("heredoc> ");
 	if (go_read_lines(v, input, output, eof_str))
+	{
+		ft_free(filename);
+		ft_free(eof_str);
 		return (-1);
-	ft_free(input);
+	}
 	ft_free(filename);
 	close(output);
 	return (0);
@@ -70,9 +74,9 @@ static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 		sub_s = ft_substr(eof, 2, ft_strlen(eof));
 		ft_free(eof);
 		if (create_hrdoc_file(v, sub_s, filename) < 0)
-			write(2, "Error: unable to create heredoc file\n", 37);
-		ft_free(sub_s);
-		cmd->in.heredoc->content = filename;
+		hdoc_call_extra(v, cmd, filename, sub_s);
+		if (g_global.signal)
+			return ;
 		cmd->in.heredoc = cmd->in.heredoc->next;
 	}
 	if (eof)
@@ -90,6 +94,8 @@ static int	check_loop(t_big *v, t_tree *t)
 		return (0);
 	v->hdoc_counter = step;
 	check_heredoc_call(v, cmd);
+	if (g_global.signal)
+		return (0);
 	return (1);
 }
 
@@ -97,13 +103,23 @@ void	check_heredoc(t_big *v, t_tree *t)
 {
 	int	i;
 	int	ret;
+	int	stdin_save;
 
+	stdin_save = dup(0);
+	signal(SIGINT, signal_hdoc);
 	i = -1;
 	ret = 1;
 	while (++i < t->lcount)
 	{
 		ret = check_loop(v, t->leaves[i]);
-		if (ret == 0 && t->leaves[i])
+		if (ret == 0 && g_global.signal)
+		{
+			dup2(stdin_save, 0);
+			close(stdin_save);
+			return ;
+		}
+		else if (ret == 0 && t->leaves[i])
 			check_heredoc(v, t->leaves[i]);
 	}
+	close(stdin_save);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 12:23:22 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:01:37 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,22 @@ typedef struct s_big
 	int			last_pipe;
 	char		**hdoc_files;
 	int			empty_str;
-	int			cmd_counter;
 	int			file_counter;
 	int			hdoc_counter;
 	int			pid_counter;
-	int			and_flag;
-	int			or_flag;
-	int			pid;
 	int			*pid_lst;
-	int			stop;
-	int			saved_fd;
+	int			stdin_hdoc;
 	t_cd		*cd;
 	t_commands	*cmd;
 	t_dl_list	*env;
 	t_dl_list	*head;
 }				t_big;
+
+typedef struct	s_global
+{
+	int signal;
+}				t_global;
+
+extern t_global g_global;
 
 #endif
