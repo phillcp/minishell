@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 14:50:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:41:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		save_std_fds(int *in, int *out);
 void		restore_std_fds(int in, int out);
 int			go_read_lines(t_big *v, char *input, int output, char *eof_str);
 void		print_env_export(t_dl_list	*env);
-void		hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename, char *sub_s);
+void		hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename);
 int			ft_strisspace(char *str);
 void		input_loop_extra(t_big *v, t_commands *cmd);
 

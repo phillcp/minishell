@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:54 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 13:41:24 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:54:48 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	delete_temp(t_big *v, char *path)
 	if (!path)
 		return ;
 	i = -1;
-	while (++i < (v->file_counter + 1))
+	while (++i < (v->hdoc_counter + 1))
 	{
 		nbr = ft_itoa(i);
 		if (ft_strcmp(v->hdoc_files[i], nbr) != 1)

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/01 20:14:02 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:58:40 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include "minishell.h"
 #include "execution.h"
 #include "utilities.h"
-
-void	hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename, char *sub_s)
-{
-	cmd->in.heredoc->content = *filename;
-	if (!g_global.signal)
-	{
-		ft_free(*sub_s);
-		v->file_counter += 1;
-	}
-}
 
 void	input_loop_extra(t_big *v, t_commands *cmd)
 {
@@ -33,7 +23,6 @@ void	input_loop_extra(t_big *v, t_commands *cmd)
 		return ;
 	if (save_hdoc_for_del(v, cmd->tree))
 	{
-		v->hdoc_counter = 0;
 		if (cmd->tree->lcount > 1)
 			pipe_loop(v, cmd->tree, -1);
 		else

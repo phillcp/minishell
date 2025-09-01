@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 19:45:45 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 21:02:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	re_init(t_big *v)
 {
 	clean_processes(v);
 	g_global.signal = 0;
-	v->file_counter = 0;
 	v->hdoc_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;

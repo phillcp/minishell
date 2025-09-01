@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 17:01:26 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:55:35 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	struct_init(t_big *v, char **env)
 	v->temp_path = ft_strdup("/tmp/");
 	if (!create_hdoc_and_pid_arrays(v))
 		return (0);
-	v->file_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
 	return (1);

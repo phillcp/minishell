@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 17:01:37 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:55:56 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_big
 	int			last_pipe;
 	char		**hdoc_files;
 	int			empty_str;
-	int			file_counter;
 	int			hdoc_counter;
 	int			pid_counter;
 	int			*pid_lst;

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 20:21:49 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 21:13:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,22 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 	return (0);
 }
 
+char	*hdoc_filename(t_big *v, char *eof)
+{
+	char	*i;
+	char	*filename;
+
+	i = ft_itoa(++v->hdoc_counter);
+	filename = ft_strjoin(eof, i);
+	ft_free(i);
+	return (filename);
+}
+
 static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 {
 	t_list	*head;
 	char	*filename;
 	char	*eof;
-	char	*i;
 	char	*sub_s;
 
 	eof = NULL;
@@ -68,15 +78,16 @@ static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 	while (cmd->in.heredoc)
 	{
 		eof = (char *)cmd->in.heredoc->content;
-		i = ft_itoa(++v->hdoc_counter);
-		filename = ft_strjoin(eof, i);
-		ft_free(i);
+		filename = hdoc_filename(v, eof);
 		sub_s = ft_substr(eof, 2, ft_strlen(eof));
 		ft_free(eof);
-		if (create_hrdoc_file(v, sub_s, filename) < 0)
-		hdoc_call_extra(v, cmd, filename, sub_s);
+		create_hrdoc_file(v, sub_s, filename);
+		if (g_global.signal)
+			cmd->in.heredoc->content = filename;
 		if (g_global.signal)
 			return ;
+		ft_free(sub_s);
+		cmd->in.heredoc->content = filename;
 		cmd->in.heredoc = cmd->in.heredoc->next;
 	}
 	if (eof)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_mng.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 19:37:47 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:36:58 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@
 static int	heredoc_loop(t_big *v, t_list *heredoc, int input_hdoc)
 {
 	char	*pth;
-	char	*i;
 	int		fd;
 
 	while (heredoc)
 	{
 		if (input_hdoc > 2)
 			close(input_hdoc);
-		i = ft_itoa(++v->hdoc_counter);
 		pth = heredoc->content;
 		pth = temp_path(pth, v->temp_path);
 		fd = open(pth, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -35,7 +33,6 @@ static int	heredoc_loop(t_big *v, t_list *heredoc, int input_hdoc)
 			return (-1);
 		}
 		input_hdoc = fd;
-		ft_free(i);
 		ft_free(pth);
 		heredoc = heredoc->next;
 	}
