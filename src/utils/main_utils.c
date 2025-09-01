@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 17:01:32 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 19:45:45 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ void	re_init(t_big *v)
 	v->hdoc_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
-	v->exit_ccode = 0;
 	v->empty_str = 0;
 }

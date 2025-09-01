@@ -1,7 +1,7 @@
 NAME	=	libft.a
 CC		=	@cc
 AR		=	@ar rcs
-CFLAGS	=	-Wall -Wextra -Werror -MMD -MP #-g
+CFLAGS	=	-Wall -Wextra -Werror -MMD -MP -g
 
 BIN_DIR	=	bin/
 SRC_DIR	=	src/

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/01 17:07:10 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:14:02 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 void	hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename, char *sub_s)
 {
-	cmd->in.heredoc->content = filename;
+	cmd->in.heredoc->content = *filename;
 	if (!g_global.signal)
 	{
-		ft_free(sub_s);
+		ft_free(*sub_s);
 		v->file_counter += 1;
 	}
 }
