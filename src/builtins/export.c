@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:13:40 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:45:32 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	add_list(t_big *v, char **content)
 	ft_lstadd_back_dl(&v->env, temp);
 }
 
-int	check_print_env_export(t_big *v, char **argv)
+int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
 {
 	int	i;
 
@@ -53,16 +53,18 @@ int	check_print_env_export(t_big *v, char **argv)
 		print_env_export(v->env);
 		return (1);
 	}
+	if (i > 1 && in_pipe == true)
+		return (1);
 	return (0);
 }
 
-int	ft_export(t_big *v, char **argv)
+int	ft_export(t_big *v, char **argv, bool in_pipe)
 {
 	t_dl_list	*head;
 	char		*content[2];
 	char		*arg;
 
-	if (check_print_env_export(v, argv))
+	if (check_print_env_export(v, argv, in_pipe))
 		return (1);
 	head = v->env;
 	arg = argv[1];

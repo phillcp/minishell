@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:29:40 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:38:00 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		file_output_instruction(t_big *v, t_cmd *cmd);
 int			builtin_output_i(t_big *v, t_cmd *cmd);
 
 int			screening_one(t_big *v, char **argv);
-void		cmd_selector(t_big *v, char **argv);
+void		cmd_selector(t_big *v, char **argv, bool in_pipe);
 int			builtin(t_big *v, t_cmd *cmd);
 int			cmd_identifier(char **argv);
 

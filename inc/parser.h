@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:45:52 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 21:04:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 # include "libft.h"
 
 typedef struct s_big	t_big;
-
-# define S 1
-# define D 2
-# define Q 4
-# define V 8
 
 typedef struct s_parse
 {

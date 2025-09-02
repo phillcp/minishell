@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_exec.c                                     :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:21:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:38:05 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	child_fork(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 	}
 	file_input_instruction(v, cmd);
 	file_output_instruction(v, cmd);
-	cmd_selector(v, cmd->cmd);
+	cmd_selector(v, cmd->cmd, true);
 	exit_child(v);
 }
 

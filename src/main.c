@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:53:38 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:38:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	exec_single(t_big *v, t_tree *t)
 		signal(SIGINT, SIG_DFL);
 		file_input_instruction(v, cmd);
 		file_output_instruction(v, cmd);
-		cmd_selector(v, cmd->cmd);
+		cmd_selector(v, cmd->cmd, false);
 		exit_child(v);
 	}
 	wait_one_pid(v, pid, cmd->cmd[0]);

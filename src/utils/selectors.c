@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 13:19:09 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:46:21 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	screening_two(t_big *v, char ***argv_p, int i)
 	if (ft_strcmp(argv[i], "pwd"))
 		ft_pwd(v);
 	else if (ft_strcmp(argv[i], "export"))
-		ft_export(v, argv);
+		ft_export(v, argv, false);
 	else if (ft_strcmp(argv[i], "unset"))
 		ft_unset(v, v->env, argv, i);
 	else
@@ -54,7 +54,7 @@ int	screening_one(t_big *v, char **argv)
 	return (i);
 }
 
-void	cmd_selector(t_big *v, char **argv)
+void	cmd_selector(t_big *v, char **argv, bool in_pipe)
 {
 	if (argv)
 	{
@@ -66,6 +66,8 @@ void	cmd_selector(t_big *v, char **argv)
 			ft_pwd(v);
 		else if (ft_strcmp(argv[0], "cd"))
 			ft_cd(v, argv);
+		else if (ft_strcmp(argv[0], "export") && in_pipe == true)
+			ft_export(v, argv, in_pipe);
 		else if (ft_strcmp(argv[0], "exit") || ft_strcmp(argv[0], "unset")
 			|| ft_strcmp(argv[0], "export") || ft_strisspace(argv[0]))
 		{
