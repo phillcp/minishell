@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 12:04:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:25:12 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,18 @@ int	ft_isspecial(char s)
 	return (!!ft_strchr(" \t\n\v\f\r<>$\"\'&|()", s));
 }
 
-void	get_in(char *s, int *skp, int *i, char **in)
+int	get_in(char *s, int *skp, int *i, char **in)
 {
+	int	check;
+
 	while (s[*skp] && ft_isspace(s[(*skp) + (*i)]))
 		(*skp)++;
 	while (s[(*skp) + (*i)] && !ft_isspace(s[(*skp) + (*i)])
 		&& !ft_isspecial(s[(*skp) + (*i)]))
 		(*i)++;
 	*in = ft_substr(s, *skp, *i);
-	check_mask(in);
+	check = check_mask(in);
+	return (check);
 }
 
 int	word_split(t_tree *t)

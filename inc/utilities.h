@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 20:41:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:27:07 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void		print_env_export(t_dl_list	*env);
 void		hdoc_call_extra(t_big *v, t_cmd *cmd, char *filename);
 int			ft_strisspace(char *str);
 void		input_loop_extra(t_big *v, t_commands *cmd);
+char		*hdoc_filename(t_big *v, char *eof);
 
 int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
 void		file_input_instruction(t_big *v, t_cmd *cmd);
@@ -69,6 +70,6 @@ int			cmd_identifier(char **argv);
 char		*temp_path(char *filename, char *path);
 void		check_heredoc(t_big *v, t_tree *t);
 void		export_wrong(char *str);
-void		check_mask(char **pth);
+int			check_mask(char **pth);
 
 #endif

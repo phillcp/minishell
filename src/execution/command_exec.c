@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 13:21:57 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:37:58 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ static void	wait_forks(t_big *v, int *pid_lst, int pid_counter, t_tree *t)
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
-			if (sig == SIGPIPE)
-				write(2, "Broken pipe\n", 12);
-			else if (sig == SIGINT)
+			if (sig == SIGINT)
 				write(2, "\n", 1);
 			v->exit_status = 128 + sig;
 		}

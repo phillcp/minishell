@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 20:21:30 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:07:32 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_commands	*parse(t_big *v, const char *str)
 		return (assign_error(cmd, 2));
 	if (split_cmd(cmd->tree, cmd->line, 0) == -1)
 		return (assign_error(cmd, 3));
-	if (!parse_op(cmd->tree))
+	if (!parse_op(v, cmd->tree))
 		return (assign_error(cmd, 4));
 	if (!expand(v, cmd->tree))
 		return (assign_error(cmd, 5));

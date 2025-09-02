@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 20:21:23 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:22:38 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	go_read_lines(t_big *v, char *input, int output, char *eof_str)
 			return (1);
 		if (ft_strlen(input) > 0)
 		{
-			input = expand_cmd2(v, input, -1);
+			if (!v->hdoc_q)
+				input = expand_cmd2(v, input, -1);
 			if (!input)
 				return (1);
 			write(output, input, ft_strlen(input));

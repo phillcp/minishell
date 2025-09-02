@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/01 20:58:40 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:29:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,18 @@ void	input_loop_extra(t_big *v, t_commands *cmd)
 
 void	signal_hdoc(int signal)
 {
-	(void)signal;	
+	(void)signal;
 	g_global.signal = 1;
 	close(0);
+}
+
+char	*hdoc_filename(t_big *v, char *eof)
+{
+	char	*i;
+	char	*filename;
+
+	i = ft_itoa(++v->hdoc_counter);
+	filename = ft_strjoin(eof, i);
+	ft_free(i);
+	return (filename);
 }

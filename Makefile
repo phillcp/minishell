@@ -21,7 +21,7 @@ SRC 	=	main.c \
 			commands/unset.c \
 			execution/command_exec.c \
 			execution/command_aux.c \
-			execution/command_aux1.c \
+			execution/command_aux2.c \
 			parser/aux.c \
 			parser/cmd_spliter.c \
 			parser/expand_question.c \

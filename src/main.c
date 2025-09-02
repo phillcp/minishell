@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 20:55:35 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:10:45 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	struct_init(t_big *v, char **env)
 	v->exit_status = 0;
 	v->exit_ccode = 0;
 	v->hdoc_counter = 0;
+	v->hdoc_q = 0;
 	v->temp_path = ft_strdup("/tmp/");
 	if (!create_hdoc_and_pid_arrays(v))
 		return (0);
@@ -76,8 +77,6 @@ void	exec_single(t_big *v, t_tree *t)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
-	int		s_in;
-	int		s_out;
 
 	cmd = (t_cmd *)t->leaves[0]->content;
 	if (!cmd_identifier(cmd->cmd))
@@ -89,11 +88,9 @@ void	exec_single(t_big *v, t_tree *t)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		save_std_fds(&s_in, &s_out);
 		file_input_instruction(v, cmd);
 		file_output_instruction(v, cmd);
 		cmd_selector(v, cmd->cmd);
-		restore_std_fds(s_in, s_out);
 		exit_child(v);
 	}
 	wait_one_pid(v, pid, cmd->cmd[0]);

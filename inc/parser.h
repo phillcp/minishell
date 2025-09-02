@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:27:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:07:28 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_list		*init_list(int key, char *in_out, char c);
 void		set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip);
 char		*process_quotes(char *str, int count);
 int			split_cmd(t_tree *t, char *c, int i);
-int			parse_op(t_tree *t);
+int			parse_op(t_big *v, t_tree *t);
 int			expand(t_big *v, t_tree *t);
 int			word_split(t_tree *t);
 int			expand_question(t_big *v, char **str, int start, int i);
@@ -63,7 +63,7 @@ void		free_command(t_commands *cmd);
 int			unmask_str(char *str);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
-void		get_in(char *s, int *skp, int *i, char **in);
+int			get_in(char *s, int *skp, int *i, char **in);
 int			validate(const char *line);
 int			expand1(t_big *v, char **str, int start);
 

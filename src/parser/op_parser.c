@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   op_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 21:42:34 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:25:33 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
 #include "utilities.h"
+#include "minishell.h"
 
-static int	input(char *s, t_cmd *cmd, int heredoc)
+static int	input(t_big *v, char *s, t_cmd *cmd, int heredoc)
 {
 	int		i;
 	int		skp;
@@ -24,7 +25,7 @@ static int	input(char *s, t_cmd *cmd, int heredoc)
 	skp = 0;
 	i = 0;
 	l = NULL;
-	get_in(s, &skp, &i, &in);
+	v->hdoc_q = get_in(s, &skp, &i, &in);
 	l = init_list(heredoc, in, '<');
 	free(in);
 	if (!l)
@@ -67,16 +68,16 @@ static int	output(char *str, t_cmd *cmd, int append)
 	return (skip + i + append);
 }
 
-int	parse_op_cmd2(char *cur, t_cmd *cmd)
+static int	parse_op_cmd2(t_big *v, char *cur, t_cmd *cmd)
 {
 	int	i;
 
 	if (!ft_strncmp(cur, "<<", 2))
-		i = input(cur + 2, cmd, 1);
+		i = input(v, cur + 2, cmd, 1);
 	else if (!ft_strncmp(cur, ">>", 2))
 		i = output(cur + 2, cmd, 1);
 	else if (*cur == '<')
-		i = input(cur + 1, cmd, 0);
+		i = input(v, cur + 1, cmd, 0);
 	else if (*cur == '>')
 		i = output(cur + 1, cmd, 0);
 	else
@@ -84,7 +85,7 @@ int	parse_op_cmd2(char *cur, t_cmd *cmd)
 	return (i);
 }
 
-static int	parse_op_cmd(t_cmd *cmd)
+static int	parse_op_cmd(t_big *v, t_cmd *cmd)
 {
 	bool	in_q;
 	bool	in_dq;
@@ -105,7 +106,7 @@ static int	parse_op_cmd(t_cmd *cmd)
 			cur++;
 			continue ;
 		}
-		i = parse_op_cmd2(cur, cmd);
+		i = parse_op_cmd2(v, cur, cmd);
 		if (i < 0)
 			return (0);
 		cur += i + 1;
@@ -113,18 +114,18 @@ static int	parse_op_cmd(t_cmd *cmd)
 	return (1);
 }
 
-int	parse_op(t_tree *t)
+int	parse_op(t_big *v, t_tree *t)
 {
 	t_cmd	*cmd;
 	int		i;
 
 	cmd = (t_cmd *)t->content;
 	if (cmd)
-		if (!parse_op_cmd(cmd))
+		if (!parse_op_cmd(v, cmd))
 			return (0);
 	i = 0;
 	while (i < t->lcount)
-		if (!parse_op(t->leaves[i++]))
+		if (!parse_op(v, t->leaves[i++]))
 			return (0);
 	return (1);
 }

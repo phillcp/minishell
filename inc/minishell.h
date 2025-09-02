@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 20:55:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:10:31 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_big
 	char		**hdoc_files;
 	int			empty_str;
 	int			hdoc_counter;
+	int			hdoc_q;
 	int			pid_counter;
 	int			*pid_lst;
 	int			stdin_hdoc;

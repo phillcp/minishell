@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 21:13:14 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:25:48 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,6 @@ static int	create_hrdoc_file(t_big *v, char *eof_str, char *filename)
 	return (0);
 }
 
-char	*hdoc_filename(t_big *v, char *eof)
-{
-	char	*i;
-	char	*filename;
-
-	i = ft_itoa(++v->hdoc_counter);
-	filename = ft_strjoin(eof, i);
-	ft_free(i);
-	return (filename);
-}
-
 static void	check_heredoc_call(t_big *v, t_cmd *cmd)
 {
 	t_list	*head;
@@ -101,7 +90,7 @@ static int	check_loop(t_big *v, t_tree *t)
 
 	cmd = (t_cmd *)t->content;
 	step += 10;
-	if (!cmd)
+	if (!cmd->in.heredoc)
 		return (0);
 	v->hdoc_counter = step;
 	check_heredoc_call(v, cmd);
@@ -129,8 +118,6 @@ void	check_heredoc(t_big *v, t_tree *t)
 			close(stdin_save);
 			return ;
 		}
-		else if (ret == 0 && t->leaves[i])
-			check_heredoc(v, t->leaves[i]);
 	}
 	close(stdin_save);
 }

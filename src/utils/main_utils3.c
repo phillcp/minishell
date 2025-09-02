@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 10:46:17 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:27:21 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	exit_child(t_big *v)
 	exit_loop(v);
 }
 
-void	check_mask(char **pth)
+int	check_mask(char **pth)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	j = 1;
+	j = 0;
 	while ((pth[0][++i]))
 	{
 		if (ft_isascii(pth[0][i] & 0x7F))
@@ -39,6 +39,7 @@ void	check_mask(char **pth)
 	}
 	if (j)
 		unmask_str(*pth);
+	return (j);
 }
 
 void	export_wrong(char *str)
