@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:27:21 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:53:22 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	exit_child(t_big *v)
 	close(2);
 	close(1);
 	close(0);
-	delete_temp(v, v->temp_path);
-	free_command(v->cmd);
+	free_data(v->cmd);
 	exit_loop(v);
 }
 

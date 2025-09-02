@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:07:28 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:45:52 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ typedef struct s_big	t_big;
 # define Q 4
 # define V 8
 
-typedef struct s_commands
+typedef struct s_parse
 {
 	int		error;
 	char	*line;
 	t_tree	*tree;
-}				t_commands;
+}				t_parse;
 
 typedef struct s_input
 {
@@ -47,8 +47,8 @@ typedef struct s_cmd
 	t_input	in;
 }				t_cmd;
 
-t_commands	*parse(t_big *v, const char *str);
-t_commands	*assign_error(t_commands *cmd, int i);
+t_parse		*parse(t_big *v, const char *str);
+t_parse		*assign_error(t_parse *cmd, int i);
 void		in_q_dq_assign(bool *in_q_dq, bool *skip, int *count);
 t_list		*init_list(int key, char *in_out, char c);
 void		set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip);
@@ -59,7 +59,7 @@ int			expand(t_big *v, t_tree *t);
 int			word_split(t_tree *t);
 int			expand_question(t_big *v, char **str, int start, int i);
 int			unmask(t_tree *t);
-void		free_command(t_commands *cmd);
+void		free_data(t_parse *cmd);
 int			unmask_str(char *str);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);

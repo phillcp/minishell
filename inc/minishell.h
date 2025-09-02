@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:10:31 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:28:43 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_big
 	int			*pid_lst;
 	int			stdin_hdoc;
 	t_cd		*cd;
-	t_commands	*cmd;
+	t_parse	*cmd;
 	t_dl_list	*env;
 	t_dl_list	*head;
 }				t_big;

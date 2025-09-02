@@ -12,25 +12,26 @@ DEP_DIR	=	dep/
 LIBFT_DIR = $(LIB_DIR)libft/
 
 SRC 	=	main.c \
-			commands/cd.c \
-			commands/echo.c \
-			commands/env.c \
-			commands/execve.c \
-			commands/export.c \
-			commands/pwd.c \
-			commands/unset.c \
-			execution/command_exec.c \
-			execution/command_aux.c \
-			execution/command_aux2.c \
-			parser/aux.c \
-			parser/cmd_spliter.c \
-			parser/expand_question.c \
-			parser/expand.c \
-			parser/lstsort.c \
-			parser/op_parser.c \
-			parser/parser.c \
-			parser/q_parser.c \
-			parser/validate.c \
+			builtins/cd.c \
+			builtins/echo.c \
+			builtins/env.c \
+			builtins/execve.c \
+			builtins/export.c \
+			builtins/pwd.c \
+			builtins/exit.c \
+			builtins/unset.c \
+			execution/execution.c \
+			execution/execution_aux.c \
+			execution/execution_aux2.c \
+			parsing/aux.c \
+			parsing/cmd_spliter.c \
+			parsing/expand_question.c \
+			parsing/expand.c \
+			parsing/lstsort.c \
+			parsing/op_parser.c \
+			parsing/parser.c \
+			parsing/parse_quotes.c \
+			parsing/validate.c \
 			utils/env_utils.c \
 			utils/free_utils.c \
 			utils/heredoc_mng.c \

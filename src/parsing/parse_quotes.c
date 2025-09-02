@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 13:32:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:24:17 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	unmask_str(char *str)
 	while (str[++i])
 	{
 		(str[i] &= 0x7F);
-		!str[i] && (str[i] = '$');
+		if (str[i] == '\0')
+			str[i] = '$';
 	}
 	return (1);
 }
@@ -49,22 +50,22 @@ int	unmask(t_tree *t)
 	return (1);
 }
 
-static char	*rem_q(char *str, int count)
+static char	*remove_quotes(char *str, int count)
 {
 	char	*ret;
-	int		p1;
-	int		p2;
+	int		i;
+	int		j;
 
 	ret = ft_calloc(ft_strlen(str) - count + 1, 1);
 	if (!ret)
 		return (NULL);
-	p1 = -1;
-	p2 = -1;
-	while (str[++p1])
-		if (!ft_strchr("\"\'", str[p1]))
-			ret[++p2] = str[p1];
+	i = -1;
+	j = -1;
+	while (str[++i])
+		if (!ft_strchr("\"\'", str[i]))
+			ret[++j] = str[i];
 	ft_free(str);
-	ret[++p2] = '\0';
+	ret[++j] = '\0';
 	return (ret);
 }
 
@@ -99,5 +100,5 @@ char	*process_quotes(char *str, int count)
 			*s = 0x80;
 		mask_char(s, in_q, in_dq, skip);
 	}
-	return (rem_q(str, count));
+	return (remove_quotes(str, count));
 }

@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 11:55:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:15:10 by fiheaton         ###   ########.fr       */
+/*   Created: 2025/09/02 16:08:26 by fiheaton          #+#    #+#             */
+/*   Updated: 2025/09/02 16:09:13 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <limits.h>
 #include "minishell.h"
 
-int	ft_pwd(t_big *v)
-{
-	char	pwd[PATH_MAX];
-
-	if (!getcwd(pwd, PATH_MAX))
-		return (-1);
-	printf("%s\n", pwd);
-	v->exit_status = 0;
-	return (1);
-}
-
-long long	ft_atoil(const char *s, int *j)
+static long long	ft_atoil(const char *s, int *j)
 {
 	int			neg;
 	int			pos;
@@ -60,7 +47,7 @@ static void	err_exit(t_big *v, char *argv)
 	write(2, ": numeric argument required\n", 28);
 }
 
-int	check_exit(t_big *v, char *argv)
+static int	check_exit(t_big *v, char *argv)
 {
 	int	i;
 	int	j;

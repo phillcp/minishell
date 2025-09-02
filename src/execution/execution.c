@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 11:37:58 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:21:42 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	setup_pipe(int pipefd[2])
 	return (0);
 }
 
-void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
+void	child_fork(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 {
 	signal(SIGINT, SIG_DFL);
 	if (prev_fd != -1)
@@ -48,7 +48,7 @@ void	child_pipe(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 	exit_child(v);
 }
 
-void	parent_pipe(t_big *v, int *prev_fd, int *pipefd)
+void	parent_fork(t_big *v, int *prev_fd, int *pipefd)
 {
 	if (*prev_fd != -1)
 		close(*prev_fd);
@@ -105,8 +105,8 @@ void	pipe_loop(t_big *v, t_tree *t, int i)
 		pid = fork();
 		v->pid_lst[v->pid_counter++] = pid;
 		if (pid == 0)
-			child_pipe(v, cmd, prev_fd, pipefd);
-		parent_pipe(v, &prev_fd, pipefd);
+			child_fork(v, cmd, prev_fd, pipefd);
+		parent_fork(v, &prev_fd, pipefd);
 	}
 	wait_forks(v, v->pid_lst, v->pid_counter, t);
 }

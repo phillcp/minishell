@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:20 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:07:32 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:52:23 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ static void	free_cmd(void *v)
 	ft_free(v);
 }
 
-void	free_command(t_commands *cmd)
+void	free_data(t_parse *cmd)
 {
-	ft_free(cmd->line);
 	ft_treeclear(cmd->tree, free_cmd);
+	ft_free(cmd->line);
 	ft_free(cmd);
 }
 
-t_commands	*parse(t_big *v, const char *str)
+t_parse	*parse(t_big *v, const char *str)
 {
-	t_commands	*cmd;
+	t_parse	*cmd;
 
-	cmd = ft_calloc(1, sizeof(t_commands));
+	cmd = ft_calloc(1, sizeof(t_parse));
 	if (!cmd)
 		return (cmd);
 	if (!validate(str))

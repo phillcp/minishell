@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:25:33 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:44:29 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,13 @@ int	parse_op(t_big *v, t_tree *t)
 	if (cmd)
 		if (!parse_op_cmd(v, cmd))
 			return (0);
-	i = 0;
-	while (i < t->lcount)
-		if (!parse_op(v, t->leaves[i++]))
+	i = -1;
+	while (++i < t->lcount)
+	{
+		cmd = (t_cmd *)t->leaves[i]->content;
+		if (!parse_op_cmd(v, cmd))
 			return (0);
+
+	}
 	return (1);
 }

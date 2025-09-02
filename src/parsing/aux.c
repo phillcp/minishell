@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:31:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 20:10:05 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:30:51 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_list	*init_list(int key, char *in_out, char c)
 	return (l);
 }
 
-t_commands	*assign_error(t_commands *cmd, int i)
+t_parse	*assign_error(t_parse *cmd, int i)
 {
 	if (i != 0)
 		cmd->error = i;

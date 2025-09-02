@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/02 12:29:04 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:50:22 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "execution.h"
 #include "utilities.h"
 
-void	input_loop_extra(t_big *v, t_commands *cmd)
+void	input_loop_extra(t_big *v, t_parse *cmd)
 {
 	check_heredoc(v, cmd->tree);
 	signal(SIGINT, signal_handler);
@@ -28,6 +28,7 @@ void	input_loop_extra(t_big *v, t_commands *cmd)
 		else
 			exec_single(v, cmd->tree);
 	}
+	delete_temp(v, v->temp_path);
 }
 
 void	signal_hdoc(int signal)

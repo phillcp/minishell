@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:10:45 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:53:38 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	exec_single(t_big *v, t_tree *t)
 
 static void	input_loop(t_big *v, char *input)
 {
-	t_commands	*cmd;
+	t_parse	*cmd;
 
 	add_history(input);
 	cmd = parse(v, input);
@@ -109,7 +109,7 @@ static void	input_loop(t_big *v, char *input)
 	}
 	else
 		printf("Syntax error code: %d\n", cmd->error);
-	free_command(cmd);
+	free_data(cmd);
 	ft_free(input);
 	re_init(v);
 	input = NULL;
