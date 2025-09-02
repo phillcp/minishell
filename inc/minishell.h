@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:28:43 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:35:52 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ typedef struct s_big
 	int			*pid_lst;
 	int			stdin_hdoc;
 	t_cd		*cd;
-	t_parse	*cmd;
+	t_parse		*cmd;
 	t_dl_list	*env;
 	t_dl_list	*head;
 }				t_big;
 
-typedef struct	s_global
+typedef struct s_global
 {
-	int signal;
+	int			signal;
 }				t_global;
 
-extern t_global g_global;
+extern t_global	g_global;
 
 #endif
