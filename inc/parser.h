@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 21:04:14 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:04:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_parse		*parse(t_big *v, const char *str);
 t_parse		*assign_error(t_parse *cmd, int i);
 void		in_q_dq_assign(bool *in_q_dq, bool *skip, int *count);
 t_list		*init_list(int key, char *in_out, char c);
-void		set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip);
+void		set_false(bool *in_q, bool *in_dq, bool *skip);
 char		*process_quotes(char *str, int count);
 int			split_cmd(t_tree *t, char *c, int i);
 int			parse_op(t_big *v, t_tree *t);

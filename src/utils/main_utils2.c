@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:50:13 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:39:21 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include "parser.h"
 #include <readline/readline.h>
 
-void	exit_loop2(t_big *v, int init)
+void	exit_loop2(t_big *v, int i)
 {
+	if (i)
+		perror("allocation error\n");
 	close(2);
 	close(1);
 	close(0);
-	if (init)
-		write(2, "error initiating structure\n", 27);
 	exit_loop(v);
 }
 
@@ -61,7 +61,7 @@ int	go_read_lines(t_big *v, char *input, int output, char *eof_str)
 {
 	if (!input && g_global.signal)
 		return (1);
-	while (input && ft_strcmp(input, eof_str) != 1)
+	while (input && ft_strcmp(input, eof_str))
 	{
 		if (!input && g_global.signal)
 			return (1);

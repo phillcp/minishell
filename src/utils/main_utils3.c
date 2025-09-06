@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:53:22 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 08:53:35 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,18 @@
 #include "minishell.h"
 #include <readline/readline.h>
 
-void	exit_child(t_big *v)
+void	exit_child(t_big *v, int i)
 {
+	if (i == 1)
+	{
+		v->exit_status = 100;
+		perror("allocation error in child\n");
+	}
+	else if (i == 2)
+	{
+		v->exit_status = 101;
+		perror("error getting fd\n");
+	}
 	close(2);
 	close(1);
 	close(0);
@@ -43,12 +53,8 @@ int	check_mask(char **pth)
 
 void	export_wrong(char *str)
 {
-	int	x;
-
 	write(2, "export: '", 9);
-	x = -1;
-	while (str[++x] != 0)
-		write(2, &str[x], 1);
+	ft_putstr_fd(str, 2);
 	write(2, "': not a valid identifier\n", 26);
 }
 
@@ -57,10 +63,10 @@ int	create_hdoc_and_pid_arrays(t_big *v)
 	int	i;
 
 	i = -1;
-	v->hdoc_files = ft_calloc(sizeof(char *), (FD_MAX + 1));
+	v->hdoc_files = ft_calloc(sizeof(char *), (MAX_FD + 1));
 	if (!v->hdoc_files)
 		return (0);
-	while (++i < FD_MAX)
+	while (++i < MAX_FD)
 	{
 		v->hdoc_files[i] = ft_itoa(i);
 		if (!v->hdoc_files)
@@ -87,7 +93,7 @@ void	exit_loop(t_big *v)
 		exit_ccode = v->exit_status;
 	free_dl_list(v->env);
 	i = -1;
-	while (++i < FD_MAX)
+	while (++i < MAX_FD)
 		ft_free(v->hdoc_files[i]);
 	ft_free(v->hdoc_files);
 	ft_free(v->pid_lst);

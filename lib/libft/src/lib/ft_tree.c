@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:12:50 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 14:12:07 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:35:58 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_treeadd(t_tree *tree, void *content)
 {
 	t_tree	*new;
 
+	if (!content)
+		return (0);
 	new = ft_treenew(content);
 	if (!new)
 		return (0);

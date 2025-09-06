@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:56:37 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:30:05 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:23:11 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	lst_str_check(t_dl_list *lst, char *str)
 	while (1)
 	{
 		name = lst->name;
-		if (ft_strcmp(name, str))
+		if (!ft_strcmp(name, str))
 		{
 			lst = head;
 			return (1);
@@ -55,7 +55,7 @@ void	ft_unset(t_big *v, t_dl_list *env, char **argv, int i)
 	temp = NULL;
 	if (!(lst_str_check(env, argv[i + 1])))
 		return ;
-	while (!(ft_strcmp(env->name, argv[i + 1])))
+	while (ft_strcmp(env->name, argv[i + 1]))
 	{
 		temp = env;
 		env = env->next;

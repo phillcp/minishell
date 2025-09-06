@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:38:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 09:04:44 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	exec_single(t_big *v, t_tree *t)
 		file_input_instruction(v, cmd);
 		file_output_instruction(v, cmd);
 		cmd_selector(v, cmd->cmd, false);
-		exit_child(v);
+		exit_child(v, 0);
 	}
 	wait_one_pid(v, pid, cmd->cmd[0]);
 }
@@ -131,11 +131,11 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, signal_handler);
 	while (1)
 	{
-		input = readline(CLR_PURPLE"Minishell:> "CLR_RST);
+		input = readline(CLR_GREEN"Minishell:> "CLR_RST);
 		if (input && ft_strlen(input) != 0)
 			input_loop(v, input);
 		else if (input)
-			ft_free(input);
+			free(input);
 		if (v->exit || !input)
 			exit_loop2(v, 0);
 	}

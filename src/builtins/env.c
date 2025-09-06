@@ -6,12 +6,27 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 20:46:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:42:22 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+
+static void	print_env(t_dl_list *env)
+{
+	t_dl_list	*head;
+
+	head = env;
+	while (env)
+	{
+		printf("%s", (char *)env->name);
+		printf("=");
+		printf("%s\n", (char *)env->content);
+		env = env->next;
+	}
+	env = head;
+}
 
 void	ft_env(t_big *v, t_dl_list *env, char **argv)
 {
@@ -28,6 +43,6 @@ void	ft_env(t_big *v, t_dl_list *env, char **argv)
 		v->exit_status = 126;
 		return ;
 	}
-	ft_lstprint(env, 'a');
+	print_env(env);
 	v->exit_status = 0;
 }

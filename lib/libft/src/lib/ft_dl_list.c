@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dl_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:23:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 12:35:14 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:15:52 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_listget_dl(const char *key, t_dl_list *l)
 {
-	while (l && !ft_strcmp(key, l->name))
+	while (l && ft_strcmp(key, l->name))
 		l = l->next;
 	if (l)
 		return (l->content);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   execution_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 11:32:55 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/06 08:57:26 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@
 
 void	err_c(t_big *v, char *str)
 {
-	write (2, "minishell: ", 11);
+	write(2, "minishell: ", 11);
 	ft_putstr_fd(str, 2);
 	write(2, ": ", 2);
-	write (2, "command not found", 17);
-	write (2, "\n", 1);
+	write(2, "command not found", 17);
+	write(2, "\n", 1);
 	v->exit_status = 127;
+}
+
+void	go_wait(int *pid_lst, int *status, int i)
+{
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid_lst[i], status, 0);
+	signal(SIGINT, signal_handler);
 }
 
 void	err_i(t_big *v, char *str)

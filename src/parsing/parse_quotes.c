@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   q_parser.c                                         :+:      :+:    :+:   */
+/*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:24:17 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:32:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,16 @@ static char	*remove_quotes(char *str, int count)
 	return (ret);
 }
 
-static void	mask_char(char *c, bool in_q, bool in_dq, bool skip)
-{
-	if ((*c & 0x7F) && (in_q || in_dq) && !skip)
-		*c |= 0x80;
-}
-
 char	*process_quotes(char *str, int count)
 {
 	bool	in_q;
 	bool	in_dq;
-	bool	in_var;
 	bool	skip;
 	char	*s;
 
-	set_false(&in_q, &in_dq, &in_var, &skip);
+	if (!str)
+		return (NULL);
+	set_false(&in_q, &in_dq, &skip);
 	s = str - 1;
 	while (*++s)
 	{
@@ -92,13 +87,10 @@ char	*process_quotes(char *str, int count)
 			in_q_dq_assign(&in_q, &skip, &count);
 		else if (*s == '\"' && !in_q)
 			in_q_dq_assign(&in_dq, &skip, &count);
-		if (*s == '$' && !in_q)
-			in_var = true;
-		if (ft_strchr(" \'\"|", *s))
-			in_var = false;
 		if (*s == '$' && in_q)
 			*s = 0x80;
-		mask_char(s, in_q, in_dq, skip);
+		else if ((in_q || in_dq) && !skip)
+			*s |= 0x80;
 	}
 	return (remove_quotes(str, count));
 }

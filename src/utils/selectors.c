@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:46:21 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 09:19:19 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static int	screening_two(t_big *v, char ***argv_p, int i)
 	char	**argv;
 
 	argv = *argv_p;
-	if (ft_strcmp(argv[i], "pwd"))
+	if (!ft_strcmp(argv[i], "pwd"))
 		ft_pwd(v);
-	else if (ft_strcmp(argv[i], "export"))
+	else if (!ft_strcmp(argv[i], "export"))
 		ft_export(v, argv, false);
-	else if (ft_strcmp(argv[i], "unset"))
+	else if (!ft_strcmp(argv[i], "unset"))
 		ft_unset(v, v->env, argv, i);
 	else
 		i = 1;
@@ -38,15 +38,13 @@ int	screening_one(t_big *v, char **argv)
 	i = 0;
 	if (argv)
 	{
-		if (ft_strcmp(argv[i], "exit"))
+		if (!ft_strcmp(argv[i], "exit"))
 			ft_exit(v, argv);
-		else if (ft_strcmp(argv[i], "echo"))
+		else if (!ft_strcmp(argv[i], "echo"))
 			ft_echo(v, argv);
-		else if (ft_strcmp(argv[i], "cd"))
+		else if (!ft_strcmp(argv[i], "cd"))
 			ft_cd(v, argv);
-		else if (ft_strcmp(argv[i], "test"))
-			write(1, "hello\n", 6);
-		else if (ft_strcmp(argv[i], "env"))
+		else if (!ft_strcmp(argv[i], "env"))
 			ft_env(v, v->env, argv);
 		else
 			i = screening_two(v, &argv, i);
@@ -58,24 +56,24 @@ void	cmd_selector(t_big *v, char **argv, bool in_pipe)
 {
 	if (argv)
 	{
-		if (ft_strcmp(argv[0], "echo"))
+		if (!ft_strcmp(argv[0], "echo"))
 			ft_echo(v, argv);
-		else if (ft_strcmp(argv[0], "env"))
+		else if (!ft_strcmp(argv[0], "env"))
 			ft_env(v, v->env, argv);
-		else if (ft_strcmp(argv[0], "pwd") || ft_strcmp(argv[0], "PWD"))
+		else if (!ft_strcmp(argv[0], "pwd") || !ft_strcmp(argv[0], "PWD"))
 			ft_pwd(v);
-		else if (ft_strcmp(argv[0], "cd"))
+		else if (!ft_strcmp(argv[0], "cd"))
 			ft_cd(v, argv);
-		else if (ft_strcmp(argv[0], "export") && in_pipe == true)
+		else if (!ft_strcmp(argv[0], "export") && in_pipe == true)
 			ft_export(v, argv, in_pipe);
-		else if (ft_strcmp(argv[0], "exit") || ft_strcmp(argv[0], "unset")
-			|| ft_strcmp(argv[0], "export") || ft_strisspace(argv[0]))
+		else if (!ft_strcmp(argv[0], "exit") || !ft_strcmp(argv[0], "unset")
+			|| !ft_strcmp(argv[0], "export") || ft_strisspace(argv[0]))
 		{
 			v->exit_status = 0;
 			return ;
 		}
 		else
-			ft_execve(v, argv, 0);
+			ft_execve(v, argv);
 	}
 }
 
@@ -99,21 +97,19 @@ int	cmd_identifier(char **argv)
 	i = 0;
 	if (argv)
 	{
-		if (ft_strcmp(argv[i], "exit"))
+		if (!ft_strcmp(argv[i], "exit"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "cd"))
+		else if (!ft_strcmp(argv[i], "cd"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "test"))
+		else if (!ft_strcmp(argv[i], "echo"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "echo"))
+		else if (!ft_strcmp(argv[i], "env"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "env"))
+		else if (!ft_strcmp(argv[i], "export"))
 			i = 0;
-		else if (ft_strcmp(argv[i], "export"))
+		else if (!ft_strcmp(argv[i], "unset") && argv[i + 1] != NULL)
 			i = 0;
-		else if (ft_strcmp(argv[i], "unset") && argv[i + 1] != NULL)
-			i = 0;
-		else if (ft_strcmp(argv[i], "pwd"))
+		else if (!ft_strcmp(argv[i], "pwd"))
 			i = 0;
 		else
 			i = 1;

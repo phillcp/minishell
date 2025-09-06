@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:38:00 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:41:16 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 # define UTILITIES_H
 
 # include "libft.h"
-
 # include "parser.h"
 
-# define CHAR_UNHANDLED 1
-# define QUOTES_OPEN 2
 # define MAX_FD 256
 
 int			error_output(t_big *v, char type, char *str);
 void		err_i(t_big *v, char *str);
 void		err_c(t_big *v, char *str);
-void		exit_child(t_big *v);
+void		exit_child(t_big *v, int i);
 void		exit_loop2(t_big *v, int init);
 void		signal_hdoc(int signal);
 

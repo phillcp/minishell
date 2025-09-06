@@ -9,14 +9,12 @@ INC_DIR	=	inc/
 OBJ_DIR	=	obj/
 DEP_DIR	=	dep/
 
-SRC 	=	gnl/get_next_line.c \
-			lib/ft_abs.c \
+SRC 	=	lib/ft_abs.c \
 			lib/ft_atoi.c \
 			lib/ft_bzero.c \
 			lib/ft_calloc.c \
 			lib/ft_char_to_str.c \
 			lib/ft_dl_list.c \
-			lib/ft_dl_list2.c \
 			lib/ft_free.c \
 			lib/ft_isalnum.c \
 			lib/ft_isalpha.c \

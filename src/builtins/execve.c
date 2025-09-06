@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/31 12:17:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:17:59 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*path_creation(t_big *v, char *path, char *cmd)
 	t_dl_list	*head;
 
 	head = v->env;
-	if (!ft_strncmp(cmd, "./", 2) || ft_strcmp(cmd, "a.out"))
+	if (!ft_strncmp(cmd, "./", 2) || !ft_strcmp(cmd, "a.out"))
 		new_path = ft_strjoin(return_env_content(v->env, "PWD"), ++cmd);
 	else if (!ft_strncmp(cmd, "/", 1))
 		new_path = ft_strdup(cmd);
@@ -46,7 +46,18 @@ static void	create_env_array_loop(t_big *v, char **env)
 	while (v->env)
 	{
 		temp = ft_strjoin(v->env->name, "=");
+		if (!temp)
+		{
+			free_table(env);
+			exit_child(v, 1);
+		}
 		env[++i] = ft_strjoin(temp, v->env->content);
+		if (!env[i])
+		{
+			ft_free(temp);
+			free_table(env);
+			exit_child(v, 1);
+		}
 		ft_free(temp);
 		v->env = v->env->next;
 		if (!v->env)
@@ -72,12 +83,14 @@ static char	**temp_env(t_big *v)
 	}
 	v->env = head;
 	env = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!env)
+		exit_child(v, 1);
 	create_env_array_loop(v, env);
 	v->env = head;
 	return (env);
 }
 
-static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
+static int	path_creation_loop(t_big *v, char **cmds, char **path)
 {
 	char	**env;
 	char	*total;
@@ -87,7 +100,7 @@ static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
 	env = temp_env(v);
 	while (path[++i])
 	{
-		total = path_creation(v, path[i], cmd);
+		total = path_creation(v, path[i], cmds[0]);
 		execve(total, cmds, env);
 		ft_free(total);
 		total = NULL;
@@ -96,19 +109,21 @@ static int	path_creation_loop(t_big *v, char **cmds, char **path, char *cmd)
 	return (127);
 }
 
-int	ft_execve(t_big *v, char **argv, int i)
+int	ft_execve(t_big *v, char **argv)
 {
 	char	*path;
 	char	**paths;
 
-	if (!argv[i])
+	if (!argv[0])
 	{
 		v->exit_status = 50;
 		return (0);
 	}
 	path = return_env_content(v->env, "PATH");
 	paths = ft_split((const char *)path, ':');
-	path_creation_loop(v, argv, paths, argv[i]);
+	if (!paths || paths[0] == NULL)
+		exit_child(v, 1);
+	path_creation_loop(v, argv, paths);
 	free_table(paths);
 	error_output(v, 'c', argv[0]);
 	return (1);

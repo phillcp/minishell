@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:48:38 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 09:25:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@ void	print_env_content(t_dl_list *lst, char *name, char free_name)
 		ft_free(name);
 }
 
-char	*return_env_content(t_dl_list *lst, char *name)
+char	*return_env_content(t_dl_list *env, char *name)
 {
-	while (lst)
+	t_dl_list	*tmp;
+
+	tmp = env;
+	while (tmp)
 	{
-		if (ft_strcmp(lst->name, name))
+		if (!ft_strcmp(tmp->name, name))
 			break ;
-		if (lst->next == NULL)
+		if (tmp->next == NULL)
 			return (NULL);
-		lst = lst->next;
+		tmp = tmp->next;
 	}
-	return (lst->content);
+	return (tmp->content);
 }
 
 char	*get_name(char *str, char c)
@@ -101,7 +104,7 @@ int	check_env_names(t_big *v, char *name, char *content)
 	head = v->env;
 	while (1)
 	{
-		if (ft_strcmp(name, v->env->name))
+		if (!ft_strcmp(name, v->env->name))
 		{
 			ft_free(v->env->content);
 			v->env->content = ft_strdup(content);

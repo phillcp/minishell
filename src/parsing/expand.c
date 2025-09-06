@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:48:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:25:31 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static int	expand2(char **s, int *i, int start)
 
 	str = *s;
 	*i = start - 1;
-	if ((str[*i + 1] & 0x7F) == '?')
-		return (0);
 	while (ft_isalnum((str[++(*i)] & 0x7F)) || (str[*i] & 0x7F) == '_')
 		;
 	*i -= start;
@@ -84,6 +82,7 @@ static char	*expand_cmd(t_big *v, char *s, int i)
 	in_q = false;
 	if (!s)
 		return (NULL);
+	printf("str: |%s|\n", s);
 	while (s[++i])
 	{
 		if (s[i] == '\'')

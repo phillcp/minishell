@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:35:52 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:31:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include "color.h"
 # include "parser.h"
+# include <signal.h>
 
 # ifndef CHILD_MAX
 #  define CHILD_MAX 512
 # endif
+
+# define CLR_GREEN	"\033[38;5;47m"
+# define CLR_RST	"\033[0m"
 
 typedef struct s_cd
 {

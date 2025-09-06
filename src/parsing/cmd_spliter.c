@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_spliter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 12:25:12 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:34:09 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static void	*newcmd(char *s)
 {
 	t_cmd	*cmd;
 
+	if (!s)
+		return (NULL);
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
@@ -69,13 +71,13 @@ int	split_cmd(t_tree *t, char *s, int i)
 		if (s[i] == '|')
 		{
 			if (!ft_treeadd(t, newcmd(ft_substr(s, j, i - j))))
-				return (-1);
+				return (0);
 			j = ++i;
 		}
 		else
 			i++;
 	}
 	if (!ft_treeadd(t, newcmd(ft_substr(s, j, i - j))))
-		return (-1);
-	return (i);
+		return (0);
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 19:51:27 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/02 21:12:17 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:30:45 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,42 @@ int	check_empty_cmd(char **cmd)
 	return (0);
 }
 
-void	go_wait(int *pid_lst, int *status, int i)
+void	swap_env(t_dl_list *tmp1, t_dl_list *tmp2)
 {
-	signal(SIGINT, SIG_IGN);
-	waitpid(pid_lst[i], status, 0);
-	signal(SIGINT, signal_handler);
+	char	*tmp_name;
+	char	*tmp_cont;
+
+	tmp_name = tmp1->name;
+	tmp_cont = tmp1->content;
+	tmp1->content = tmp2->content;
+	tmp1->name = tmp2->name;
+	tmp2->content = tmp_cont;
+	tmp2->name = tmp_name;
+}
+
+t_dl_list	*sort_env(t_dl_list *env)
+{
+	t_dl_list	*tmp1;
+	t_dl_list	*tmp2;
+	int			swap;
+
+	swap = 1;
+	while (swap)
+	{
+		swap = 0;
+		tmp1 = env;
+		while (tmp1 && tmp1->next)
+		{
+			tmp2 = tmp1->next;
+			if (ft_strcmp(tmp1->name, tmp2->name) > 0)
+			{
+				swap_env(tmp1, tmp2);
+				swap = 1;
+			}
+			tmp1 = tmp2;
+		}
+	}
+	return (env);
 }
 
 void	print_env_export(t_dl_list	*env)
@@ -41,6 +72,7 @@ void	print_env_export(t_dl_list	*env)
 	t_dl_list	*head;
 
 	head = env;
+	sort_env(env);
 	while (env)
 	{
 		printf("declare -x ");

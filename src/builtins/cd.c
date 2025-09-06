@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/27 16:17:48 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:32:39 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utilities.h"
 #include "libft.h"
 
-static int	change_directory(t_big *v, t_dl_list *head, char *path)
+static int	change_dir(t_big *v, char *path)
 {
 	char	old_pwd[PATH_MAX];
 	char	*tmp_path;
@@ -23,14 +23,13 @@ static int	change_directory(t_big *v, t_dl_list *head, char *path)
 
 	if (!getcwd(old_pwd, PATH_MAX))
 		return (-1);
-	if (path == NULL || ft_strcmp(path, "~") || !ft_strlen(path))
+	if (!path || !ft_strcmp(path, "~") || !ft_strlen(path))
 		tmp_path = ft_strdup(return_env_content(v->env, "HOME"));
 	else if (path[0] == '~')
 		tmp_path = ft_strjoin(return_env_content(v->env, "HOME"), path + 1);
 	else
 		tmp_path = ft_strdup(path);
 	ret = chdir(tmp_path);
-	v->env = head;
 	if (ret >= 0)
 	{
 		check_env_names(v, "OLDPWD", old_pwd);
@@ -42,11 +41,9 @@ static int	change_directory(t_big *v, t_dl_list *head, char *path)
 
 int	ft_cd(t_big *v, char **argv)
 {
-	t_dl_list	*head;
 	int			ret;
 	int			i;
 
-	head = v->env;
 	i = 0;
 	while (argv[i])
 		i++;
@@ -56,7 +53,7 @@ int	ft_cd(t_big *v, char **argv)
 		v->exit_status = 1;
 		return (-1);
 	}
-	ret = change_directory(v, head, argv[1]);
+	ret = change_dir(v, argv[1]);
 	v->exit_status = 0;
 	if (ret < 0)
 		error_output(v, 'd', argv[1]);

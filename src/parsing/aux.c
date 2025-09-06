@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:31:12 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:30:51 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:04:27 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ t_parse	*assign_error(t_parse *cmd, int i)
 	return (cmd);
 }
 
-void	set_false(bool *in_q, bool *in_dq, bool *in_var, bool *skip)
+void	set_false(bool *in_q, bool *in_dq, bool *skip)
 {
 	*(in_q) = false;
 	*(in_dq) = false;
-	*(in_var) = false;
 	*(skip) = false;
 }
