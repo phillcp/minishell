@@ -6,16 +6,14 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 10:25:31 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:09:08 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <limits.h>
 #include <stdio.h>
-
 #include "libft.h"
-
 #include "minishell.h"
 #include "parser.h"
 
@@ -27,6 +25,8 @@ static char	*replace(char *s1, const char *s2, int pos, int len)
 	int		i;
 
 	t1 = ft_substr(s1, 0, pos);
+	if (!t1)
+		return (NULL);
 	mask = ft_strdup(s2);
 	i = -1;
 	if (len & INT_MIN)
@@ -71,24 +71,18 @@ int	expand1(t_big *v, char **str, int start)
 	if (!big)
 		return (0);
 	*str = replace(s, big, start - 1, (i + 1));
+	if (!*str)
+		return (0);
 	ft_free(s);
 	return (1);
 }
 
 static char	*expand_cmd(t_big *v, char *s, int i)
 {
-	bool	in_q;
-
-	in_q = false;
 	if (!s)
 		return (NULL);
-	printf("str: |%s|\n", s);
 	while (s[++i])
 	{
-		if (s[i] == '\'')
-			in_q = !in_q;
-		if (in_q)
-			continue ;
 		if ((s[i] & 0x7F) == '$')
 		{
 			if ((s[i + 1] & 0x7F) == '?')

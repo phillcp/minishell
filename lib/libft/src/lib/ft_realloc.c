@@ -3,31 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:30:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/08/21 14:51:39 by fheaton-         ###   ########.fr       */
+/*   Updated: 2025/09/06 11:21:24 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t osize, size_t nsize)
+void	*ft_realloc(void *ptr, size_t o_size, size_t n_size)
 {
 	char	*ret;
 
 	if (!ptr)
-		return (ft_calloc(nsize, 1));
-	if (!nsize)
+		return (ft_calloc(n_size, 1));
+	if (!n_size)
+	{
 		ft_free(ptr);
-	if (!nsize)
 		return (NULL);
-	ret = ft_calloc(nsize, 1);
+	}
+	ret = malloc(n_size);
 	if (!ret)
 		return (ptr);
-	if (osize > nsize)
-		osize = nsize;
-	ft_memcpy(ret, ptr, osize);
+	if (o_size > n_size)
+		o_size = n_size;
+	ft_memcpy(ret, ptr, o_size);
 	ft_free(ptr);
 	return (ret);
 }

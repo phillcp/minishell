@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/05 21:41:16 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ char		*return_env_content(t_dl_list *lst, char *name);
 char		*get_name(char *str, char c);
 t_dl_list	*get_env(t_big *v, char **env);
 
-void		free_list_nodes(t_dl_list *lst);
-void		free_dl_list(t_dl_list *lst);
-void		delete_temp(t_big *v, char *path);
-void		free_table(char **table);
+void		free_dl_list_node(t_dl_list *lst);
+void		delete_tmpfiles(t_big *v, char *path);
+void		free_env_arr(char **env_arr);
 
 void		signal_handler(int signal);
 void		clean_processes(t_big *v);

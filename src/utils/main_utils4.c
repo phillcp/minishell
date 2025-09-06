@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/02 16:50:22 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	input_loop_extra(t_big *v, t_parse *cmd)
 		else
 			exec_single(v, cmd->tree);
 	}
-	delete_temp(v, v->temp_path);
+	delete_tmpfiles(v, v->temp_path);
 }
 
 void	signal_hdoc(int signal)

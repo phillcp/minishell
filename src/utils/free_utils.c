@@ -6,14 +6,14 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:54 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/05 21:20:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-void	delete_temp(t_big *v, char *path)
+void	delete_tmpfiles(t_big *v, char *path)
 {
 	char	*file_path;
 	char	*nbr;
@@ -37,7 +37,7 @@ void	delete_temp(t_big *v, char *path)
 	}
 }
 
-void	free_list_nodes(t_dl_list *lst)
+void	free_dl_list_node(t_dl_list *lst)
 {
 	t_dl_list	*temp;
 
@@ -46,38 +46,25 @@ void	free_list_nodes(t_dl_list *lst)
 	while (lst)
 	{
 		temp = lst->next;
-		ft_free(lst);
-		lst = NULL;
-		lst = temp;
-	}
-}
-
-void	free_dl_list(t_dl_list *lst)
-{
-	t_dl_list	*temp;
-
-	while (lst)
-	{
-		temp = lst->next;
 		ft_free(lst->content);
 		ft_free(lst->name);
-		ft_free(lst);
+		free(lst);
 		lst = temp;
 	}
 }
 
-void	free_table(char **array)
+void	free_env_arr(char **env_arr)
 {
 	int	i;
 
 	i = -1;
-	if (!array)
+	if (!env_arr)
 		return ;
-	while (array[++i])
+	while (env_arr[++i])
 	{
-		ft_free(array[i]);
-		array[i] = NULL;
+		free(env_arr[i]);
+		env_arr[i] = NULL;
 	}
-	ft_free(array);
-	array = NULL;
+	free(env_arr);
+	env_arr = NULL;
 }

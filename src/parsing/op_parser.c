@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:58:11 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:30:39 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:07:36 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,25 +87,12 @@ static int	parse_op_cmd2(t_big *v, char *cur, t_cmd *cmd)
 
 static int	parse_op_cmd(t_big *v, t_cmd *cmd)
 {
-	bool	in_q;
-	bool	in_dq;
 	char	*cur;
 	int		i;
 
-	in_q = false;
-	in_dq = false;
 	cur = (char *) cmd->line;
 	while (*cur)
 	{
-		if (*cur == '\'' && !in_dq)
-			in_q = !in_q;
-		else if (*cur == '\"' && !in_q)
-			in_dq = !in_dq;
-		if (in_q || in_dq)
-		{
-			cur++;
-			continue ;
-		}
 		i = parse_op_cmd2(v, cur, cmd);
 		if (i < 0)
 			return (0);

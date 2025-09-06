@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 10:17:59 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 12:53:13 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*path_creation(t_big *v, char *path, char *cmd)
 	return (new_path);
 }
 
-static void	create_env_array_loop(t_big *v, char **env)
+static void	create_env_array_loop(t_big *v, char **env_arr)
 {
 	char	*temp;
 	int		i;
@@ -48,22 +48,21 @@ static void	create_env_array_loop(t_big *v, char **env)
 		temp = ft_strjoin(v->env->name, "=");
 		if (!temp)
 		{
-			free_table(env);
+			free_env_arr(env_arr);
 			exit_child(v, 1);
 		}
-		env[++i] = ft_strjoin(temp, v->env->content);
-		if (!env[i])
-		{
-			ft_free(temp);
-			free_table(env);
-			exit_child(v, 1);
-		}
+		env_arr[++i] = ft_strjoin(temp, v->env->content);
 		ft_free(temp);
+		if (!env_arr[i])
+		{
+			free_env_arr(env_arr);
+			exit_child(v, 1);
+		}
 		v->env = v->env->next;
 		if (!v->env)
 			break ;
 	}
-	env[++i] = NULL;
+	env_arr[++i] = NULL;
 }
 
 static char	**temp_env(t_big *v)
@@ -105,7 +104,7 @@ static int	path_creation_loop(t_big *v, char **cmds, char **path)
 		ft_free(total);
 		total = NULL;
 	}
-	free_table(env);
+	free_env_arr(env);
 	return (127);
 }
 
@@ -124,7 +123,7 @@ int	ft_execve(t_big *v, char **argv)
 	if (!paths || paths[0] == NULL)
 		exit_child(v, 1);
 	path_creation_loop(v, argv, paths);
-	free_table(paths);
+	free_env_arr(paths);
 	error_output(v, 'c', argv[0]);
 	return (1);
 }

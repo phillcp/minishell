@@ -6,13 +6,13 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 19:08:35 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/01 00:19:14 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:57:49 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	rng(const char *s, unsigned int start, size_t len)
+static int	get_sub_len(const char *s, unsigned int start, size_t len)
 {
 	size_t	i;
 
@@ -27,24 +27,22 @@ static int	rng(const char *s, unsigned int start, size_t len)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
-	size_t	i;
 	size_t	j;
-	size_t	range;
+	size_t	sub_len;
 
 	if (!s)
 		return (NULL);
 	j = 0;
-	range = rng(s, start, len);
-	str = ft_calloc(range + 1, 1);
+	sub_len = get_sub_len(s, start, len);
+	str = malloc(sub_len + 1);
+	if (!str)
+		return (NULL);
 	if (ft_strlen(s) >= start)
 	{
-		if (!str)
-			return (NULL);
-		i = start;
-		while (s[i] && j < range)
+		while (s[start] && j < sub_len)
 		{
-			str[j] = s[i];
-			i++;
+			str[j] = s[start];
+			start++;
 			j++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:36 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 08:53:35 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/06 12:54:19 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	exit_loop(t_big *v)
 	exit_ccode = v->exit_ccode;
 	if (!v->exit_ccode)
 		exit_ccode = v->exit_status;
-	free_dl_list(v->env);
+	free_dl_list_node(v->env);
 	i = -1;
 	while (++i < MAX_FD)
 		ft_free(v->hdoc_files[i]);
