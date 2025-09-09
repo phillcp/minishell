@@ -15,33 +15,37 @@ SRC 	=	main.c \
 			builtins/cd.c \
 			builtins/echo.c \
 			builtins/env.c \
+			builtins/execve_aux.c \
 			builtins/execve.c \
+			builtins/export_aux.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/exit.c \
 			builtins/unset.c \
-			execution/execution.c \
-			execution/execution_aux.c \
-			execution/execution_aux2.c \
-			parsing/aux.c \
-			parsing/cmd_spliter.c \
-			parsing/expand_question.c \
+			execution/cmd_selectors.c \
+			execution/exec_aux.c \
+			execution/exec_aux2.c \
+			execution/exec_aux3.c \
+			execution/exec.c \
+			parsing/create_tokens_aux.c \
+			parsing/create_tokens_word.c \
+			parsing/create_tokens.c \
+			parsing/expand_word.c \
 			parsing/expand.c \
-			parsing/lstsort.c \
-			parsing/op_parser.c \
+			parsing/free_parse.c \
+			parsing/parse_cmd.c \
 			parsing/parser.c \
-			parsing/parse_quotes.c \
+			parsing/redirections.c \
 			parsing/validate.c \
 			utils/env_utils.c \
+			utils/env_utils2.c \
+			utils/file_input.c \
+			utils/file_output.c \
 			utils/free_utils.c \
-			utils/heredoc_mng.c \
-			utils/input_mng.c \
+			utils/heredoc.c \
+			utils/heredoc_aux.c \
 			utils/main_utils.c \
-			utils/main_utils2.c \
-			utils/main_utils3.c \
-			utils/main_utils4.c \
-			utils/output_mng.c \
-			utils/selectors.c
+			utils/main_utils2.c
 SRCS	= $(addprefix $(SRC_DIR), $(SRC))
 OBJS	= $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%,$(SRCS:.c=.o))
 DEPS	= $(patsubst $(SRC_DIR)%, $(DEP_DIR)%,$(SRCS:.c=.d))

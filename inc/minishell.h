@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 15:46:31 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 09:02:50 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,15 @@
 # include "parser.h"
 # include <signal.h>
 
-# ifndef CHILD_MAX
-#  define CHILD_MAX 512
-# endif
-
 # define CLR_GREEN	"\033[38;5;47m"
 # define CLR_RST	"\033[0m"
 
-typedef struct s_cd
+typedef struct s_env
 {
-	t_dl_list	*tmp;
-	char		*pwd;
-	char		*path1;
-	char		*path2;
-	char		*backup;
-}				t_cd;
+	char			*content;
+	char			*key;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_big
 {
@@ -40,17 +34,11 @@ typedef struct s_big
 	int			exit_status;
 	int			exit_ccode;
 	int			last_pipe;
-	char		**hdoc_files;
-	int			empty_str;
 	int			hdoc_counter;
-	int			hdoc_q;
 	int			pid_counter;
 	int			*pid_lst;
-	int			stdin_hdoc;
-	t_cd		*cd;
-	t_parse		*cmd;
-	t_dl_list	*env;
-	t_dl_list	*head;
+	t_parse		*parsed;
+	t_env		*env;
 }				t_big;
 
 typedef struct s_global

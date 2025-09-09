@@ -9,12 +9,10 @@ INC_DIR	=	inc/
 OBJ_DIR	=	obj/
 DEP_DIR	=	dep/
 
-SRC 	=	lib/ft_abs.c \
-			lib/ft_atoi.c \
+SRC 	=	lib/ft_atoi.c \
 			lib/ft_bzero.c \
 			lib/ft_calloc.c \
 			lib/ft_char_to_str.c \
-			lib/ft_dl_list.c \
 			lib/ft_free.c \
 			lib/ft_isalnum.c \
 			lib/ft_isalpha.c \
@@ -65,9 +63,7 @@ SRC 	=	lib/ft_abs.c \
 			lib/ft_strtrim.c \
 			lib/ft_substr.c \
 			lib/ft_tolower.c \
-			lib/ft_toupper.c \
-			lib/ft_tree.c \
-			lib/ft_uitoa.c
+			lib/ft_toupper.c
 SRCS	= $(addprefix $(SRC_DIR), $(SRC))
 OBJS	= $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%,$(SRCS:.c=.o))
 DEPS	= $(patsubst $(SRC_DIR)%, $(DEP_DIR)%,$(SRCS:.c=.d))

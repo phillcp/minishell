@@ -6,29 +6,30 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:42:22 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:02:36 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-static void	print_env(t_dl_list *env)
+static void	print_env(t_env *env)
 {
-	t_dl_list	*head;
+	t_env	*cur;
 
-	head = env;
-	while (env)
+	if (!env)
+		return ;
+	cur = env;
+	while (cur)
 	{
-		printf("%s", (char *)env->name);
+		printf("%s", (char *)cur->key);
 		printf("=");
-		printf("%s\n", (char *)env->content);
-		env = env->next;
+		printf("%s\n", (char *)cur->content);
+		cur = cur->next;
 	}
-	env = head;
 }
 
-void	ft_env(t_big *v, t_dl_list *env, char **argv)
+void	ft_env(t_big *v, t_env *env, char **argv)
 {
 	int	i;
 

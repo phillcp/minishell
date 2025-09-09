@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:08:26 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/02 16:09:13 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/08 10:32:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	ft_exit(t_big *v, char **argv)
 	while (argv[i])
 		i++;
 	if (i > 2)
-		return (v->exit_status = 1, write(2, " too many arguments\n", 20));
+	{
+		write(2, " too many arguments\n", 20);
+		return (v->exit_status = 1);
+	}
 	printf("exit\n");
 	if (i == 2 && check_exit(v, argv[1]))
 	{

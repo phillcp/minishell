@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/05 21:41:04 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:46:28 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,14 @@ void	child_fork(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 	if (!v->last_pipe)
 	{
 		close(pipefd[0]);
-		if (check_empty_cmd(cmd->cmd))
-			;
-		else
-			dup2(pipefd[1], 1);
+		dup2(pipefd[1], 1);
 		close(pipefd[1]);
 	}
-	file_input_instruction(v, cmd);
-	file_output_instruction(v, cmd);
-	cmd_selector(v, cmd->cmd, true);
+	if (has_input(cmd))
+		fork_input(v, cmd);
+	if (has_output(cmd))
+		fork_output(v, cmd);
+	cmd_selector(v, cmd->argv, true);
 	exit_child(v, 0);
 }
 
@@ -59,54 +58,51 @@ void	parent_fork(t_big *v, int *prev_fd, int *pipefd)
 	}
 }
 
-static void	wait_forks(t_big *v, int *pid_lst, int pid_counter, t_tree *t)
+void	pipe_loop(t_big *v, t_cmd *cmds, int i)
 {
-	int		status;
-	int		sig;
-	int		i;
-	t_cmd	*cmd;
-
-	i = -1;
-	while (++i < pid_counter)
-	{
-		cmd = (t_cmd *)t->leaves[i]->content;
-		go_wait(pid_lst, &status, i);
-		if (WIFSIGNALED(status))
-		{
-			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(2, "\n", 1);
-			v->exit_status = 128 + sig;
-		}
-		else if (WIFEXITED(status))
-			v->exit_status = WEXITSTATUS(status);
-		if (v->exit_status == 50)
-			error_output(v, 'c', cmd->cmd[0]);
-	}
-}
-
-void	pipe_loop(t_big *v, t_tree *t, int i)
-{
-	t_cmd	*cmd;
+	t_cmd	*cur;
 	int		pipefd[2];
 	pid_t	pid;
 	int		prev_fd;
 
 	prev_fd = -1;
-	while (++i < t->lcount)
+	cur = cmds;
+	while (++i < cmds->n_cmds && cur)
 	{
-		cmd = (t_cmd *)t->leaves[i]->content;
-		v->hdoc_counter += 10;
-		if (i == t->lcount - 1)
+		if (i == cmds->n_cmds - 1)
 			v->last_pipe = 1;
 		if (!v->last_pipe)
 			if (setup_pipe(pipefd) == -1)
 				return ;
 		pid = fork();
-		v->pid_lst[v->pid_counter++] = pid;
 		if (pid == 0)
-			child_fork(v, cmd, prev_fd, pipefd);
+			child_fork(v, cur, prev_fd, pipefd);
+		v->pid_lst[v->pid_counter++] = pid;
 		parent_fork(v, &prev_fd, pipefd);
+		cur = cur->next;
 	}
-	wait_forks(v, v->pid_lst, v->pid_counter, t);
+	wait_forks(v, v->pid_lst, v->pid_counter, cmds);
+}
+
+void	exec_single(t_big *v, t_cmd *cmd)
+{
+	pid_t	pid;
+
+	if (is_builtin(cmd))
+	{
+		builtin(v, cmd);
+		return ;
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		if (has_input(cmd))
+			fork_input(v, cmd);
+		if (has_output(cmd))
+			fork_output(v, cmd);
+		cmd_selector(v, cmd->argv, false);
+		exit_child(v, 0);
+	}
+	wait_one_pid(v, pid, cmd);
 }

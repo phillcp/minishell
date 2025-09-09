@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 10:04:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 16:24:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,48 +18,63 @@
 
 typedef struct s_big	t_big;
 
-typedef struct s_parse
+typedef enum e_token_type
 {
-	int		error;
-	char	*line;
-	t_tree	*tree;
-}				t_parse;
+	T_WORD,
+	T_PIPE,
+	T_IN,
+	T_OUT,
+	T_APPEND,
+	T_HEREDOC
+}				t_token_type;
 
-typedef struct s_input
+typedef struct s_token
 {
-	t_list	*in;
-	t_list	*input;
-	t_list	*heredoc;
-	t_list	*out;
-	t_list	*output;
-	t_list	*append;
-}				t_input;
+	char			*content;
+	t_token_type	type;
+	struct s_token	*next;
+}				t_token;
+
+typedef struct s_redir
+{
+	bool			expand;
+	bool			hdoc_created;
+	t_token_type	type;
+	char			*filename;
+	struct s_redir	*next;
+}				t_redir;
 
 typedef struct s_cmd
 {
-	char	*line;
-	char	**cmd;
-	t_input	in;
+	char			**argv;
+	t_redir			*redirs;
+	int				n_cmds;
+	struct s_cmd	*next;
 }				t_cmd;
 
+typedef struct s_parse
+{
+	t_token	*tokens;
+	int		error;
+	t_cmd	*cmds;
+}				t_parse;
+
 t_parse		*parse(t_big *v, const char *str);
-t_parse		*assign_error(t_parse *cmd, int i);
-void		in_q_dq_assign(bool *in_q_dq, bool *skip, int *count);
-t_list		*init_list(int key, char *in_out, char c);
-void		set_false(bool *in_q, bool *in_dq, bool *skip);
-char		*process_quotes(char *str, int count);
-int			split_cmd(t_tree *t, char *c, int i);
-int			parse_op(t_big *v, t_tree *t);
-int			expand(t_big *v, t_tree *t);
-int			word_split(t_tree *t);
-int			expand_question(t_big *v, char **str, int start, int i);
-int			unmask(t_tree *t);
-void		free_data(t_parse *cmd);
-int			unmask_str(char *str);
-int			ft_isspecial(char s);
-void		lstsort(t_list **l);
-int			get_in(char *s, int *skp, int *i, char **in);
 int			validate(const char *line);
-int			expand1(t_big *v, char **str, int start);
+t_token		*new_token(t_token_type type, const char *str, size_t len);
+int			add_token(t_token **head, t_token *token);
+int			handle_word(t_token **head, const char **str);
+int			make_tokens(t_parse *parse, const char *str);
+int			handle_dollar(t_big *v, char **str, int start);
+char		*expand_word(t_big *v, char *str);
+int			expand_tokens(t_parse *parse, t_big *v);
+char		*remove_quotes(char	*content);
+int			is_redirection(t_token_type type);
+t_redir		*new_redirect(t_token_type type, char *filename);
+int			add_redirect(t_redir **head, t_redir *node);
+t_cmd		*parse_cmd(t_token *head);
+void		free_parsed(t_parse *parsed);
+void		free_cmd(t_cmd *cmd);
+void		freecmd_list(t_cmd *cmds);
 
 #endif

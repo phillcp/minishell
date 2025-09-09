@@ -3,42 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:45:32 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 08:22:42 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utilities.h"
+#include "commands.h"
 #include "libft.h"
 
-static int	find_char(char *s1, char c)
+static void	print_env_export(t_env	*env)
 {
-	int	x;
+	t_env	*cur;
 
-	x = 0;
-	if (!s1)
-		return (x);
-	while (s1[x] && s1[x] != c)
-		x++;
-	return (x);
-}
-
-void	free_set(t_big *v, char **content)
-{
-	free(content[0]);
-	free(content[1]);
-	v->exit_status = 0;
-}
-
-void	add_list(t_big *v, char **content)
-{
-	t_dl_list	*temp;
-
-	temp = ft_lstnew_dl(content);
-	ft_lstadd_back_dl(&v->env, temp);
+	if (!env)
+		return ;
+	cur = env;
+	sort_env(env);
+	while (cur)
+	{
+		printf("declare -x ");
+		printf("%s", (char *)cur->key);
+		printf("=");
+		printf("\"%s\"\n", (char *)cur->content);
+		cur = cur->next;
+	}
 }
 
 int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
@@ -51,6 +43,7 @@ int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
 	if (i == 1)
 	{
 		print_env_export(v->env);
+		v->exit_status = 0;
 		return (1);
 	}
 	if (i > 1 && in_pipe == true)
@@ -58,30 +51,52 @@ int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
 	return (0);
 }
 
-int	ft_export(t_big *v, char **argv, bool in_pipe)
+static char	*get_key(char *str, char c)
 {
-	t_dl_list	*head;
-	char		*content[2];
-	char		*arg;
+	char	*name;
+	int		i;
 
-	if (check_print_env_export(v, argv, in_pipe))
-		return (1);
-	head = v->env;
-	arg = argv[1];
-	content[0] = get_name(arg, '=');
-	if (!content[0])
+	i = -1;
+	if (!str || !str[0] || str[0] == '=')
+		return (NULL);
+	if (str[0] != '_' && !ft_isalpha(str[0]))
+		return (NULL);
+	while (str[++i] && str[i] != c)
 	{
-		export_wrong(arg);
-		v->exit_status = 1;
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (NULL);
+	}
+	name = ft_calloc((i + 1), sizeof(char));
+	if (!ft_strlcpy(name, str, i + 1))
+		return (NULL);
+	return (name);
+}
+
+int	ft_export(t_big *v, char **av, bool in_pipe)
+{
+	char	*arr[2];
+	int		check;
+
+	if (check_print_env_export(v, av, in_pipe))
+		return (1);
+	arr[0] = get_key(av[1], '=');
+	if (!arr[0])
+	{
+		export_wrong(v, av[0]);
 		return (-1);
 	}
-	if (!find_char(arg, '='))
-		return (0);
-	content[1] = ft_substr(arg, find_char(arg, '=') + 1, ft_strlen(arg));
-	if (check_env_names(v, content[0], content[1]))
-		free_set(v, content);
+	check = find_char(arr, av[1], '=');
+	if (!check)
+		return (-1);
+	arr[1] = ft_substr(av[1], check + 1, ft_strlen(av[1]));
+	if (!arr[1])
+	{
+		ft_free(arr[0]);
+		return (-1);
+	}
+	if (check_env_key(v, arr[0], arr[1]))
+		free_set(v, arr);
 	else
-		add_list(v, content);
-	v->env = head;
+		add_env(v, arr);
 	return (1);
 }

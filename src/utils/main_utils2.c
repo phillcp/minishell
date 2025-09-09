@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/05 21:39:21 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:14:32 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,67 +16,54 @@
 #include "parser.h"
 #include <readline/readline.h>
 
+void	exit_loop(t_big *v)
+{
+	int	exit_ccode;
+
+	exit_ccode = v->exit_ccode;
+	if (!v->exit_ccode)
+		exit_ccode = v->exit_status;
+	free_env(v->env);
+	ft_free(v->pid_lst);
+	ft_free(v->temp_path);
+	rl_clear_history();
+	free(v);
+	exit(exit_ccode);
+}
+
 void	exit_loop2(t_big *v, int i)
 {
 	if (i)
-		perror("allocation error\n");
+		perror("init allocation error\n");
 	close(2);
 	close(1);
 	close(0);
 	exit_loop(v);
 }
 
-void	save_std_fds(int *in, int *out)
+void	exit_child(t_big *v, int i)
 {
-	*in = dup(0);
-	*out = dup(1);
-}
-
-void	restore_std_fds(int in, int out)
-{
-	dup2(in, 0);
-	dup2(out, 1);
-	close(in);
-	close(out);
-}
-
-static char	*expand_cmd2(t_big *v, char *s, int i)
-{
-	if (!s)
-		return (NULL);
-	while (s[++i])
+	if (i == 1)
 	{
-		if ((s[i] & 0x7F) == '$')
-		{
-			if ((s[i + 1] & 0x7F) == '?')
-				(expand_question(v, &s, i, 0));
-			else
-				(expand1(v, &s, i + 1));
-		}
+		v->exit_status = 100;
+		perror("allocation error in child\n");
 	}
-	return (s);
+	close(2);
+	close(1);
+	close(0);
+	free_parsed(v->parsed);
+	exit_loop(v);
 }
 
-int	go_read_lines(t_big *v, char *input, int output, char *eof_str)
+int	create_pid_array(t_big *v, int n_cmds)
 {
-	if (!input && g_global.signal)
-		return (1);
-	while (input && ft_strcmp(input, eof_str))
-	{
-		if (!input && g_global.signal)
-			return (1);
-		if (ft_strlen(input) > 0)
-		{
-			if (!v->hdoc_q)
-				input = expand_cmd2(v, input, -1);
-			if (!input)
-				return (1);
-			write(output, input, ft_strlen(input));
-		}
-		write(output, "\n", 1);
-		ft_free(input);
-		input = readline("heredoc> ");
-	}
-	ft_free(input);
-	return (0);
+	int	i;
+
+	v->pid_lst = ft_calloc(sizeof(int), (n_cmds + 1));
+	if (!v->pid_lst)
+		return (0);
+	i = -1;
+	while (++i < n_cmds)
+		v->pid_lst[i] = -1;
+	return (1);
 }

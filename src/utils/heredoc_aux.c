@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils4.c                                      :+:      :+:    :+:   */
+/*   heredoc_aux.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 10:36:31 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
+/*   Created: 2025/09/07 12:39:21 by fiheaton          #+#    #+#             */
+/*   Updated: 2025/09/09 08:29:59 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
 #include "minishell.h"
-#include "execution.h"
-#include "utilities.h"
 
-void	input_loop_extra(t_big *v, t_parse *cmd)
+int	handle_input(t_big *v, t_redir *cur, char **input)
 {
-	check_heredoc(v, cmd->tree);
-	signal(SIGINT, signal_handler);
-	if (g_global.signal)
-		return ;
-	if (save_hdoc_for_del(v, cmd->tree))
+	char	*tmp;
+
+	if (cur->expand)
 	{
-		if (cmd->tree->lcount > 1)
-			pipe_loop(v, cmd->tree, -1);
-		else
-			exec_single(v, cmd->tree);
+		tmp = expand_word(v, *input);
+		if (!tmp)
+			return (0);
+		(*input) = tmp;
 	}
-	delete_tmpfiles(v, v->temp_path);
+	return (1);
+}
+
+char	*temp_path(char *tmp, char *path)
+{
+	char	*filename;
+
+	if (!tmp)
+		return (NULL);
+	filename = ft_strjoin(path, tmp);
+	free(tmp);
+	if (!filename)
+		return (NULL);
+	return (filename);
 }
 
 void	signal_hdoc(int signal)
@@ -44,7 +52,11 @@ char	*hdoc_filename(t_big *v, char *eof)
 	char	*filename;
 
 	i = ft_itoa(++v->hdoc_counter);
+	if (!i)
+		return (NULL);
 	filename = ft_strjoin(eof, i);
 	ft_free(i);
+	if (!filename)
+		return (NULL);
 	return (filename);
 }

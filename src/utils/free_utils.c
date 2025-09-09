@@ -6,65 +6,61 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:54 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 09:10:13 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-void	delete_tmpfiles(t_big *v, char *path)
+void	delete_tmpfiles(t_parse *parsed)
 {
-	char	*file_path;
-	char	*nbr;
-	int		i;
+	t_cmd	*cur;
+	t_redir	*cur_redir;
 
-	if (!path)
+	if (!parsed || !parsed->cmds)
 		return ;
-	i = -1;
-	while (++i < (v->hdoc_counter + 1))
+	cur = parsed->cmds;
+	while (cur)
 	{
-		nbr = ft_itoa(i);
-		if (ft_strcmp(v->hdoc_files[i], nbr))
+		cur_redir = cur->redirs;
+		while (cur_redir)
 		{
-			file_path = ft_strjoin(path, v->hdoc_files[i]);
-			unlink(file_path);
-			ft_free(file_path);
-			ft_free(v->hdoc_files[i]);
-			v->hdoc_files[i] = ft_itoa(i);
+			if (cur_redir->type == T_HEREDOC && cur_redir->hdoc_created)
+				unlink(cur_redir->filename);
+			cur_redir = cur_redir->next;
 		}
-		ft_free(nbr);
+		cur = cur->next;
 	}
 }
 
-void	free_dl_list_node(t_dl_list *lst)
-{
-	t_dl_list	*temp;
-
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		temp = lst->next;
-		ft_free(lst->content);
-		ft_free(lst->name);
-		free(lst);
-		lst = temp;
-	}
-}
-
-void	free_env_arr(char **env_arr)
+void	free_str_arr(char **str_arr)
 {
 	int	i;
 
 	i = -1;
-	if (!env_arr)
+	if (!str_arr)
 		return ;
-	while (env_arr[++i])
+	while (str_arr[++i])
 	{
-		free(env_arr[i]);
-		env_arr[i] = NULL;
+		free(str_arr[i]);
+		str_arr[i] = NULL;
 	}
-	free(env_arr);
-	env_arr = NULL;
+	free(str_arr);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	if (!env)
+		return ;
+	while (env)
+	{
+		tmp = env->next;
+		ft_free(env->key);
+		ft_free(env->content);
+		free(env);
+		env = tmp;
+	}
 }

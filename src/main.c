@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 09:04:44 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:21:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,99 +23,72 @@
 
 t_global	g_global;
 
-static int	struct_init(t_big *v, char **env)
+static int	struct_init(t_big *v, char **envp)
 {
 	g_global.signal = 0;
-	v->head = ft_calloc(sizeof(t_dl_list), 1);
-	if (!v->head)
+	if (!get_env(v, envp))
 		return (0);
-	v->env = get_env(v, env);
 	if (!v->env)
-		return (0);
+		if (!manual_env(v) || !v->env)
+			return (0);
 	v->exit = 0;
 	v->exit_status = 0;
 	v->exit_ccode = 0;
 	v->hdoc_counter = 0;
-	v->hdoc_q = 0;
 	v->temp_path = ft_strdup("/tmp/");
-	if (!create_hdoc_and_pid_arrays(v))
+	if (!v->temp_path)
 		return (0);
+	v->pid_lst = NULL;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
 	return (1);
 }
 
-void	wait_one_pid(t_big *v, pid_t pid, char *str)
+static void	input_loop_extra(t_big *v, t_parse *parsed)
 {
-	int	status;
-	int	sig;
-
-	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &status, 0);
+	if (!check_heredoc(v, parsed->cmds) && !g_global.signal)
+	{
+		signal(SIGINT, signal_handler);
+		write(2, "minishell: failed allocation while creating heredoc\n", 52);
+		return (delete_tmpfiles(parsed));
+	}
 	signal(SIGINT, signal_handler);
-	if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		if (sig == SIGPIPE)
-			write(2, "Broken pipe\n", 12);
-		else if (sig == SIGSEGV)
-		{
-			error_output(v, 'd', str);
-			v->exit_status = 127;
-		}
-		else if (sig == SIGINT)
-			write(2, "\n", 1);
-		v->exit_status = 128 + sig;
-	}
-	else if (WIFEXITED(status))
-		v->exit_status = WEXITSTATUS(status);
-	if (v->exit_status == 50)
-		error_output(v, 'c', str);
-}
-
-void	exec_single(t_big *v, t_tree *t)
-{
-	t_cmd	*cmd;
-	pid_t	pid;
-
-	cmd = (t_cmd *)t->leaves[0]->content;
-	if (!cmd_identifier(cmd->cmd))
-	{
-		builtin(v, cmd);
+	if (g_global.signal)
 		return ;
-	}
-	pid = fork();
-	if (pid == 0)
+	if (parsed->cmds->n_cmds > 1)
 	{
-		signal(SIGINT, SIG_DFL);
-		file_input_instruction(v, cmd);
-		file_output_instruction(v, cmd);
-		cmd_selector(v, cmd->cmd, false);
-		exit_child(v, 0);
+		if (!create_pid_array(v, parsed->cmds->n_cmds))
+			return (delete_tmpfiles(parsed));
+		pipe_loop(v, parsed->cmds, -1);
 	}
-	wait_one_pid(v, pid, cmd->cmd[0]);
+	else
+		exec_single(v, parsed->cmds);
+	delete_tmpfiles(parsed);
 }
 
 static void	input_loop(t_big *v, char *input)
 {
-	t_parse	*cmd;
+	t_parse	*parsed;
 
 	add_history(input);
-	cmd = parse(v, input);
-	if (cmd && !cmd->error)
+	parsed = parse(v, input);
+	if (parsed)
 	{
-		v->cmd = cmd;
-		input_loop_extra(v, cmd);
+		if (!parsed->error)
+		{
+			v->parsed = parsed;
+			input_loop_extra(v, parsed);
+		}
+		else
+			printf("Parsing error: %d\n", parsed->error);
 	}
-	else
-		printf("Syntax error code: %d\n", cmd->error);
-	free_data(cmd);
+	free_parsed(parsed);
 	ft_free(input);
 	re_init(v);
 	input = NULL;
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_big	*v;
@@ -125,10 +98,11 @@ int	main(int argc, char **argv, char **env)
 	v = (t_big *)ft_calloc(sizeof(t_big), 1);
 	if (!v)
 		return (1);
-	if (!struct_init(v, env))
+	if (!struct_init(v, envp))
 		exit_loop2(v, 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
+	rl_bind_key('\t', tab_do_nothing);
 	while (1)
 	{
 		input = readline(CLR_GREEN"Minishell:> "CLR_RST);
@@ -136,7 +110,7 @@ int	main(int argc, char **argv, char **env)
 			input_loop(v, input);
 		else if (input)
 			free(input);
-		if (v->exit || !input)
+		if (v->exit)
 			exit_loop2(v, 0);
 	}
 	return (0);

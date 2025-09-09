@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 12:56:04 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:05:53 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,44 @@
 
 # include "libft.h"
 # include "parser.h"
+# include "minishell.h"
 
-# define MAX_FD 256
+int		get_env(t_big *v, char **envp);
+void	free_env(t_env *env);
+char	*get_env_value(t_env *env, char *key);
+t_env	*new_env_node(char *key, char *content);
+int		add_env_node(t_env **head, t_env *node);
+t_env	*sort_env(t_env *env);
+int		check_env_key(t_big *v, char *name, char *content);
+int		check_print_env_export(t_big *v, char **argv, bool in_pipe);
+int		manual_env(t_big *v);
 
-int			error_output(t_big *v, char type, char *str);
-void		err_i(t_big *v, char *str);
-void		err_c(t_big *v, char *str);
-void		exit_child(t_big *v, int i);
-void		exit_loop2(t_big *v, int init);
-void		signal_hdoc(int signal);
+void	free_str_arr(char **str_arr);
+void	signal_hdoc(int signal);
+char	*temp_path(char *filename, char *path);
+int		handle_input(t_big *v, t_redir *cur, char **input);
+char	*hdoc_filename(t_big *v, char *eof);
+int		check_heredoc(t_big *v, t_cmd *head);
+char	*hdoc_filename(t_big *v, char *eof);
+void	delete_tmpfiles(t_parse *parsed);
 
-int			check_env_names(t_big *v, char *name, char *content);
-void		print_env_content(t_dl_list *lst, char *name, char free_name);
-char		*return_env_content(t_dl_list *lst, char *name);
-char		*get_name(char *str, char c);
-t_dl_list	*get_env(t_big *v, char **env);
+int		create_pid_array(t_big *v, int n_cmds);
+void	fork_output(t_big *v, t_cmd *cmd);
+int		builtin_output(t_big *v, t_cmd *cmd);
+void	fork_input(t_big *v, t_cmd *cmd);
+int		builtin_input(t_big *v, t_cmd *cmd);
 
-void		free_dl_list_node(t_dl_list *lst);
-void		delete_tmpfiles(t_big *v, char *path);
-void		free_env_arr(char **env_arr);
-
-void		signal_handler(int signal);
-void		clean_processes(t_big *v);
-void		re_init(t_big *v);
-int			create_hdoc_and_pid_arrays(t_big *v);
-int			save_hdoc_for_del(t_big *v, t_tree *t);
-void		exit_loop(t_big *v);
-void		save_std_fds(int *in, int *out);
-void		restore_std_fds(int in, int out);
-int			go_read_lines(t_big *v, char *input, int output, char *eof_str);
-void		print_env_export(t_dl_list	*env);
-int			ft_strisspace(char *str);
-void		input_loop_extra(t_big *v, t_parse *cmd);
-char		*hdoc_filename(t_big *v, char *eof);
-
-int			file_input(t_big *v, t_list *input, t_list *heredoc, t_list *in);
-void		file_input_instruction(t_big *v, t_cmd *cmd);
-int			builtin_input_i(t_big *v, t_cmd *cmd);
-int			file_output(t_big *v, t_list *output, t_list *append,
-				t_list *final_output);
-void		file_output_instruction(t_big *v, t_cmd *cmd);
-int			builtin_output_i(t_big *v, t_cmd *cmd);
-
-int			screening_one(t_big *v, char **argv);
-void		cmd_selector(t_big *v, char **argv, bool in_pipe);
-int			builtin(t_big *v, t_cmd *cmd);
-int			cmd_identifier(char **argv);
-
-char		*temp_path(char *filename, char *path);
-void		check_heredoc(t_big *v, t_tree *t);
-void		export_wrong(char *str);
-int			check_mask(char **pth);
+int		ft_strisspace(const char *str);
+void	signal_handler(int signal);
+int		tab_do_nothing(int count, int key);
+void	export_wrong(t_big *v, char *str);
+void	error_output(t_big *v, char type, char *str);
+void	write_error(t_big *v, t_cmd *cmds, int i);
+void	save_std_fds(int *in, int *out);
+void	restore_std_fds(int in, int out);
+void	re_init(t_big *v);
+void	exit_child(t_big *v, int i);
+void	exit_loop2(t_big *v, int init);
+void	exit_loop(t_big *v);
 
 #endif

@@ -6,115 +6,108 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 09:25:18 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:56:46 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <limits.h>
 #include "libft.h"
 #include "minishell.h"
 #include "utilities.h"
 
-void	print_env_content(t_dl_list *lst, char *name, char free_name)
+char	*get_env_value(t_env *env, char *key)
 {
-	char	*content;
+	t_env	*cur;
 
-	content = NULL;
-	if (return_env_content(lst, name))
+	cur = env;
+	if (!env)
+		return (NULL);
+	while (cur)
 	{
-		content = return_env_content(lst, name);
-		if (content == NULL)
-			printf("\n");
-		else
-			printf("%s", content);
-	}
-	if (free_name == 'y')
-		ft_free(name);
-}
-
-char	*return_env_content(t_dl_list *env, char *name)
-{
-	t_dl_list	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
+		if (!ft_strcmp(cur->key, key))
 			break ;
-		if (tmp->next == NULL)
+		if (cur->next == NULL)
 			return (NULL);
-		tmp = tmp->next;
+		cur = cur->next;
 	}
-	return (tmp->content);
+	return (cur->content);
 }
 
-char	*get_name(char *str, char c)
+t_env	*new_env_node(char *key, char *content)
 {
-	char	*name;
-	int		x;
+	t_env	*new;
 
-	x = -1;
-	if (!str || !str[0] || str[0] == '=')
-		return (NULL);
-	if (str[0] != '_' && !ft_isalpha(str[0]))
-		return (NULL);
-	while (str[++x] && str[x] != c)
+	if (!key || !content)
 	{
-		if (!ft_isalnum(str[x]) && str[x] != '_')
-			return (NULL);
+		ft_free(key);
+		ft_free(content);
+		return (NULL);
 	}
-	name = ft_calloc((x + 1), sizeof(char));
-	ft_strlcpy(name, str, x + 1);
-	return (name);
+	new = ft_calloc(1, sizeof(t_env));
+	if (!new)
+	{
+		free(key);
+		free(content);
+		return (NULL);
+	}
+	new->key = key;
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }
 
-t_dl_list	*get_env(t_big *v, char **env)
+int	add_env_node(t_env **head, t_env *node)
 {
-	t_dl_list	*temp;
-	int			x;
-	char		**split;
-	int			aux;
+	t_env	*cur;
 
-	x = -1;
-	v->env = NULL;
-	if (env[0] == NULL)
+	if (!node)
+		return (0);
+	if (!(*head))
 	{
-		ft_lstadd_back_dl(&v->env, ft_lstnew_dl(NULL));
-		return (v->env);
+		*head = node;
+		return (1);
 	}
-	split = ft_calloc(sizeof(char *), 2);
-	if (!split)
-		return (NULL);
-	while (env[++x] != NULL)
-	{
-		aux = ft_strichr(env[x], '=');
-		split[0] = ft_substr(env[x], 0, aux);
-		split[1] = ft_substr(env[x], aux + 1, ft_strlen(env[x]) - aux);
-		temp = ft_lstnew_dl(split);
-		ft_lstadd_back_dl(&v->env, temp);
-	}
-	ft_free(split);
-	return (v->env);
+	cur = *head;
+	while (cur->next)
+		cur = cur->next;
+	cur->next = node;
+	return (1);
 }
 
-int	check_env_names(t_big *v, char *name, char *content)
+static void	swap_env(t_env *tmp1, t_env *tmp2)
 {
-	t_dl_list	*head;
+	char	*tmp_key;
+	char	*tmp_cont;
 
-	head = v->env;
-	while (1)
+	tmp_key = tmp1->key;
+	tmp_cont = tmp1->content;
+	tmp1->content = tmp2->content;
+	tmp1->key = tmp2->key;
+	tmp2->content = tmp_cont;
+	tmp2->key = tmp_key;
+}
+
+t_env	*sort_env(t_env *env)
+{
+	t_env	*tmp1;
+	t_env	*tmp2;
+	int		swap;
+
+	swap = 1;
+	while (swap)
 	{
-		if (!ft_strcmp(name, v->env->name))
+		swap = 0;
+		tmp1 = env;
+		while (tmp1 && tmp1->next)
 		{
-			ft_free(v->env->content);
-			v->env->content = ft_strdup(content);
-			v->env = head;
-			return (1);
+			tmp2 = tmp1->next;
+			if (ft_strcmp(tmp1->key, tmp2->key) > 0)
+			{
+				swap_env(tmp1, tmp2);
+				swap = 1;
+			}
+			tmp1 = tmp2;
 		}
-		if (v->env->next == NULL)
-			break ;
-		v->env = v->env->next;
 	}
-	v->env = head;
-	return (0);
+	return (env);
 }

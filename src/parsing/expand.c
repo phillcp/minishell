@@ -6,109 +6,107 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/06 14:09:08 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:32:22 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <limits.h>
-#include <stdio.h>
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
+#include "utilities.h"
 
-static char	*replace(char *s1, const char *s2, int pos, int len)
+static char	*replace_question(char	*s1, char *key, int start)
 {
-	char	*t1;
-	char	*t2;
-	char	*mask;
-	int		i;
+	char	*tmp1;
+	char	*tmp2;
 
-	t1 = ft_substr(s1, 0, pos);
-	if (!t1)
+	tmp1 = ft_substr(s1, 0, start - 1);
+	if (!tmp1)
 		return (NULL);
-	mask = ft_strdup(s2);
-	i = -1;
-	if (len & INT_MIN)
-		while (mask[++i])
-			mask[i] |= 0x80;
-	t2 = ft_strjoin(t1, mask);
-	ft_free(mask);
-	ft_free(t1);
-	t1 = ft_strjoin(t2, s1 + pos + (len & INT_MAX));
-	ft_free(t2);
-	return (t1);
+	tmp2 = ft_strjoin(tmp1, key);
+	free(tmp1);
+	if (!tmp2)
+		return (NULL);
+	tmp1 = ft_strjoin(tmp2, s1 + start + 1);
+	free(tmp2);
+	return (tmp1);
 }
 
-static int	expand2(char **s, int *i, int start)
-{
-	char	*str;
-
-	str = *s;
-	*i = start - 1;
-	while (ft_isalnum((str[++(*i)] & 0x7F)) || (str[*i] & 0x7F) == '_')
-		;
-	*i -= start;
-	if (!*(i))
-		return (0);
-	return (1);
-}
-
-int	expand1(t_big *v, char **str, int start)
+static int	handle_question(t_big *v, char **str, int start)
 {
 	char	*s;
-	char	*big;
+	char	*key;
 	char	*tmp;
-	int		i;
 
 	s = *str;
-	if (!expand2(&s, &i, start))
+	key = ft_itoa(v->exit_status);
+	if (!key)
 		return (0);
-	tmp = ft_substr(s, start, i);
-	unmask_str(tmp);
-	big = ft_listget_dl(tmp, v->env);
-	ft_free(tmp);
-	if (!big)
+	tmp = replace_question(s, key, start + 1);
+	if (!tmp)
+	{
+		free(key);
 		return (0);
-	*str = replace(s, big, start - 1, (i + 1));
-	if (!*str)
-		return (0);
-	ft_free(s);
+	}
+	*str = tmp;
+	free(s);
+	free(key);
 	return (1);
 }
 
-static char	*expand_cmd(t_big *v, char *s, int i)
+static void	handle_quotes(char c, bool *in_q, bool *in_dq)
 {
-	if (!s)
-		return (NULL);
-	while (s[++i])
-	{
-		if ((s[i] & 0x7F) == '$')
-		{
-			if ((s[i + 1] & 0x7F) == '?')
-				(expand_question(v, &s, i, 0));
-			else
-				(expand1(v, &s, i + 1));
-		}
-	}
-	return (s);
+	if (c == '\'' && !(*in_dq))
+		*in_q = !(*in_q);
+	else if (c == '\"' && !(*in_q))
+		*in_dq = !(*in_dq);
 }
 
-int	expand(t_big *v, t_tree *t)
+char	*expand_word(t_big *v, char *str)
 {
-	t_cmd	*cmd;
+	bool	in_q;
+	bool	in_dq;
 	int		i;
 
-	cmd = (t_cmd *)t->content;
-	if (cmd)
+	in_q = false;
+	in_dq = false;
+	i = -1;
+	while (str[++i])
 	{
-		cmd->line = expand_cmd(v, cmd->line, -1);
-		if (!cmd->line)
-			return (0);
+		handle_quotes(str[i], &in_q, &in_dq);
+		if (!in_q && str[i] == '$')
+		{
+			if (str[i + 1] == '?')
+			{
+				if (!handle_question(v, &str, i))
+					return (NULL);
+			}
+			else if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
+			{
+				if (!handle_dollar(v, &str, i))
+					return (NULL);
+			}
+		}
 	}
-	i = 0;
-	while (i < t->lcount)
-		if (!expand(v, t->leaves[i++]))
-			return (0);
+	return (str);
+}
+
+int	expand_tokens(t_parse *parse, t_big *v)
+{
+	t_token	*cur;
+	char	*tmp;
+
+	cur = parse->tokens;
+	while (cur)
+	{
+		if (cur->type == T_WORD)
+		{
+			tmp = expand_word(v, cur->content);
+			if (!tmp)
+				return (0);
+			cur->content = tmp;
+		}
+		cur = cur->next;
+	}
 	return (1);
 }
