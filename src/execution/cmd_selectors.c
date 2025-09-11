@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 13:07:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:45:01 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	builtin_exec(t_big *v, char **argv)
 		else if (!ft_strcmp(argv[0], "export"))
 			ret = ft_export(v, argv, false);
 		else if ((!ft_strcmp(argv[0], "pwd") || !ft_strcmp(argv[0], "PWD")))
-			ret = ft_pwd(v);
+			ft_pwd(v);
 		else if (!ft_strcmp(argv[0], "unset"))
 			ft_unset(v, &v->env, argv, NULL);
 		if (ret == -1)
@@ -78,7 +78,7 @@ int	is_builtin(t_cmd *cmd)
 			i = 1;
 		else if (!ft_strcmp(cmd->argv[0], "unset"))
 			i = 1;
-		else if (!ft_strcmp(cmd->argv[0], "pwd") 
+		else if (!ft_strcmp(cmd->argv[0], "pwd")
 			|| !ft_strcmp(cmd->argv[0], "PWD"))
 			i = 1;
 		else

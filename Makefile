@@ -2,6 +2,7 @@ NAME	=	minishell
 CC		=	@cc
 AR		=	@ar rcs
 CFLAGS	=	-Wall -Wextra -Werror -MMD -MP -g
+VLGRIND =	--suppressions=./readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes
 
 BIN_DIR	=	bin/
 SRC_DIR	=	src/
@@ -12,6 +13,7 @@ DEP_DIR	=	dep/
 LIBFT_DIR = $(LIB_DIR)libft/
 
 SRC 	=	main.c \
+			builtins/cd_aux.c \
 			builtins/cd.c \
 			builtins/echo.c \
 			builtins/env.c \

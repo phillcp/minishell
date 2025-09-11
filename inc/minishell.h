@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 11:46:30 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:30:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_big
 	int			hdoc_counter;
 	int			pid_counter;
 	int			*pid_lst;
+	char		*pwd;
 	t_parse		*parsed;
 	t_env		*env;
 }				t_big;

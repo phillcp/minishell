@@ -6,85 +6,66 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 14:10:31 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:32:28 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "minishell.h"
 #include "utilities.h"
+#include "commands.h"
 #include "libft.h"
 
-static int	get_path_env(t_big *v, char *path, char **tmp_path)
+static int	check_tmp_path(t_big *v, char *tmp_path)
 {
-	if (!path || !ft_strlen(path))
+	struct stat	file_stat;
+
+	if (stat(tmp_path, &file_stat) == -1)
 	{
-		*tmp_path = get_env_value(v->env, "HOME");
-		if (!tmp_path)
-		{
-			error_output(v, 'h', "HOME");
-			return (0);
-		}
-		*tmp_path = ft_strdup(*tmp_path);
+		perror("cd");
+		v->exit_status = 1;
+		return (0);
 	}
-	else if (!ft_strcmp(path, "-"));
+	if (!S_ISDIR(file_stat.st_mode))
 	{
-		*tmp_path = get_env_value(v->env, "OLDPWD");
-		if (!tmp_path)
-		{
-			error_output(v, 'h', "OLDPWD");
-			return (0);
-		}
-		*tmp_path = ft_strdup(*tmp_path);
+		error_output(v, 'd', tmp_path);
+		return (0);
 	}
 	return (1);
 }
 
-static	int	get_tmp_path(t_big *v, char *path, char *old_pwd, char **tmp_path)
+static	int	get_tmp_path(t_big *v, char *path, char **tmp_path)
 {
-
-	if (!getcwd(old_pwd, PATH_MAX))
-	{
-		perror("cd");
-		return (0);
-	}
 	if (!path || !ft_strlen(path) || !ft_strcmp(path, "-"))
 	{
-		if (!get_path_env(v, path, tmp_path))
+		if (!get_path_cd(v, path, tmp_path))
 			return (0);
 	}
 	else
 		*tmp_path = ft_strdup(path);
 	if (!(*tmp_path) || !ft_strlen(*tmp_path))
 		return (-1);
+	if (!check_tmp_path(v, *tmp_path))
+	{
+		free(*tmp_path);
+		return (0);
+	}
 	return (1);
 }
 
-static int	change_dir(t_big *v, char *path, bool in_pipe)
+static int	check_exec_cd(t_big *v, char *path, bool in_pipe)
 {
-	char	old_pwd[PATH_MAX];
 	char	*tmp_path;
 	int		ret;
 
 	v->exit_status = 0;
-	ret = get_tmp_path(v, path, old_pwd, &tmp_path);
-	if (ret == 1 && !g_global.signal)
-	{
-		if (in_pipe)
-		{
-			ft_free(tmp_path);
-			return (1);
-		}
-		ret = chdir(tmp_path);
-		ft_free(tmp_path);
-		if (ret >= 0)
-		{
-			if (check_env_key(v, "OLDPWD", old_pwd) == -1)
-				return (-1);
-			if (check_env_key(v, "PWD", getcwd(old_pwd, PATH_MAX)) == -1)
-				return (-1);
-		}
-	}
+	ret = get_tmp_path(v, path, &tmp_path);
+	if (ret != 1)
+		return (ret);
+	else if (in_pipe || g_global.signal)
+		free(tmp_path);
+	else
+		ret = change_dir(v, tmp_path);
 	return (ret);
 }
 
@@ -96,13 +77,13 @@ int	ft_cd(t_big *v, char **argv, bool in_pipe)
 	i = 0;
 	while (argv[i])
 		i++;
-	if (i > 2)
+	if (i > 2 && !g_global.signal)
 	{
 		write(2, "minishell: cd: too many arguments\n", 34);
 		v->exit_status = 1;
 		return (1);
 	}
-	ret = change_dir(v, argv[1], in_pipe);
+	ret = check_exec_cd(v, argv[1], in_pipe);
 	if (ret == -1 && in_pipe)
 		exit_child(v, 1);
 	return (ret);

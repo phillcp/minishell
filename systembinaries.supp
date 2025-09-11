@@ -1,0 +1,6 @@
+{
+  system-binaries
+  Memcheck:Leak
+  fun:* 
+  obj:/usr/bin/*
+}

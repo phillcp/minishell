@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 13:30:57 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:07:45 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	exit_loop(t_big *v)
 	free_env(v->env);
 	ft_free(v->pid_lst);
 	ft_free(v->temp_path);
+	ft_free(v->pwd);
 	rl_clear_history();
 	free(v);
 	exit(exit_ccode);

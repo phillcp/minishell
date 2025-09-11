@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 12:52:53 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:37:35 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ static int	struct_init(t_big *v, char **envp)
 	if (!v->env)
 		if (!manual_env(v) || !v->env)
 			return (0);
+	v->pwd = ft_strdup(get_env_value(v->env, "PWD"));
+	if (!v->pwd)
+		return (0);
 	v->exit = 0;
 	v->exit_status = 0;
 	v->exit_ccode = 0;
@@ -102,7 +105,6 @@ int	main(int argc, char **argv, char **envp)
 		exit_loop2(v, 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, main_signal_handler);
-	rl_bind_key('\t', tab_do_nothing);
 	while (1)
 	{
 		input = readline(CLR_GREEN"Minishell:> "CLR_RST);

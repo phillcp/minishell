@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:56:37 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 12:55:10 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:37:06 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,36 @@ static int	check_unset_input(t_big *v, char **argv, char c)
 	return (1);
 }
 
-void	ft_unset(t_big *v, t_env **head, char **argv, bool in_pipe)
+static void	unset_cmp(t_env **head, char **argv, int i)
 {
 	t_env	*cur;
 	t_env	*prev_node;
+
+	cur = *head;
+	prev_node = NULL;
+	while (cur)
+	{
+		if (!ft_strcmp(cur->key, argv[i]))
+		{
+			if (prev_node)
+				prev_node->next = cur->next;
+			else
+				*head = cur->next;
+			free_node(cur);
+			break ;
+		}
+		prev_node = cur;
+		cur = cur->next;
+	}
+}
+
+void	ft_unset(t_big *v, t_env **head, char **argv, bool in_pipe)
+{
 	int		i;
 
 	i = 0;
 	if (!check_unset_input(v, argv, '=') || in_pipe)
 		return ;
 	while (argv[++i])
-	{
-		cur = *head;
-		prev_node = NULL;
-		while (cur)
-		{
-			if (!ft_strcmp(cur->key, argv[i]))
-			{
-				if (prev_node)
-					prev_node->next = cur->next;
-				else
-					*head = cur->next;
-				free_node(cur);
-				break ;
-			}
-			prev_node = cur;
-			cur = cur->next;
-		}
-	}
+		unset_cmp(head, argv, i);
 }
