@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:08:26 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/08 10:32:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:54:24 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,34 +38,34 @@ static long long	ft_atoil(const char *s, int *j)
 	return (result * neg);
 }
 
-static void	err_exit(t_big *v, char *argv)
+static void	err_exit(t_big *v, char *str)
 {
 	v->exit_status = 2;
 	v->exit_ccode = 0;
 	write(2, "minishell: exit: ", 17);
-	ft_putstr_fd(argv, 2);
+	ft_putstr_fd(str, 2);
 	write(2, ": numeric argument required\n", 28);
 }
 
-static int	check_exit(t_big *v, char *argv)
+static int	check_exit_input(t_big *v, char *str)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	if (argv[i] == '+' || argv[i] == '-')
-		i++;
-	j = ft_strlen(argv);
-	if (j > 19)
+	j = ft_strlen(str);
+	if ((!j || j > 19) && !g_global.signal)
 	{
-		err_exit(v, argv);
+		err_exit(v, str);
 		return (0);
 	}
-	while (argv[i] && (j && i < j - 1))
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] && i < j - 1)
 	{
-		if (!ft_isdigit(argv[i]))
+		if (!ft_isdigit(str[i]) && !g_global.signal)
 		{
-			err_exit(v, argv);
+			err_exit(v, str);
 			return (0);
 		}
 		i++;
@@ -73,29 +73,43 @@ static int	check_exit(t_big *v, char *argv)
 	return (1);
 }
 
-int	ft_exit(t_big *v, char **argv)
+static int	check_exit(t_big *v, char **argv)
 {
-	long long	i;
+	long long	exit_ccode;
+	int			i;
 	int			j;
 
 	i = 0;
 	j = 0;
 	while (argv[i])
 		i++;
-	if (i > 2)
+	if (i > 2 && !g_global.signal)
 	{
 		write(2, " too many arguments\n", 20);
-		return (v->exit_status = 1);
+		v->exit_status = 1;
+		return (0);
 	}
-	printf("exit\n");
-	if (i == 2 && check_exit(v, argv[1]))
+	if (i == 2 && check_exit_input(v, argv[1]))
 	{
-		i = ft_atoil(argv[1], &j);
-		if (j)
+		exit_ccode = ft_atoil(argv[1], &j);
+		if (j && !g_global.signal)
 			err_exit(v, argv[1]);
 		else
-			v->exit_ccode = i;
+			v->exit_ccode = exit_ccode;
 	}
+	return (1);
+}
+
+int	ft_exit(t_big *v, char **argv, bool in_pipe)
+{
+	if (!check_exit(v, argv))
+		return (0);
+	if (in_pipe || g_global.signal)
+	{
+		v->exit_ccode = 0;
+		return (1);
+	}
+	printf("exit\n");
 	v->exit = 1;
 	return (1);
 }

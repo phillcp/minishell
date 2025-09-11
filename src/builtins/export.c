@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 08:22:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:19:05 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,15 @@
 #include "commands.h"
 #include "libft.h"
 
-static void	print_env_export(t_env	*env)
+static int	add_env(t_big *v, char **content)
 {
-	t_env	*cur;
+	t_env	*tmp;
 
-	if (!env)
-		return ;
-	cur = env;
-	sort_env(env);
-	while (cur)
-	{
-		printf("declare -x ");
-		printf("%s", (char *)cur->key);
-		printf("=");
-		printf("\"%s\"\n", (char *)cur->content);
-		cur = cur->next;
-	}
-}
-
-int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	if (i == 1)
-	{
-		print_env_export(v->env);
-		v->exit_status = 0;
-		return (1);
-	}
-	if (i > 1 && in_pipe == true)
-		return (1);
-	return (0);
+	tmp = new_env_node(ft_strdup(content[0]), ft_strdup(content[1]));
+	if (!add_env_node(&v->env, tmp))
+		return (-1);
+	v->exit_status = 0;
+	return (1);
 }
 
 static char	*get_key(char *str, char c)
@@ -56,47 +31,69 @@ static char	*get_key(char *str, char c)
 	char	*name;
 	int		i;
 
-	i = -1;
-	if (!str || !str[0] || str[0] == '=')
-		return (NULL);
-	if (str[0] != '_' && !ft_isalpha(str[0]))
-		return (NULL);
-	while (str[++i] && str[i] != c)
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (NULL);
-	}
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
 	name = ft_calloc((i + 1), sizeof(char));
 	if (!ft_strlcpy(name, str, i + 1))
 		return (NULL);
 	return (name);
 }
 
-int	ft_export(t_big *v, char **av, bool in_pipe)
+static int	find_char(char **content, char *s, char c)
 {
-	char	*arr[2];
-	int		check;
+	int	i;
 
-	if (check_print_env_export(v, av, in_pipe))
-		return (1);
-	arr[0] = get_key(av[1], '=');
-	if (!arr[0])
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (s[i] != c)
 	{
-		export_wrong(v, av[0]);
-		return (-1);
+		ft_free(content[0]);
+		return (0);
 	}
-	check = find_char(arr, av[1], '=');
-	if (!check)
+	return (i);
+}
+
+static int	get_arr_export(char **argv, char **arr, int i)
+{
+	int	check;
+
+	arr[0] = get_key(argv[i], '=');
+	if (!arr[0])
 		return (-1);
-	arr[1] = ft_substr(av[1], check + 1, ft_strlen(av[1]));
+	check = find_char(arr, argv[i], '=');
+	if (!check)
+		return (1);
+	arr[1] = ft_substr(argv[i], check + 1, ft_strlen(argv[i]));
 	if (!arr[1])
 	{
 		ft_free(arr[0]);
 		return (-1);
 	}
-	if (check_env_key(v, arr[0], arr[1]))
+	return (0);
+}
+
+int	ft_export(t_big *v, char **argv, bool in_pipe)
+{
+	char	*arr[2];
+	int		i;
+	int		check;
+
+	if (check_print_env_export(v, argv, in_pipe))
+		return (1);
+	i = 0;
+	while (argv[++i])
+	{
+		check = get_arr_export(argv, arr, i);
+		if (check)
+			return (check);
+		check = check_env_key(v, arr[0], arr[1]);
+		if (!check)
+			check = add_env(v, arr);
 		free_set(v, arr);
-	else
-		add_env(v, arr);
+		if (check == -1)
+			return (-1);
+	}
 	return (1);
 }

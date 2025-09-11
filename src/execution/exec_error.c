@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_aux3.c                                        :+:      :+:    :+:   */
+/*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:20:02 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/09 15:06:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:10:09 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,21 @@ static void	err_i(t_big *v, char *str)
 	v->exit_status = 1;
 }
 
+static void	err_a(t_big *v)
+{
+	write(2, "allocation error in builtin\n", 28);
+	v->exit_status = 100;
+}
+
 void	error_output(t_big *v, char type, char *str)
 {
+	if (type == 'a')
+		err_a(v);
 	if (type == 'h')
 	{
-		write (2, "minishell: cd: HOME not set", 11);
+		write (2, "minishell: cd: ", 15);
+		ft_putstr_fd(str, 2);
+		write (2, " not set\n", 9);
 		v->exit_status = 1;
 	}	
 	else if (type == 'x')

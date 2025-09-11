@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 17:05:53 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:18:50 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_env	*new_env_node(char *key, char *content);
 int		add_env_node(t_env **head, t_env *node);
 t_env	*sort_env(t_env *env);
 int		check_env_key(t_big *v, char *name, char *content);
-int		check_print_env_export(t_big *v, char **argv, bool in_pipe);
 int		manual_env(t_big *v);
 
 void	free_str_arr(char **str_arr);
@@ -43,9 +42,8 @@ void	fork_input(t_big *v, t_cmd *cmd);
 int		builtin_input(t_big *v, t_cmd *cmd);
 
 int		ft_strisspace(const char *str);
-void	signal_handler(int signal);
+void	main_signal_handler(int signal);
 int		tab_do_nothing(int count, int key);
-void	export_wrong(t_big *v, char *str);
 void	error_output(t_big *v, char type, char *str);
 void	write_error(t_big *v, t_cmd *cmds, int i);
 void	save_std_fds(int *in, int *out);

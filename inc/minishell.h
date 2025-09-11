@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 09:02:50 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:46:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_big
 	char		*temp_path;
 	int			exit;
 	int			exit_status;
-	int			exit_ccode;
+	long long	exit_ccode;
 	int			last_pipe;
 	int			hdoc_counter;
 	int			pid_counter;

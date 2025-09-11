@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 09:10:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 02:27:47 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	write_to_hdoc(t_big *v, t_redir *cur, int fd, char *eof_str)
 	char	*input;
 
 	input = readline("heredoc> ");
-	if (!input || g_global.signal)
+	if (g_global.signal)
 		return (0);
 	while (input && ft_strcmp(input, eof_str))
 	{

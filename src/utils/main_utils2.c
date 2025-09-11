@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 13:14:32 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:30:57 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 #include "minishell.h"
 #include "utilities.h"
 #include "parser.h"
+#include <signal.h>
 #include <readline/readline.h>
 
 void	exit_loop(t_big *v)
 {
-	int	exit_ccode;
+	long long	exit_ccode;
 
-	exit_ccode = v->exit_ccode;
 	if (!v->exit_ccode)
+		exit_ccode = v->exit_ccode;
+	else
 		exit_ccode = v->exit_status;
 	free_env(v->env);
 	ft_free(v->pid_lst);
@@ -34,7 +36,7 @@ void	exit_loop(t_big *v)
 void	exit_loop2(t_big *v, int i)
 {
 	if (i)
-		perror("init allocation error\n");
+		write(2, "init allocation error\n", 22);
 	close(2);
 	close(1);
 	close(0);
@@ -43,10 +45,12 @@ void	exit_loop2(t_big *v, int i)
 
 void	exit_child(t_big *v, int i)
 {
-	if (i == 1)
+	if (g_global.signal)
+		v->exit_status = 128 + g_global.signal;
+	else if (i == 1)
 	{
 		v->exit_status = 100;
-		perror("allocation error in child\n");
+		write(2, "allocation error in child\n", 26);
 	}
 	close(2);
 	close(1);

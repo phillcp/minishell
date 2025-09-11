@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 14:49:50 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:10:10 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,19 @@ int	has_output(t_cmd *cmd)
 	return (0);
 }
 
-static void	go_wait(int *pid_lst, int *status, int i)
-{
-	signal(SIGINT, SIG_IGN);
-	waitpid(pid_lst[i], status, 0);
-	signal(SIGINT, signal_handler);
-}
-
 void	wait_forks(t_big *v, int *pid_lst, int pid_counter, t_cmd *cmds)
 {
-	int		status;
-	int		sig;
-	int		i;
+	int	status;
+	int	sig;
+	int	i;
 
 	i = -1;
 	while (++i < pid_counter)
 	{
-		go_wait(pid_lst, &status, i);
+		waitpid(pid_lst[i], &status, 0);
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(2, "\n", 1);
 			v->exit_status = 128 + sig;
 		}
 		else if (WIFEXITED(status))
@@ -72,6 +63,7 @@ void	wait_forks(t_big *v, int *pid_lst, int pid_counter, t_cmd *cmds)
 			write_error(v, cmds, i);
 		}
 	}
+	signal(SIGINT, main_signal_handler);
 }
 
 void	wait_one_pid(t_big *v, pid_t pid, t_cmd *cmd)
@@ -81,12 +73,10 @@ void	wait_one_pid(t_big *v, pid_t pid, t_cmd *cmd)
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, main_signal_handler);
 	if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
-		if (sig == SIGINT)
-			write(2, "\n", 1);
 		v->exit_status = 128 + sig;
 	}
 	else if (WIFEXITED(status))

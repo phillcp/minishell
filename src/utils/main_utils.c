@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 17:09:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 02:35:32 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell.h"
 #include "utilities.h"
 
-void	signal_handler(int signal)
+void	main_signal_handler(int signal)
 {
 	(void)signal;
 	write(1, "\n", 1);

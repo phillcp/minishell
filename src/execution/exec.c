@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 14:46:28 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:13:21 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@ static int	setup_pipe(int pipefd[2])
 {
 	if (pipe(pipefd) == -1)
 	{
-		write(2, " Bad pipe\n", 10);
-		return (-1);
+		write(2, "Error in pipe creation\n", 23);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 void	child_fork(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 {
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, child_signal_handler);
+	signal(SIGPIPE, child_signal_handler);
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0);
@@ -49,6 +50,7 @@ void	child_fork(t_big *v, t_cmd *cmd, int prev_fd, int *pipefd)
 
 void	parent_fork(t_big *v, int *prev_fd, int *pipefd)
 {
+	signal(SIGINT, SIG_IGN);
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	if (!v->last_pipe)
@@ -72,8 +74,8 @@ void	pipe_loop(t_big *v, t_cmd *cmds, int i)
 		if (i == cmds->n_cmds - 1)
 			v->last_pipe = 1;
 		if (!v->last_pipe)
-			if (setup_pipe(pipefd) == -1)
-				return ;
+			if (!setup_pipe(pipefd))
+				break ;
 		pid = fork();
 		if (pid == 0)
 			child_fork(v, cur, prev_fd, pipefd);
@@ -96,7 +98,7 @@ void	exec_single(t_big *v, t_cmd *cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, child_signal_handler);
 		if (has_input(cmd))
 			fork_input(v, cmd);
 		if (has_output(cmd))

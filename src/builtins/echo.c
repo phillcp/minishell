@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:53:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/08 10:30:38 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 00:51:15 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	print_echo(char **argv, int i, int check)
 	j = 0;
 	if (check)
 		j = 1;
-	while (argv[++j])
+	while (argv[++j] && !g_global.signal)
 	{
 		printf("%s", argv[j]);
-		if (i > j)
+		if (i > j && !g_global.signal)
 			printf(" ");
 	}
-	if (!check)
+	if (!check && !g_global.signal)
 		printf("\n");
 }
 

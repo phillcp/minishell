@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 15:21:14 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:52:53 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static void	input_loop_extra(t_big *v, t_parse *parsed)
 {
 	if (!check_heredoc(v, parsed->cmds) && !g_global.signal)
 	{
-		signal(SIGINT, signal_handler);
+		signal(SIGINT, main_signal_handler);
 		write(2, "minishell: failed allocation while creating heredoc\n", 52);
 		return (delete_tmpfiles(parsed));
 	}
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, main_signal_handler);
 	if (g_global.signal)
 		return ;
 	if (parsed->cmds->n_cmds > 1)
@@ -101,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!struct_init(v, envp))
 		exit_loop2(v, 1);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, main_signal_handler);
 	rl_bind_key('\t', tab_do_nothing);
 	while (1)
 	{
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 			input_loop(v, input);
 		else if (input)
 			free(input);
-		if (v->exit)
+		if (v->exit || !input)
 			exit_loop2(v, 0);
 	}
 	return (0);

@@ -6,15 +6,23 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 15:01:39 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 03:35:16 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utilities.h"
 #include "commands.h"
+#include "execution.h"
 #include <signal.h>
 #include "libft.h"
+
+static void	go_exec(char *total, char **argv, char **env_arr)
+{
+	signal(SIGINT, SIG_DFL);
+	execve(total, argv, env_arr);
+	signal(SIGINT, child_signal_handler);
+}
 
 static int	execve_loop(t_big *v, char **argv, char **path)
 {
@@ -26,12 +34,12 @@ static int	execve_loop(t_big *v, char **argv, char **path)
 	env_arr = temp_env_arr(v);
 	if (!env_arr)
 		return (-1);
-	while (path[++i])
+	while (path[++i] && !g_global.signal)
 	{
 		total = path_creation(v, path[i], argv[0]);
 		if (!total)
 			return (free_str_arr(env_arr), -1);
-		execve(total, argv, env_arr);
+		go_exec(total, argv, env_arr);
 		ft_free(total);
 		total = NULL;
 	}
@@ -39,7 +47,7 @@ static int	execve_loop(t_big *v, char **argv, char **path)
 	return (0);
 }
 
-void	execve_absolute_path(t_big *v, char **argv)
+static void	execve_absolute_path(t_big *v, char **argv)
 {
 	char	**env_arr;
 
@@ -61,6 +69,7 @@ int	ft_execve(t_big *v, char **argv)
 	char	**paths;
 	int		check;
 
+	signal(SIGPIPE, SIG_DFL);
 	if (!argv[0])
 	{
 		v->exit_status = 127;

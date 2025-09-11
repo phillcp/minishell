@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/08 17:02:36 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:34:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ static void	print_env(t_env *env)
 	if (!env)
 		return ;
 	cur = env;
-	while (cur)
+	while (cur && !g_global.signal)
 	{
-		printf("%s", (char *)cur->key);
-		printf("=");
-		printf("%s\n", (char *)cur->content);
+		printf("%s", cur->key);
+		if (!g_global.signal)
+			printf("=");
+		if (!g_global.signal)
+			printf("%s\n", cur->content);
 		cur = cur->next;
 	}
 }
@@ -36,7 +38,7 @@ void	ft_env(t_big *v, t_env *env, char **argv)
 	i = 0;
 	while (argv[i])
 		i++;
-	if (i > 1)
+	if (i > 1 && !g_global.signal)
 	{
 		write(2, "env: \"", 6);
 		ft_putstr_fd(argv[1], 2);

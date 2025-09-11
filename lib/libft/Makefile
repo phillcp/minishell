@@ -44,7 +44,6 @@ SRC 	=	lib/ft_atoi.c \
 			lib/ft_putendl_fd.c \
 			lib/ft_putnbr_fd.c \
 			lib/ft_putstr_fd.c \
-			lib/ft_realloc.c \
 			lib/ft_split.c \
 			lib/ft_strcat_char.c \
 			lib/ft_strchr.c \

@@ -25,7 +25,7 @@ SRC 	=	main.c \
 			execution/cmd_selectors.c \
 			execution/exec_aux.c \
 			execution/exec_aux2.c \
-			execution/exec_aux3.c \
+			execution/exec_error.c \
 			execution/exec.c \
 			parsing/create_tokens_aux.c \
 			parsing/create_tokens_word.c \
