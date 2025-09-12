@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 18:07:45 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 09:00:38 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exit_loop(t_big *v)
 {
 	long long	exit_ccode;
 
-	if (!v->exit_ccode)
+	if (v->exit_ccode)
 		exit_ccode = v->exit_ccode;
 	else
 		exit_ccode = v->exit_status;

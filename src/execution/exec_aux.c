@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:14 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 16:17:29 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 09:00:31 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	write_error(t_big *v, t_cmd *cmds, int i)
 	cur = cmds;
 	while (++j < i)
 		cur = cur->next;
+	printf("arg: %s\n", cur->argv[0]);
 	if (v->exit_status == 127)
 		error_output(v, 'x', cur->argv[0]);
 }
