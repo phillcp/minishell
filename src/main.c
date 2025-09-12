@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 19:37:35 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:45:12 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 #include <signal.h>
 #include <errno.h>
 
-t_global	g_global;
+int	g_signal;
 
 static int	struct_init(t_big *v, char **envp)
 {
-	g_global.signal = 0;
+	g_signal = 0;
 	if (!get_env(v, envp))
 		return (0);
 	if (!v->env)
@@ -49,14 +49,14 @@ static int	struct_init(t_big *v, char **envp)
 
 static void	input_loop_extra(t_big *v, t_parse *parsed)
 {
-	if (!check_heredoc(v, parsed->cmds) && !g_global.signal)
+	if (!check_heredoc(v, parsed->cmds) && !g_signal)
 	{
 		signal(SIGINT, main_signal_handler);
 		write(2, "minishell: failed allocation while creating heredoc\n", 52);
 		return (delete_tmpfiles(parsed));
 	}
 	signal(SIGINT, main_signal_handler);
-	if (g_global.signal)
+	if (g_signal)
 		return ;
 	if (parsed->cmds->n_cmds > 1)
 	{

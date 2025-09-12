@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:55:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 19:51:23 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_pwd(t_big *v)
 {
 	char	pwd[PATH_MAX];
 
-	if (g_global.signal)
+	if (g_signal)
 		return ;
 	if (v->pwd)
 		printf("%s\n", v->pwd);

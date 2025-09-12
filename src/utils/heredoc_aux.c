@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 12:39:21 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/09 08:29:59 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*temp_path(char *tmp, char *path)
 void	signal_hdoc(int signal)
 {
 	(void)signal;
-	g_global.signal = 1;
+	g_signal = 1;
 	close(0);
 }
 

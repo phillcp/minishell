@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 02:27:47 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	write_to_hdoc(t_big *v, t_redir *cur, int fd, char *eof_str)
 	char	*input;
 
 	input = readline("heredoc> ");
-	if (g_global.signal)
+	if (g_signal)
 		return (0);
 	while (input && ft_strcmp(input, eof_str))
 	{
 		if (ft_strlen(input) != 0)
 		{
-			if (g_global.signal || !handle_input(v, cur, &input))
+			if (g_signal || !handle_input(v, cur, &input))
 			{
 				free(input);
 				return (0);
@@ -74,7 +74,7 @@ static int	init_heredoc(t_big *v, t_redir *cur)
 	create_hdoc_file(v, cur, cur->filename, filename);
 	free(cur->filename);
 	cur->filename = filename;
-	if (g_global.signal)
+	if (g_signal)
 		return (0);
 	return (1);
 }
@@ -108,7 +108,7 @@ int	check_heredoc(t_big *v, t_cmd *head)
 	while (cur)
 	{
 		ret = check_hdoc_cmd(v, cur->redirs);
-		if (g_global.signal)
+		if (g_signal)
 		{
 			dup2(stdin_save, 0);
 			close(stdin_save);

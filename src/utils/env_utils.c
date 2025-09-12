@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:59:15 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 15:56:46 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 09:38:42 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,42 +72,4 @@ int	add_env_node(t_env **head, t_env *node)
 		cur = cur->next;
 	cur->next = node;
 	return (1);
-}
-
-static void	swap_env(t_env *tmp1, t_env *tmp2)
-{
-	char	*tmp_key;
-	char	*tmp_cont;
-
-	tmp_key = tmp1->key;
-	tmp_cont = tmp1->content;
-	tmp1->content = tmp2->content;
-	tmp1->key = tmp2->key;
-	tmp2->content = tmp_cont;
-	tmp2->key = tmp_key;
-}
-
-t_env	*sort_env(t_env *env)
-{
-	t_env	*tmp1;
-	t_env	*tmp2;
-	int		swap;
-
-	swap = 1;
-	while (swap)
-	{
-		swap = 0;
-		tmp1 = env;
-		while (tmp1 && tmp1->next)
-		{
-			tmp2 = tmp1->next;
-			if (ft_strcmp(tmp1->key, tmp2->key) > 0)
-			{
-				swap_env(tmp1, tmp2);
-				swap = 1;
-			}
-			tmp1 = tmp2;
-		}
-	}
-	return (env);
 }

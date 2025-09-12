@@ -20,6 +20,7 @@ SRC 	=	main.c \
 			builtins/execve_aux.c \
 			builtins/execve.c \
 			builtins/export_aux.c \
+			builtins/export_aux2.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/exit.c \

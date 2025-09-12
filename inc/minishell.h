@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 14:30:18 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:44:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ typedef struct s_big
 	t_env		*env;
 }				t_big;
 
-typedef struct s_global
-{
-	int			signal;
-}				t_global;
-
-extern t_global	g_global;
+extern int g_signal;
 
 #endif

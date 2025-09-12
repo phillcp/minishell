@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 16:16:29 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 09:38:51 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_env(t_env *env);
 char	*get_env_value(t_env *env, char *key);
 t_env	*new_env_node(char *key, char *content);
 int		add_env_node(t_env **head, t_env *node);
-t_env	*sort_env(t_env *env);
 int		check_env_key(t_big *v, char *name, char *content);
 int		manual_env(t_big *v);
 

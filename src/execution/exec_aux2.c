@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 19:51:27 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/11 11:20:00 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	child_signal_handler(int signal)
 {
-	g_global.signal = signal;
+	g_signal = signal;
 }
 
 void	save_std_fds(int *in, int *out)

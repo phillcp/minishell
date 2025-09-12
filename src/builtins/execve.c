@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 09:00:23 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:57:58 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	execve_loop(t_big *v, char **argv, char **path)
 	env_arr = temp_env_arr(v);
 	if (!env_arr)
 		return (-1);
-	while (path[++i] && !g_global.signal)
+	while (path[++i] && !g_signal)
 	{
 		total = path_creation(v, path[i], argv[0]);
 		if (!total)

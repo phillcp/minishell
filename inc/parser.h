@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 16:24:30 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:00:47 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_token		*new_token(t_token_type type, const char *str, size_t len);
 int			add_token(t_token **head, t_token *token);
 int			handle_word(t_token **head, const char **str);
 int			make_tokens(t_parse *parse, const char *str);
-int			handle_dollar(t_big *v, char **str, int start);
+int			handle_dollar(t_big *v, char **str, int *start);
 char		*expand_word(t_big *v, char *str);
 int			expand_tokens(t_parse *parse, t_big *v);
 char		*remove_quotes(char	*content);

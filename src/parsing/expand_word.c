@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 07:08:04 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/09 15:55:33 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:57:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	get_key_len(char *s)
 	return (len);
 }
 
-int	handle_dollar(t_big *v, char **str, int start)
+int	handle_dollar(t_big *v, char **str, int *start)
 {
 	char	*s;
 	char	*val;
@@ -65,17 +65,19 @@ int	handle_dollar(t_big *v, char **str, int start)
 	int		len;
 
 	s = *str;
-	len = get_key_len(s + start + 1);
-	val = get_val(v, s + start + 1, len);
+	len = get_key_len(s + (*start) + 1);
+	val = get_val(v, s + (*start) + 1, len);
 	if (!val)
 		return (0);
-	tmp = replace_var(s, val, start + 1, len);
+	tmp = replace_var(s, val, (*start) + 1, len);
 	if (!tmp)
 	{
 		free(val);
 		return (0);
 	}
 	*str = tmp;
+	if (ft_strlen(val) == 0)
+		(*start)--;
 	free(s);
 	free(val);
 	return (1);

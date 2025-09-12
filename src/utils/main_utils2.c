@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 09:00:38 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	exit_loop2(t_big *v, int i)
 
 void	exit_child(t_big *v, int i)
 {
-	if (g_global.signal)
-		v->exit_status = 128 + g_global.signal;
+	if (g_signal)
+		v->exit_status = 128 + g_signal;
 	else if (i == 1)
 	{
 		v->exit_status = 100;

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/09 12:32:22 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:39:55 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*expand_word(t_big *v, char *str)
 			}
 			else if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
 			{
-				if (!handle_dollar(v, &str, i))
+				if (!handle_dollar(v, &str, &i))
 					return (NULL);
 			}
 		}

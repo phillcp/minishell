@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:08:26 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/11 12:54:24 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	check_exit_input(t_big *v, char *str)
 
 	i = 0;
 	j = ft_strlen(str);
-	if ((!j || j > 19) && !g_global.signal)
+	if ((!j || j > 19) && !g_signal)
 	{
 		err_exit(v, str);
 		return (0);
@@ -63,7 +63,7 @@ static int	check_exit_input(t_big *v, char *str)
 		i++;
 	while (str[i] && i < j - 1)
 	{
-		if (!ft_isdigit(str[i]) && !g_global.signal)
+		if (!ft_isdigit(str[i]) && !g_signal)
 		{
 			err_exit(v, str);
 			return (0);
@@ -83,7 +83,7 @@ static int	check_exit(t_big *v, char **argv)
 	j = 0;
 	while (argv[i])
 		i++;
-	if (i > 2 && !g_global.signal)
+	if (i > 2 && !g_signal)
 	{
 		write(2, " too many arguments\n", 20);
 		v->exit_status = 1;
@@ -92,7 +92,7 @@ static int	check_exit(t_big *v, char **argv)
 	if (i == 2 && check_exit_input(v, argv[1]))
 	{
 		exit_ccode = ft_atoil(argv[1], &j);
-		if (j && !g_global.signal)
+		if (j && !g_signal)
 			err_exit(v, argv[1]);
 		else
 			v->exit_ccode = exit_ccode;
@@ -104,7 +104,7 @@ int	ft_exit(t_big *v, char **argv, bool in_pipe)
 {
 	if (!check_exit(v, argv))
 		return (0);
-	if (in_pipe || g_global.signal)
+	if (in_pipe || g_signal)
 	{
 		v->exit_ccode = 0;
 		return (1);

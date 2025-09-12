@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:56 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 12:19:05 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 09:33:53 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ int	ft_export(t_big *v, char **argv, bool in_pipe)
 	int		i;
 	int		check;
 
-	if (check_print_env_export(v, argv, in_pipe))
-		return (1);
+	check = check_print_env_export(v, argv, in_pipe);
+	if (check)
+		return (check);
 	i = 0;
 	while (argv[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 19:32:28 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:59:43 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	check_tmp_path(t_big *v, char *tmp_path)
 
 	if (stat(tmp_path, &file_stat) == -1)
 	{
-		perror("cd");
+		write(2, "minishell: cd: ", 15);
+		perror(tmp_path);
 		v->exit_status = 1;
 		return (0);
 	}
@@ -62,7 +63,7 @@ static int	check_exec_cd(t_big *v, char *path, bool in_pipe)
 	ret = get_tmp_path(v, path, &tmp_path);
 	if (ret != 1)
 		return (ret);
-	else if (in_pipe || g_global.signal)
+	else if (in_pipe || g_signal)
 		free(tmp_path);
 	else
 		ret = change_dir(v, tmp_path);
@@ -77,7 +78,7 @@ int	ft_cd(t_big *v, char **argv, bool in_pipe)
 	i = 0;
 	while (argv[i])
 		i++;
-	if (i > 2 && !g_global.signal)
+	if (i > 2 && !g_signal)
 	{
 		write(2, "minishell: cd: too many arguments\n", 34);
 		v->exit_status = 1;

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:51:55 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 19:41:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:56:38 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_env(t_big *v, t_env *env, char **argv);
 
 int		ft_exit(t_big *v, char **argv, bool in_pipe);
 
+int		dup_sort_env(t_env *env, t_env **dup_env);
 void	free_set(t_big *v, char **content);
 int		check_print_env_export(t_big *v, char **argv, bool in_pipe);
 int		ft_export(t_big *v, char **argv, bool in_pipe);

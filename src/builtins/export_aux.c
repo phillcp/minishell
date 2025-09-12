@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 08:17:06 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/11 11:21:33 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,29 @@ void	free_set(t_big *v, char **content)
 	v->exit_status = 0;
 }
 
-static void	print_env_export(t_env	*env)
+static int	print_env_export(t_env	*env)
 {
+	t_env	*dup_env;
 	t_env	*cur;
 
 	if (!env)
-		return ;
-	cur = env;
-	sort_env(env);
-	while (cur && !g_global.signal)
+		return (1);
+	dup_env = NULL;
+	if (dup_sort_env(env, &dup_env) == -1)
+		return (-1);
+	cur = dup_env;
+	while (cur && !g_signal)
 	{
 		printf("declare -x ");
-		if (!g_global.signal)
-			printf("%s", (char *)cur->key);
-		if (!g_global.signal)
+		if (!g_signal)
+			printf("%s", cur->key);
+		if (!g_signal)
 			printf("=");
-		if (!g_global.signal)
-			printf("\"%s\"\n", (char *)cur->content);
+		if (!g_signal)
+			printf("\"%s\"\n", cur->content);
 		cur = cur->next;
 	}
+	return (free_env(dup_env), 1);
 }
 
 static void	export_wrong(t_big *v, char *str)
@@ -87,7 +91,12 @@ int	check_print_env_export(t_big *v, char **argv, bool in_pipe)
 		i++;
 	if (i == 1)
 	{
-		print_env_export(v->env);
+		if (print_env_export(v->env) == -1)
+		{
+			if (in_pipe)
+				exit_child(v, 1);
+			return (-1);
+		}
 		return (1);
 	}
 	else if (i > 1)

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:21 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/11 18:28:56 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	re_init(t_big *v)
 {
 	ft_free(v->pid_lst);
 	v->pid_lst = NULL;
-	g_global.signal = 0;
+	g_signal = 0;
 	v->hdoc_counter = 0;
 	v->pid_counter = 0;
 	v->last_pipe = 0;
