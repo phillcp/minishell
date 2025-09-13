@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:34:05 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:30:30 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ static int	check_tmp_path(t_big *v, char *tmp_path)
 
 static	int	get_tmp_path(t_big *v, char *path, char **tmp_path)
 {
-	if (!path || !ft_strlen(path) || !ft_strcmp(path, "-"))
+	if (!path || !ft_strcmp(path, "-"))
 	{
 		if (!get_path_cd(v, path, tmp_path))
 			return (0);
 	}
+	else if (!ft_strlen(path))
+		return (0);
 	else
 		*tmp_path = ft_strdup(path);
-	if (!(*tmp_path) || !ft_strlen(*tmp_path))
+	if (!(*tmp_path))
 		return (-1);
 	if (!check_tmp_path(v, *tmp_path))
 	{
