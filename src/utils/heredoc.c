@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:03 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:05:17 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	init_heredoc(t_big *v, t_redir *cur)
 	char	*filename;
 	char	*tmp;
 
-	tmp = hdoc_filename(v, cur->filename);
+	tmp = hdoc_filename(cur->filename);
 	filename = temp_path(tmp, v->temp_path);
 	if (!filename)
 		return (0);

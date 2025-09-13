@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:52 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 12:44:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/13 19:22:10 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_big
 	int			exit_status;
 	long long	exit_ccode;
 	int			last_pipe;
-	int			hdoc_counter;
 	int			pid_counter;
 	int			*pid_lst;
 	char		*pwd;
@@ -42,6 +41,6 @@ typedef struct s_big
 	t_env		*env;
 }				t_big;
 
-extern int g_signal;
+extern int	g_signal;
 
 #endif

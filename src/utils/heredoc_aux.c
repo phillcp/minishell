@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 12:39:21 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:06:46 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ void	signal_hdoc(int signal)
 	close(0);
 }
 
-char	*hdoc_filename(t_big *v, char *eof)
+char	*hdoc_filename(char *eof)
 {
-	char	*i;
-	char	*filename;
+	char			*i;
+	char			*filename;
+	static int		nbr;
 
-	i = ft_itoa(++v->hdoc_counter);
+	nbr = -1;
+	i = ft_itoa(++nbr);
 	if (!i)
 		return (NULL);
 	filename = ft_strjoin(eof, i);

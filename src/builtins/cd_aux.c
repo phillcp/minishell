@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:11:11 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/12 12:57:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:34:03 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	save_getcwd_failed(t_big *v, char *tmp_path)
 	char	*tmp;
 	char	*tmp2;
 
-	perror("cd");
+	perror("cd: getcwd: cannot access parent directories");
 	if (tmp_path[0] == '/')
 		tmp = ft_strdup(tmp_path);
 	else
@@ -59,7 +59,7 @@ static int	save_getcwd_failed(t_big *v, char *tmp_path)
 	if (check_env_key(v, "PWD", tmp2) == -1)
 		return (-1);
 	free(v->pwd);
-	v->pwd = tmp;
+	v->pwd = tmp2;
 	return (1);
 }
 
@@ -97,6 +97,6 @@ int	change_dir(t_big *v, char *tmp_path)
 		perror("cd");
 		v->exit_status = 1;
 	}
-	free(tmp_path);
+	ft_free(tmp_path);
 	return (ret);
 }

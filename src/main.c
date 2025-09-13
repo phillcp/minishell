@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 12:45:12 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:34:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	struct_init(t_big *v, char **envp)
 	v->exit = 0;
 	v->exit_status = 0;
 	v->exit_ccode = 0;
-	v->hdoc_counter = 0;
 	v->temp_path = ft_strdup("/tmp/");
 	if (!v->temp_path)
 		return (0);
@@ -86,9 +85,8 @@ static void	input_loop(t_big *v, char *input)
 			printf("Parsing error: %d\n", parsed->error);
 	}
 	free_parsed(parsed);
-	ft_free(input);
+	free(input);
 	re_init(v);
-	input = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

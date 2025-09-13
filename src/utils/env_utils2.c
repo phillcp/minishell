@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 08:25:20 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/11 11:19:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:36:34 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	manual_env(t_big *v)
 
 int	get_env(t_big *v, char **envp)
 {
-	t_env	*new_env;
+	t_env	*tmp_node;
 	char	*key;
 	char	*content;
 	int		aux;
@@ -94,10 +94,10 @@ int	get_env(t_big *v, char **envp)
 		aux = ft_strichr(envp[i], '=');
 		key = ft_substr(envp[i], 0, aux);
 		content = ft_substr(envp[i], aux + 1, ft_strlen(envp[i]) - aux);
-		new_env = new_env_node(key, content);
-		if (!new_env)
+		tmp_node = new_env_node(key, content);
+		if (!tmp_node)
 			return (0);
-		add_env_node(&v->env, new_env);
+		add_env_node(&v->env, tmp_node);
 	}
 	if (!update_shlvl(v))
 		return (0);

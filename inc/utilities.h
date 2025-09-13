@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 09:38:51 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:05:07 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	free_str_arr(char **str_arr);
 void	signal_hdoc(int signal);
 char	*temp_path(char *filename, char *path);
 int		handle_input(t_big *v, t_redir *cur, char **input);
-char	*hdoc_filename(t_big *v, char *eof);
+char	*hdoc_filename(char *eof);
 int		check_heredoc(t_big *v, t_cmd *head);
-char	*hdoc_filename(t_big *v, char *eof);
 void	delete_tmpfiles(t_parse *parsed);
 
 int		create_pid_array(t_big *v, int n_cmds);
