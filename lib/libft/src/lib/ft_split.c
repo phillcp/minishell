@@ -6,41 +6,15 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 13:21:53 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:42:42 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/14 13:18:52 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	nb_words(char *s, char c)
+static size_t	skip_char(const char *s, char c)
 {
 	size_t	i;
-	size_t	nb;
-
-	if (s)
-	{
-		i = 0;
-		nb = 0;
-		while (s[i])
-		{
-			while (s[i] && s[i] == c)
-				i++;
-			if (!s[i])
-				return (0);
-			while (s[i] && s[i] != c)
-				i++;
-			nb++;
-			while (s[i] && s[i] == c)
-				i++;
-		}
-		return (nb);
-	}
-	return (0);
-}
-
-static int	spaces(char *s, char c)
-{
-	int	i;
 
 	i = 0;
 	while (s[i] == c)
@@ -48,58 +22,75 @@ static int	spaces(char *s, char c)
 	return (i);
 }
 
-static char	*get_word(char *s, char c)
+static char	*get_word(const char *s, char c)
 {
 	char	*word;
 	size_t	i;
 
 	i = 0;
-	if (s[i])
+	while (s[i] && s[i] != c)
+		i++;
+	word = ft_calloc(i + 1, 1);
+	if (!word)
+		return (NULL);
+	i = -1;
+	while (s[++i] && s[i] != c)
+		word[i] = s[i];
+	return (word);
+}
+
+static void	free_arr(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
+}
+
+static char	**fill_arr(const char *s, char c, size_t nb)
+{
+	char	**arr;
+	size_t	start;
+	size_t	i;
+
+	arr = ft_calloc(sizeof(char *), (nb + 1));
+	if (!arr)
+		return (NULL);
+	start = skip_char(s, c);
+	i = -1;
+	while (++i < nb && s[start])
 	{
-		while (*s && *s == c)
-			s++;
-		while (s[i] && s[i] != c)
-			i++;
-		word = ft_calloc(i + 1, 1);
-		if (!word)
-			return (NULL);
-		i = 0;
-		while (s[i] && s[i] != c)
-		{
-			word[i] = s[i];
-			i++;
-		}
-		word[i] = '\0';
-		return (word);
+		arr[i] = get_word(s + start, c);
+		if (!arr[i])
+			return (free_arr(arr), NULL);
+		start += (ft_strlen(arr[i]));
+		start += skip_char(s + start, c);
 	}
-	return (0);
+	arr[i] = NULL;
+	return (arr);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr;
-	char	*str;
 	size_t	i;
-	size_t	start;
 	size_t	nb;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	str = (char *)s;
-	nb = nb_words((char *)str, c);
-	arr = (char **)ft_calloc(sizeof(char *), (nb + 1));
-	if (!arr)
-		return (NULL);
-	arr[nb] = NULL;
-	if (!nb)
-		return (arr);
-	i = -1;
-	start = spaces(str, c);
-	while (++i < nb)
+	nb = 0;
+	i = 0;
+	while (s[i])
 	{
-		arr[i] = get_word(str + start, c);
-		start += (ft_strlen(arr[i]));
-		start += spaces(str + start, c);
+		i += skip_char(s + i, c);
+		if (!s[i])
+			break ;
+		while (s[i] && s[i] != c)
+			i++;
+		nb++;
 	}
-	return (arr);
+	return (fill_arr(s, c, nb));
 }

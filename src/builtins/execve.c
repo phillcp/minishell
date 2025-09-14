@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:54:28 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:34:10 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/14 13:21:18 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	execve_absolute_path(t_big *v, char **argv)
 {
 	char	**env_arr;
 
-	if (ft_strchr(argv[0], '/'))
+	if (ft_strchr(argv[0], '/') && !g_signal)
 	{
 		env_arr = temp_env_arr(v);
 		if (!env_arr)
@@ -76,10 +76,10 @@ int	ft_execve(t_big *v, char **argv)
 		return (0);
 	}
 	path = get_env_value(v->env, "PATH");
-	if (!path)
+	if (!path || path[0] == '\0')
 		execve_absolute_path(v, argv);
 	paths = ft_split(path, ':');
-	if (!paths || paths[0] == NULL)
+	if (!paths)
 		exit_child(v, 1);
 	check = execve_loop(v, argv, paths);
 	free_str_arr(paths);

@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:52:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 21:30:30 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/14 08:37:27 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_cd(t_big *v, char **argv, bool in_pipe)
 		return (1);
 	}
 	ret = check_exec_cd(v, argv[1], in_pipe);
-	if (ret == -1 && in_pipe)
+	if (ret == -1)
 		exit_child(v, 1);
 	return (ret);
 }

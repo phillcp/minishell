@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:30 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 12:56:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/14 13:46:14 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ void	exit_loop2(t_big *v, int i)
 {
 	if (i)
 		write(2, "init allocation error\n", 22);
-	close(2);
-	close(1);
-	close(0);
 	exit_loop(v);
 }
 

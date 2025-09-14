@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:11:11 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/13 20:34:03 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/14 08:07:54 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	get_path_cd(t_big *v, char *path, char **tmp_path)
 {
-	if (!path || !ft_strlen(path))
+	if (!path)
 	{
 		*tmp_path = get_env_value(v->env, "HOME");
 		if (!tmp_path)
