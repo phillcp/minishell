@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_aux.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:11:11 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/14 08:07:54 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 09:34:28 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ static int	save_getcwd_failed(t_big *v, char *tmp_path)
 	char	*tmp;
 	char	*tmp2;
 
+	tmp = NULL;
 	perror("cd: getcwd: cannot access parent directories");
 	if (tmp_path[0] == '/')
-		tmp = ft_strdup(tmp_path);
+		tmp2 = ft_strdup(tmp_path);
 	else
 	{
 		tmp = ft_strcat_char(v->pwd, '/');
