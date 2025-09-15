@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:11:11 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/15 09:34:28 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 09:42:46 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static int	save_getcwd_failed(t_big *v, char *tmp_path)
 		tmp2 = ft_strjoin(tmp, tmp_path);
 		free(tmp);
 	}
+	if (!tmp2)
+		return (-1);
 	if (check_env_key(v, "PWD", tmp2) == -1)
 		return (-1);
 	free(v->pwd);
@@ -76,6 +78,8 @@ static int	save_path(t_big *v, char *tmp_path)
 	if (getcwd(new_pwd, PATH_MAX))
 	{
 		tmp = ft_strdup(new_pwd);
+		if (!tmp)
+			return (-1);
 		if (check_env_key(v, "PWD", tmp) == -1)
 			return (-1);
 		free(v->pwd);
