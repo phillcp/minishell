@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 12:01:01 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 21:16:58 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:20:59 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void	input_loop(t_big *v, char *input)
 {
 	t_parse	*parsed;
 
-	add_history(input);
 	parsed = parse(v, input);
 	if (parsed)
 	{
@@ -85,7 +84,6 @@ static void	input_loop(t_big *v, char *input)
 			printf("Parsing error: %d\n", parsed->error);
 	}
 	free_parsed(parsed);
-	free(input);
 	re_init(v);
 }
 

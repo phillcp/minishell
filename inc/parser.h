@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:46 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 11:00:47 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:20:28 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,19 @@ typedef struct s_parse
 	t_cmd	*cmds;
 }				t_parse;
 
-t_parse		*parse(t_big *v, const char *str);
-int			validate(const char *line);
+t_parse		*parse(t_big *v, char *input);
+int			validate(t_big *v, char **line);
 t_token		*new_token(t_token_type type, const char *str, size_t len);
 int			add_token(t_token **head, t_token *token);
 int			handle_word(t_token **head, const char **str);
 int			make_tokens(t_parse *parse, const char *str);
 int			handle_dollar(t_big *v, char **str, int *start);
+void		handle_quotes(char c, bool *in_q, bool *in_dq);
 char		*expand_word(t_big *v, char *str);
 int			expand_tokens(t_parse *parse, t_big *v);
 char		*remove_quotes(char	*content);
 int			is_redirection(t_token_type type);
+int			read_last_pipe(t_big *v, char **line);
 t_redir		*new_redirect(t_token_type type, char *filename);
 int			add_redirect(t_redir **head, t_redir *node);
 t_cmd		*parse_cmd(t_token *head);

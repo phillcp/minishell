@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/15 07:17:08 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:08:24 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	main_signal_handler(int signal);
 void	error_output(t_big *v, char type, char *str);
 int		save_std_fds(int *in, int *out);
 void	restore_std_fds(int in, int out);
+void	last_pipe_handler(int signal);
 void	re_init(t_big *v);
 void	exit_child(t_big *v, int i);
 void	exit_loop2(t_big *v, int init);

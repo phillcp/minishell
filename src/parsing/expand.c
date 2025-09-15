@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 11:57:41 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 11:39:55 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:32:04 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	handle_question(t_big *v, char **str, int start)
 	return (1);
 }
 
-static void	handle_quotes(char c, bool *in_q, bool *in_dq)
+void	handle_quotes(char c, bool *in_q, bool *in_dq)
 {
 	if (c == '\'' && !(*in_dq))
 		*in_q = !(*in_q);

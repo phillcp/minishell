@@ -37,6 +37,7 @@ SRC 	=	main.c \
 			parsing/expand_word.c \
 			parsing/expand.c \
 			parsing/free_parse.c \
+			parsing/last_pipe.c \
 			parsing/parse_cmd.c \
 			parsing/parser.c \
 			parsing/redirections.c \
