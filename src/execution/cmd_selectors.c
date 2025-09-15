@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:00:51 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/14 13:42:52 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 08:45:25 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	builtin(t_big *v, t_cmd	*cmd)
 	int	s_out;
 
 	signal(SIGINT, child_signal_handler);
-	save_std_fds(&s_in, &s_out);
+	if (!save_std_fds(&s_in, &s_out))
+		return (0);
 	if (!builtin_input(v, cmd) || !builtin_output(v, cmd))
 	{
 		restore_std_fds(s_in, s_out);
@@ -59,7 +60,6 @@ int	builtin(t_big *v, t_cmd	*cmd)
 	restore_std_fds(s_in, s_out);
 	if (g_signal)
 		v->exit_status = 128 + g_signal;
-	signal(SIGINT, main_signal_handler);
 	return (1);
 }
 

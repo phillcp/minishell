@@ -6,13 +6,13 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 19:38:22 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:39:15 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 07:09:59 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_nlen(int n)
+static size_t	get_nbrlen(int n)
 {
 	size_t	len;
 
@@ -27,7 +27,7 @@ static size_t	ft_nlen(int n)
 	return (len);
 }
 
-static char	*cat(char *str, long number, int i, int neg)
+static char	*get_nbr(char *str, long number, int i, int neg)
 {
 	if (neg)
 		str[0] = '-';
@@ -53,13 +53,13 @@ char	*ft_itoa(long n)
 		n *= -1;
 		neg = 1;
 	}
-	len = ft_nlen(n);
+	len = get_nbrlen(n);
 	number = ft_calloc(len + neg + 1, 1);
 	if (!number)
 		return (NULL);
 	i = len + neg - 1;
 	if (n)
-		number = cat(number, n, i, neg);
+		number = get_nbr(number, n, i, neg);
 	number[len + neg] = '\0';
 	if (!n)
 		number[0] = 0 + 48;

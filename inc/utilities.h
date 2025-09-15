@@ -6,7 +6,7 @@
 /*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:15:40 by fheaton-          #+#    #+#             */
-/*   Updated: 2025/09/12 16:05:07 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/15 07:17:08 by fiheaton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		builtin_input(t_big *v, t_cmd *cmd);
 int		ft_strisspace(const char *str);
 void	main_signal_handler(int signal);
 void	error_output(t_big *v, char type, char *str);
-void	save_std_fds(int *in, int *out);
+int		save_std_fds(int *in, int *out);
 void	restore_std_fds(int in, int out);
 void	re_init(t_big *v);
 void	exit_child(t_big *v, int i);
