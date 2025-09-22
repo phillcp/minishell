@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fiheaton <fiheaton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 16:06:42 by fiheaton          #+#    #+#             */
-/*   Updated: 2025/09/15 18:19:37 by fiheaton         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:52:55 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_in_out(char *line, int *i)
 {
 	(*i)++;
 	if (line[*i] == line[(*i) - 1])
-		i++;
+		(*i)++;
 	*i = skip_spaces(line, *i);
 	if (line[*i] == '\0' || line[*i] == '|')
 		return (0);
@@ -56,7 +56,7 @@ int	validate(t_big *v, char **line)
 	i = 0;
 	in_q = false;
 	in_dq = false;
-	i = skip_spaces(*line, i);
+	i = skip_spaces(*line, 0);
 	if ((*line)[i] == '|')
 		return (0);
 	while ((*line)[i])
